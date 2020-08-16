@@ -1,0 +1,15 @@
+{
+  "short_name": "shmily",
+  "name": "亲亲里",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
