@@ -19,7 +19,7 @@ const frontendMenuListV1 = [
         requireAuth: true
     },
     {
-        title: '文档下载',
+        title: '共享资源',
         key: '/v1/pandora/files',
         hidden: false,
         requireAuth: true
