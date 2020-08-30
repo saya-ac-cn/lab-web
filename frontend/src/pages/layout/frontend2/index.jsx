@@ -7,7 +7,9 @@ import frontendMenuListV2 from '../../../config/frontendMenuConfig2'
 import {Link, Redirect, Route, Switch} from "react-router-dom";
 import NewsList from '../../v2/news'
 import NoteList from '../../v2/note'
-
+import NewsInfo from '../../v2/newsInfo'
+import NoteInfo from '../../v2/noteInfo'
+import Plan from '../../v2/plan'
 const content = (
   <div style={{width:"10em",height:"10em",backgroundSize:"100%",backgroundImage:`url(${process.env.PUBLIC_URL}/picture/wx/wechat.png)`}}>
   </div>
@@ -77,11 +79,14 @@ class Frontend extends Component {
 					<section className="frontend2-main">
             <Switch>
               {/*<Route path='/v2/pandora/files' component={FilesDownload}/>*/}
-              <Route path='/v2/pandora/news' component={NewsList}/>
-              <Route path='/v2/pandora/note' component={NoteList}/>
+              <Route path='/v2/pandora/news' exact={true} component={NewsList}/>
+              <Route path='/v2/pandora/news/:id' component={NewsInfo}/>
+              <Route path='/v2/pandora/note' exact={true} component={NoteList}/>
+              <Route path='/v2/pandora/note/:id' component={NoteInfo}/>
+
               {/*<Route path='/v2/pandora/newsInfo/:id' component={NewsInfo}/>*/}
               {/*<Route path='/v2/pandora/noteInfo/:id' component={NoteInfo}/>*/}
-              {/*<Route path='/v2/pandora/plan' component={Plan}/>*/}
+              <Route path='/v2/pandora/plan' component={Plan}/>
               {/*<Route path='/v2/pandora/board' component={Board}/>*/}
               {/*默认、及匹配不到时的页面*/}
               <Redirect to='/'/>

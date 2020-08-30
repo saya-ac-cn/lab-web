@@ -25,7 +25,7 @@ const frontendMenuListV1 = [
         requireAuth: true
     },
     {
-        title: '随笔记录',
+        title: '技术专题',
         key: '/v1/pandora/note',
         hidden: false,
         requireAuth: true

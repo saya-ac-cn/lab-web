@@ -19,7 +19,7 @@ const frontendMenuListV2 = [
         requireAuth: true
     },
     {
-        title: '随笔记录',
+        title: '技术专题',
         key: '/v2/pandora/note',
         hidden: false,
         requireAuth: true
@@ -31,14 +31,14 @@ const frontendMenuListV2 = [
         requireAuth: true
     },
     {
-        title: '建设历程',
-        key: '/v2/pandora/board',
-        hidden: false,
-        requireAuth: true
-    },
-    {
       title: '技术彩蛋',
       key: '/v2/pandora/egg',
+      hidden: false,
+      requireAuth: true
+    },
+    {
+      title: '建设历程',
+      key: '/v2/pandora/board',
       hidden: false,
       requireAuth: true
     },

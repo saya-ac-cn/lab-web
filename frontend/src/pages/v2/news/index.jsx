@@ -141,15 +141,15 @@ class News extends Component {
                         </div>
                         <div className="itemcontent">
                           <h3>
-                            <a href={`/v2/pandora/newsInfo/${item.id}`} rel="noopener noreferrer" target="_blank">{item.topic}</a>
+                            <a href={`/v2/pandora/news/${item.id}`} rel="noopener noreferrer" target="_blank">{item.topic}</a>
                           </h3>
-                          <h4>正文正文</h4>
-                          <h5>{ !!item.label ? (item.label.split(";")).map(this.forMap):null }</h5>
+                          <h4>{item.content}</h4>
+                          <h5>标签：{ !!item.label ? (item.label.split(";")).map(this.forMap):null }</h5>
                         </div>
                       </li>
                     ))}</ul>:
                     <div className='null-content'>
-                      好像并没有动态诶
+                      好像并没有了诶
                     </div>
                   }
                   {nextpage !== null ?
@@ -158,7 +158,7 @@ class News extends Component {
                     </div>
                     :
                     <div className='null-content'>
-                      已经加载完动态了
+                      已经加载完了
                     </div>
                   }
                 </div>
