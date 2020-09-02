@@ -38,7 +38,7 @@ const frontendMenuListV2 = [
     },
     {
       title: '建设历程',
-      key: '/v2/pandora/board',
+      key: '/v2/pandora/growing',
       hidden: false,
       requireAuth: true
     },
