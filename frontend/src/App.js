@@ -1,6 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Home1 from './pages/v1/home'
+import Home2 from './pages/v2/home'
 import Frontend1 from './pages/layout/frontend1'
 import Frontend2 from './pages/layout/frontend2'
 /**
@@ -21,7 +22,7 @@ function App() {
         <Route path='/v1/pandora' component={Frontend1}/>
         <Route path='/v1' component={Home1}/>
         <Route path='/v2/pandora' component={Frontend2}/>
-        {/* <Route path='/' component={Home}/>*/}
+        <Route path='/' component={Home2}/>
       </Switch>
     </BrowserRouter>
   );

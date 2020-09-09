@@ -97,29 +97,30 @@ class Frontend extends Component {
 					{/*版权区域开始*/}
 					<footer>
 						{/*版权区域图片*/}
-                    	<div className="frontend2-copyright"></div>
-                    	<div className="frontend2-copyright-content">
-                    		<Row>
-						      <Col span={18}>
-						      	 <p>
-                        Copyright &copy; 2016-{(new Date()).getFullYear() } Saya.ac.cn-亲亲里 All rights reserved 国家工信部域名备案信息：[saya.ac.cn/蜀ICP备19027394号]
-                     </p>
-                     <p>
-                        通讯地址：四川省宜宾市五粮液大道酒圣路8号(宜宾学院本部) 邮编：644000 Email：saya@saya.ac.cn
-                     </p>
-                      <p>
-                        建议您使用Google Chrome，分辨率1920*1080及以上浏览，获得更好用户体验
-                     </p>
-						      </Col>
-						      <Col span={6}>
-								  <Popover content={content}>
-                    <WechatOutlined type="wechat" style={{ fontSize: '1.5em', color: '#9cb17e' }}/>
-								  </Popover>
-								  <Button target="_blank" href="https://github.com/saya-ac-cn" type="link" style={{marginLeft:"1em"}}>
-                    <GithubOutlined style={{fontSize: '1.5em', color: '#9cb17e' }}/>
-								  </Button>
-						      </Col>
-						    </Row></div>
+                <div className="frontend2-copyright"></div>
+                <div className="frontend2-copyright-content">
+                  <Row>
+                      <Col span={18}>
+                         <p>
+                            Copyright &copy; 2016-{(new Date()).getFullYear() } Saya.ac.cn-亲亲里 All rights reserved 国家工信部域名备案信息：[saya.ac.cn/蜀ICP备19027394号]
+                         </p>
+                         <p>
+                            通讯地址：四川省宜宾市五粮液大道酒圣路8号(宜宾学院本部) 邮编：644000 Email：saya@saya.ac.cn
+                         </p>
+                          <p>
+                            建议您使用Google Chrome，分辨率1920*1080及以上浏览，获得更好用户体验
+                         </p>
+                      </Col>
+                      <Col span={6}>
+                      <Popover content={content}>
+                        <WechatOutlined type="wechat" style={{ fontSize: '1.5em', color: '#9cb17e' }}/>
+                      </Popover>
+                      <Button target="_blank" href="https://github.com/saya-ac-cn" type="link" style={{marginLeft:"1em"}}>
+                        <GithubOutlined style={{fontSize: '1.5em', color: '#9cb17e' }}/>
+                      </Button>
+                      </Col>
+                    </Row>
+                </div>
 					</footer>
 					{/*版权区域结束*/}
 				</section>

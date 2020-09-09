@@ -1,0 +1,175 @@
+// 当尺寸为1920，1366，1024时主体宽度
+@width-1920: 80%;
+@width-1366: 90%;
+@width-1024: 95%;
+
+.frontend2-home {
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  color: white;
+  font-size: 12px;
+  font-family: "微软雅黑", "arial";
+  background-image: url('/picture/home/sunflower.jpg');
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  /* 背景图垂直、水平均居中 */
+  background-position: center center;
+  /* 背景图不平铺 */
+  background-repeat: no-repeat;
+  /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+  //background-attachment: fixed;
+  /* 让背景图基于容器大小伸缩 */
+  background-size: cover;
+
+  header {
+    height: 140px;
+    width: 100vw;
+    padding: 0;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .header-content {
+      width: @width-1920;
+      font-size: 3em;
+      color: #fff;
+    }
+  }
+
+  section {
+    /*flex 布局*/
+    display: -webkit-flex;
+    display: flex;
+    /*实现垂直居中*/
+    align-items: center;
+    /*实现水平居中*/
+    justify-content: center;
+
+    .section-content {
+      width: @width-1920;
+      opacity: 0.8;
+      filter: alpha(opacity=70);
+      background-color: #dbdbdb;
+      display: -webkit-flex; /* Safari */
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .section-left {
+        width: 75%;
+        background-color: #b1e0dd;
+        display: -webkit-flex; /* Safari */
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .section-right {
+        width: 23%;
+        background-color: #b1e0dd;
+      }
+    }
+  }
+
+  footer {
+    /* 实现footer贴底部 */
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    height: 70px;
+    /*flex 布局*/
+    display: -webkit-flex;
+    display: flex;
+    /*实现垂直居中*/
+    align-items: center;
+    /*实现水平居中*/
+    justify-content: center;
+    //opacity: 0.8;
+    //filter: alpha(opacity=70);
+    //background-color: #dbdbdb;
+    .footer-content {
+      width: @width-1920;
+      color: #fff;
+
+      p {
+        margin-bottom: 0.1em;
+        font-size: 1.05em;
+      }
+    }
+  }
+}
+
+.frontend2-home::-webkit-scrollbar {
+  display: none;
+}
+
+@media only screen and (max-width: 1920px), only screen and (max-device-width: 1920px) {
+  .frontend2-home {
+    header {
+      .header-content {
+        width: @width-1920;
+      }
+    }
+
+    section {
+      .section-content {
+        width: @width-1920;
+      }
+    }
+
+    footer {
+      .footer-content {
+        width: @width-1920;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1366px), only screen and (max-device-width: 1366px) {
+  .frontend2-home {
+    header {
+      .header-content {
+        width: @width-1366;
+      }
+    }
+
+    section {
+      .section-content {
+        width: @width-1366;
+      }
+    }
+
+    footer {
+      .footer-content {
+        width: @width-1366;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1024px), only screen and (max-device-width: 1024px) {
+  .frontend2-home {
+    header {
+      .header-content {
+        width: @width-1024;
+      }
+    }
+
+    section {
+      .section-content {
+        width: @width-1024;
+      }
+    }
+
+    footer {
+      .footer-content {
+        width: @width-1024;
+      }
+    }
+  }
+}
