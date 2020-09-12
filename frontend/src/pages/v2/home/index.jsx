@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import './index.less'
 import DocumentTitle from "react-document-title";
-import {Button, Col, Popover, Row} from "antd";
+import {Button, Col, Popover, Row,Calendar} from "antd";
 import {WechatOutlined, GithubOutlined} from '@ant-design/icons';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -16,11 +19,15 @@ const content = (
 // 定义组件（ES6）
 class Home extends Component {
 
-  constructor(props){
-    super(props)
+  state = {
+    // 阵列总宽度
+    sectionWidth: 1536,// 初始宽度 1920 x 0.8
+    // 单位标量
+    scalar: 10
   }
 
   componentDidMount() {
+    this.adapterWidth(document.body.clientWidth)
     //监听窗口大小改变
     window.addEventListener('resize', this.handleResize.bind(this))
   }
@@ -33,18 +40,27 @@ class Home extends Component {
 
   handleResize = e => {
     const _width = e.target.innerWidth
-    // 总份数 宽 350份，最小正方形8x8，折合百分比100/350
+    this.adapterWidth(_width)
+  }
+
+  adapterWidth = _width => {
+    let _this = this
+    let {sectionWidth,scalar} = _this.state
+    // 总份数 宽 350份，最小正方形8x8，
     if (_width >= 1920){
-      console.log('浏览器窗口大小改变事件80', e.target.innerWidth)
+      sectionWidth = _width * 0.8
     }else if(_width >= 1366){
-      console.log('浏览器窗口大小改变事件90', e.target.innerWidth)
+      sectionWidth = _width * 0.9
     }else {
-      console.log('浏览器窗口大小改变事件95', e.target.innerWidth)
+      sectionWidth = _width * 0.95
     }
+    scalar = sectionWidth / 150.0
+    _this.setState({sectionWidth,scalar})
   }
 
 
   render() {
+    const {sectionWidth,scalar} = this.state
     return (
       <DocumentTitle title="saya.ac.cn-主页">
         <div className="frontend2-home">
@@ -54,13 +70,55 @@ class Home extends Component {
             </div>
           </header>
           <section>
-            <div className="section-content">
+            <div className="section-content" style={{width:sectionWidth}}>
+              {/*左侧阵列*/}
               <div className="section-left">
-                <div className="column-1">1</div>
-                <div className="column-2">2</div>
-                <div className="column-3">3</div>
+                {/*第一列*/}
+                <div className="column-1" style={{marginRight:scalar}}>
+                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#8FBC8B'}}>技术专题</div>
+                  <div className="row-2" style={{width:scalar*35,marginBottom:scalar,height:scalar*17}}>
+                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#8FBC8B'}}>消息动态</div>
+                    <div style={{width:scalar*17,height:scalar*17,background:'#8FBC8B'}}></div>
+                  </div>
+                  <div className="row-3" style={{width:scalar*35,marginBottom:scalar,height:scalar*17}}>
+                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#8FBC8B'}}></div>
+                    <div style={{width:scalar*17,height:scalar*17,background:'#8FBC8B'}}></div>
+                  </div>
+                  <div style={{width:scalar*35,height:scalar*17,background:'#8FBC8B'}}>桌面</div>
+                </div>
+                {/*第二列*/}
+                <div className="column-2" style={{marginRight:scalar}}>
+                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#8FBC8B'}}>共享资源</div>
+                  <div style={{width:scalar*35,marginBottom:scalar,height:scalar*17,background:'#8FBC8B'}}>12</div>
+                  <div style={{width:scalar*35,marginBottom:scalar,height:scalar*17,background:'#8FBC8B'}}>成长历程</div>
+                  <div style={{width:scalar*35,height:scalar*17,background:'#8FBC8B'}}>12</div>
+                </div>
+                {/*第三列*/}
+                <div className="column-3">
+                  <div className="row-1" style={{width:scalar*35,height:scalar*17,marginBottom:scalar}}>
+                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#8FBC8B'}}>技术彩蛋</div>
+                    <div className="field-grid" style={{width:scalar*17,height:scalar*17}}>
+                      <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,background:'#8FBC8B'}}>12</div>
+                      <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,background:'#8FBC8B'}}>返回旧版</div>
+                      <div style={{width:scalar*8,height:scalar*8,background:'#8FBC8B'}}>12</div>
+                      <div style={{width:scalar*8,height:scalar*8,background:'#8FBC8B'}}>12</div>
+                    </div>
+                  </div>
+                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#8FBC8B'}}>计划安排</div>
+                  <div style={{width:scalar*35,height:scalar*35,background:'#8FBC8B'}}>12</div>
+                </div>
               </div>
-              <div className="section-right"></div>
+              {/*右侧阵列*/}
+              <div className="section-right">
+                <div style={{width:scalar*35,marginBottom:scalar,height:scalar*35}}>
+                  <Calendar fullscreen={false}/>
+                </div>
+                <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#8FBC8B'}}>了解更多</div>
+                <div className="row-4" style={{width:scalar*35,height:scalar*17}}>
+                  <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#8FBC8B'}}></div>
+                  <div style={{width:scalar*17,height:scalar*17,background:'#8FBC8B'}}></div>
+                </div>
+              </div>
             </div>
           </section>
           <footer>

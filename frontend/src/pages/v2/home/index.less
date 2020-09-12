@@ -52,26 +52,61 @@
     justify-content: center;
 
     .section-content {
-      width: @width-1920;
+      //width: @width-1920;
       opacity: 0.8;
       filter: alpha(opacity=70);
-      background-color: #dbdbdb;
       display: -webkit-flex; /* Safari */
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       .section-left {
-        width: 75%;
-        background-color: #b1e0dd;
         display: -webkit-flex; /* Safari */
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-start;
+        .column-1{
+          display: -webkit-flex; /* Safari */
+          display: flex;
+          flex-direction: column;
+          .row-2,.row-3{
+            display: -webkit-flex; /* Safari */
+            display: flex;
+            flex-direction: row;
+          }
+        }
+        .column-2{
+          display: -webkit-flex; /* Safari */
+          display: flex;
+          flex-direction: column;
+        }
+        .column-3{
+          display: -webkit-flex; /* Safari */
+          display: flex;
+          flex-direction: column;
+          .row-1{
+            display: -webkit-flex; /* Safari */
+            display: flex;
+            flex-direction: row;
+            .field-grid{
+              display: -webkit-flex; /* Safari */
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              justify-content: space-between;
+            }
+          }
+        }
       }
 
       .section-right {
-        width: 23%;
-        background-color: #b1e0dd;
+        display: -webkit-flex; /* Safari */
+        display: flex;
+        flex-direction: column;
+        .row-4{
+          display: -webkit-flex; /* Safari */
+          display: flex;
+          flex-direction: row;
+        }
       }
     }
   }
@@ -140,7 +175,7 @@
 
     section {
       .section-content {
-        width: @width-1366;
+        //width: @width-1366;
       }
     }
 
@@ -162,13 +197,13 @@
 
     section {
       .section-content {
-        width: @width-1024;
+        //width: @width-1024;
       }
     }
 
     footer {
       .footer-content {
-        width: @width-1024;
+        //width: @width-1024;
       }
     }
   }
