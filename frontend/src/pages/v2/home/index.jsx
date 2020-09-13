@@ -10,7 +10,7 @@ moment.locale('zh-cn');
  * 文件名：index.jsx
  * 作者：saya
  * 创建日期：2020/9/6 - 10:46 下午
- * 描述：https://blog.csdn.net/u012790987/article/details/47683625
+ * 描述：https://blog.csdn.net/u012790987/article/details/47683625,https://www.jq22.com/webqd6339
  */
 const content = (
   <div style={{width:"10em",height:"10em",backgroundSize:"100%",backgroundImage:`url(${process.env.PUBLIC_URL}/picture/wx/wechat.png)`}}>
@@ -75,48 +75,48 @@ class Home extends Component {
               <div className="section-left">
                 {/*第一列*/}
                 <div className="column-1" style={{marginRight:scalar}}>
-                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#8FBC8B'}}>技术专题</div>
+                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#CC99CC'}} className="inithover hover1">技术专题</div>
                   <div className="row-2" style={{width:scalar*35,marginBottom:scalar,height:scalar*17}}>
-                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#8FBC8B'}}>消息动态</div>
-                    <div style={{width:scalar*17,height:scalar*17,background:'#8FBC8B'}}></div>
+                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#FF9966'}} className="inithover hover1">消息动态</div>
+                    <div style={{width:scalar*17,height:scalar*17,background:'#CC9999'}} className="inithover hover1"></div>
                   </div>
                   <div className="row-3" style={{width:scalar*35,marginBottom:scalar,height:scalar*17}}>
-                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#8FBC8B'}}></div>
-                    <div style={{width:scalar*17,height:scalar*17,background:'#8FBC8B'}}></div>
+                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#99CC99'}} className="inithover hover1"></div>
+                    <div style={{width:scalar*17,height:scalar*17,background:'#FFCC99'}} className="inithover hover1"></div>
                   </div>
-                  <div style={{width:scalar*35,height:scalar*17,background:'#8FBC8B'}}>桌面</div>
+                  <div style={{width:scalar*35,height:scalar*17,background:'#66CCCC'}} className="inithover hover1">桌面</div>
                 </div>
                 {/*第二列*/}
                 <div className="column-2" style={{marginRight:scalar}}>
-                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#8FBC8B'}}>共享资源</div>
-                  <div style={{width:scalar*35,marginBottom:scalar,height:scalar*17,background:'#8FBC8B'}}>12</div>
-                  <div style={{width:scalar*35,marginBottom:scalar,height:scalar*17,background:'#8FBC8B'}}>成长历程</div>
-                  <div style={{width:scalar*35,height:scalar*17,background:'#8FBC8B'}}>12</div>
+                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#FF9999'}} className="inithover hover1">共享资源</div>
+                  <div style={{width:scalar*35,marginBottom:scalar,height:scalar*17,background:'#66CCCC'}} className="inithover hover1"></div>
+                  <div style={{width:scalar*35,marginBottom:scalar,height:scalar*17,background:'#CCCCFF'}} className="inithover hover1">成长历程</div>
+                  <div style={{width:scalar*35,height:scalar*17,background:'#FFCCCC'}} className="inithover hover1"></div>
                 </div>
                 {/*第三列*/}
                 <div className="column-3">
                   <div className="row-1" style={{width:scalar*35,height:scalar*17,marginBottom:scalar}}>
-                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#8FBC8B'}}>技术彩蛋</div>
+                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#CCCCCC'}} className="inithover hover1">技术彩蛋</div>
                     <div className="field-grid" style={{width:scalar*17,height:scalar*17}}>
-                      <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,background:'#8FBC8B'}}>12</div>
-                      <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,background:'#8FBC8B'}}>返回旧版</div>
-                      <div style={{width:scalar*8,height:scalar*8,background:'#8FBC8B'}}>12</div>
-                      <div style={{width:scalar*8,height:scalar*8,background:'#8FBC8B'}}>12</div>
+                      <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,background:'#CCCC99'}} className="inithover hover1"></div>
+                      <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,background:'#99CC99'}} className="inithover hover1">返回旧版</div>
+                      <div style={{width:scalar*8,height:scalar*8,background:'#FFCC99'}} className="inithover hover1"></div>
+                      <div style={{width:scalar*8,height:scalar*8,background:'#FF9966'}} className="inithover hover1"></div>
                     </div>
                   </div>
-                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#8FBC8B'}}>计划安排</div>
-                  <div style={{width:scalar*35,height:scalar*35,background:'#8FBC8B'}}>12</div>
+                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#CCCC99'}} className="inithover hover1">计划安排</div>
+                  <div style={{width:scalar*35,height:scalar*35,background:'#FF9966'}} className="inithover hover1"></div>
                 </div>
               </div>
               {/*右侧阵列*/}
               <div className="section-right">
-                <div style={{width:scalar*35,marginBottom:scalar,height:scalar*35}}>
+                <div style={{width:scalar*35,marginBottom:scalar,height:scalar*35,transition:'800ms ease all'}}>
                   <Calendar fullscreen={false}/>
                 </div>
-                <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#8FBC8B'}}>了解更多</div>
+                <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#CC6699'}} className="inithover hover1">了解更多</div>
                 <div className="row-4" style={{width:scalar*35,height:scalar*17}}>
-                  <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#8FBC8B'}}></div>
-                  <div style={{width:scalar*17,height:scalar*17,background:'#8FBC8B'}}></div>
+                  <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#CC9999'}} className="inithover hover1"></div>
+                  <div style={{width:scalar*17,height:scalar*17,background:'#FFCCCC'}} className="inithover hover1"></div>
                 </div>
               </div>
             </div>

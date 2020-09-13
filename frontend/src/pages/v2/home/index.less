@@ -108,6 +108,47 @@
           flex-direction: row;
         }
       }
+
+      .inithover{
+        color:#fff;
+        border:none;
+        position:relative;
+        font-size:1.2em;
+        padding-left: 1em;
+        padding-bottom: 1em;
+        cursor:pointer;
+        transition:800ms ease all;
+        outline:none;
+        display: -webkit-flex; /* Safari */
+        display: flex;
+        align-items:flex-end;
+      }
+
+      // 鼠标滑过样式
+      .hover1:hover {
+        background:#fff ! important;
+        color:#1AAB8A;
+      }
+      .hover1:before,.hover1:after {
+        content:'';
+        position:absolute;
+        top:0;
+        right:0;
+        height:0.2em;
+        width:0;
+        background:#1AAB8A;
+        transition:400ms ease all;
+      }
+      .hover1:after {
+        right:inherit;
+        top:inherit;
+        left:0;
+        bottom:0;
+      }
+      .hover1:hover:before,.hover1:hover:after {
+        width:100%;
+        transition:800ms ease all;
+      }
     }
   }
 
@@ -130,7 +171,6 @@
     .footer-content {
       width: @width-1920;
       color: #fff;
-
       p {
         margin-bottom: 0.1em;
         font-size: 1.05em;
