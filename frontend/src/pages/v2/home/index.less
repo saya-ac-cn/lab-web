@@ -39,6 +39,13 @@
       width: @width-1920;
       font-size: 3em;
       color: #fff;
+      /*flex 布局*/
+      display: -webkit-flex;
+      display: flex;
+      /*实现垂直居中*/
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
     }
   }
 
@@ -122,11 +129,14 @@
         display: -webkit-flex; /* Safari */
         display: flex;
         align-items:flex-end;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 50% 50%;
       }
 
       // 鼠标滑过样式
       .hover1:hover {
-        background:#fff ! important;
+        background-color:#fff ! important;
         color:#1AAB8A;
       }
       .hover1:before,.hover1:after {
@@ -136,7 +146,7 @@
         right:0;
         height:0.2em;
         width:0;
-        background:#1AAB8A;
+        background-color:#1AAB8A;
         transition:400ms ease all;
       }
       .hover1:after {

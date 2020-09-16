@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './index.less'
 import DocumentTitle from "react-document-title";
 import {Button, Col, Popover, Row,Calendar} from "antd";
-import {WechatOutlined, GithubOutlined} from '@ant-design/icons';
+import {WechatOutlined, GithubOutlined,SmileOutlined} from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
@@ -23,10 +23,35 @@ class Home extends Component {
     // 阵列总宽度
     sectionWidth: 1536,// 初始宽度 1920 x 0.8
     // 单位标量
-    scalar: 10
+    scalar: 10,
+    greetText: '好久不见，甚是想念，记得爱护自己！'
+  }
+
+  /**
+   * 根据小时，得到问候词
+   * @return
+   */
+  getGreetText = () => {
+    let hour = moment().format("HH");
+    var greetText = "好久不见，甚是想念，记得爱护自己！";
+    if(hour >= 0 && hour < 7){
+      greetText = "天还没亮，夜猫子，要注意身体哦！";
+    }else if(hour>=7 && hour<12){
+      greetText = "上午好！又是元气满满的一天，奥利给！";
+    }else if(hour >= 12 && hour < 14){
+      greetText = "中午好！吃完饭记得午休哦！";
+    }else if(hour >= 14 && hour < 18){
+      greetText = "下午茶的时间到了，休息一下吧！";
+    }else if(hour >= 18 && hour < 22){
+      greetText = "晚上到了，多陪陪家人吧！";
+    }else if(hour >= 22 && hour < 24){
+      greetText = "很晚了哦，注意休息呀！";
+    }
+    this.setState({greetText});
   }
 
   componentDidMount() {
+    this.getGreetText()
     this.adapterWidth(document.body.clientWidth)
     //监听窗口大小改变
     window.addEventListener('resize', this.handleResize.bind(this))
@@ -58,15 +83,21 @@ class Home extends Component {
     _this.setState({sectionWidth,scalar})
   }
 
+  href = url => {
+    // 跳转到管理界面 (不需要再回退回到登陆),push是需要回退,replace不需要
+    this.props.history.push(url)
+  }
+
 
   render() {
-    const {sectionWidth,scalar} = this.state
+    const {sectionWidth,scalar,greetText} = this.state
     return (
       <DocumentTitle title="saya.ac.cn-主页">
         <div className="frontend2-home">
           <header>
             <div className="header-content">
-              Start
+              <span>Hello</span>
+              <span style={{fontSize:'0.4em'}}><SmileOutlined />&nbsp;&nbsp;{greetText}</span>
             </div>
           </header>
           <section>
@@ -75,37 +106,37 @@ class Home extends Component {
               <div className="section-left">
                 {/*第一列*/}
                 <div className="column-1" style={{marginRight:scalar}}>
-                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#CC99CC'}} className="inithover hover1">技术专题</div>
+                  <div onClick={() => this.href("/v2/pandora/note")} style={{width:scalar*35,height:scalar*17,marginBottom:scalar,backgroundColor:'#CC99CC',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/signboard.svg')`}} className="inithover hover1">技术专题</div>
                   <div className="row-2" style={{width:scalar*35,marginBottom:scalar,height:scalar*17}}>
-                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#FF9966'}} className="inithover hover1">消息动态</div>
-                    <div style={{width:scalar*17,height:scalar*17,background:'#CC9999'}} className="inithover hover1"></div>
+                    <div onClick={() => this.href("/v2/pandora/news")} style={{width:scalar*17,marginRight:scalar,height:scalar*17,backgroundColor:'#FF9966',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/notice.svg')`}} className="inithover hover1">消息动态</div>
+                    <div style={{width:scalar*17,height:scalar*17,backgroundColor:'#CC9999'}} className="inithover hover1"></div>
                   </div>
                   <div className="row-3" style={{width:scalar*35,marginBottom:scalar,height:scalar*17}}>
-                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#99CC99'}} className="inithover hover1"></div>
-                    <div style={{width:scalar*17,height:scalar*17,background:'#FFCC99'}} className="inithover hover1"></div>
+                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,backgroundColor:'#99CC99'}} className="inithover hover1"></div>
+                    <div style={{width:scalar*17,height:scalar*17,backgroundColor:'#FFCC99'}} className="inithover hover1"></div>
                   </div>
-                  <div style={{width:scalar*35,height:scalar*17,background:'#66CCCC'}} className="inithover hover1">桌面</div>
+                  <div style={{width:scalar*35,height:scalar*17,backgroundColor:'#66CCCC',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/home.svg')`}} className="inithover hover1">桌面</div>
                 </div>
                 {/*第二列*/}
                 <div className="column-2" style={{marginRight:scalar}}>
-                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#FF9999'}} className="inithover hover1">共享资源</div>
-                  <div style={{width:scalar*35,marginBottom:scalar,height:scalar*17,background:'#66CCCC'}} className="inithover hover1"></div>
-                  <div style={{width:scalar*35,marginBottom:scalar,height:scalar*17,background:'#CCCCFF'}} className="inithover hover1">成长历程</div>
-                  <div style={{width:scalar*35,height:scalar*17,background:'#FFCCCC'}} className="inithover hover1"></div>
+                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,backgroundColor:'#FF9999',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/viewlist.svg')`}} className="inithover hover1">共享资源</div>
+                  <div style={{width:scalar*35,marginBottom:scalar,height:scalar*17,backgroundColor:'#66CCCC'}} className="inithover hover1"></div>
+                  <div onClick={() => this.href("/v2/pandora/growing")} style={{width:scalar*35,marginBottom:scalar,height:scalar*17,backgroundColor:'#6699CC',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/history.svg')`}} className="inithover hover1">成长历程</div>
+                  <div style={{width:scalar*35,height:scalar*17,backgroundColor:'#FFCCCC'}} className="inithover hover1"></div>
                 </div>
                 {/*第三列*/}
                 <div className="column-3">
                   <div className="row-1" style={{width:scalar*35,height:scalar*17,marginBottom:scalar}}>
-                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#CCCCCC'}} className="inithover hover1">技术彩蛋</div>
+                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,backgroundColor:'#8080C0',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/integral.svg')`}} className="inithover hover1">技术彩蛋</div>
                     <div className="field-grid" style={{width:scalar*17,height:scalar*17}}>
-                      <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,background:'#CCCC99'}} className="inithover hover1"></div>
-                      <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,background:'#99CC99'}} className="inithover hover1">返回旧版</div>
-                      <div style={{width:scalar*8,height:scalar*8,background:'#FFCC99'}} className="inithover hover1"></div>
-                      <div style={{width:scalar*8,height:scalar*8,background:'#FF9966'}} className="inithover hover1"></div>
+                      <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,backgroundColor:'#CCCC99'}} className="inithover hover1"></div>
+                      <div onClick={() => this.href("/v1")} style={{width:scalar*8,height:scalar*8,marginBottom:scalar, paddingLeft: '0.5em',paddingBottom: '0.5em',backgroundColor:'#99CC99',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/return.svg')`}} className="inithover hover1">返回旧版</div>
+                      <div style={{width:scalar*8,height:scalar*8,backgroundColor:'#FFCC99'}} className="inithover hover1"></div>
+                      <div style={{width:scalar*8,height:scalar*8,backgroundColor:'#FF9966'}} className="inithover hover1"></div>
                     </div>
                   </div>
-                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#CCCC99'}} className="inithover hover1">计划安排</div>
-                  <div style={{width:scalar*35,height:scalar*35,background:'#FF9966'}} className="inithover hover1"></div>
+                  <div onClick={() => this.href("/v2/pandora/plan")} style={{width:scalar*35,height:scalar*17,marginBottom:scalar,backgroundColor:'#CCCC99',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/calendar.svg')`}} className="inithover hover1">计划安排</div>
+                  <div style={{width:scalar*35,height:scalar*35,backgroundColor:'#FF9966'}} className="inithover hover1"></div>
                 </div>
               </div>
               {/*右侧阵列*/}
@@ -113,10 +144,10 @@ class Home extends Component {
                 <div style={{width:scalar*35,marginBottom:scalar,height:scalar*35,transition:'800ms ease all'}}>
                   <Calendar fullscreen={false}/>
                 </div>
-                <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,background:'#CC6699'}} className="inithover hover1">了解更多</div>
+                <div onClick={() => this.href("/v2/pandora/me")} style={{width:scalar*35,height:scalar*17,marginBottom:scalar,backgroundColor:'#CC6699',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/prompt.svg')`}} className="inithover hover1">了解更多</div>
                 <div className="row-4" style={{width:scalar*35,height:scalar*17}}>
-                  <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,background:'#CC9999'}} className="inithover hover1"></div>
-                  <div style={{width:scalar*17,height:scalar*17,background:'#FFCCCC'}} className="inithover hover1"></div>
+                  <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,backgroundColor:'#CC9999'}} className="inithover hover1"></div>
+                  <div style={{width:scalar*17,height:scalar*17,backgroundColor:'#FFCCCC'}} className="inithover hover1"></div>
                 </div>
               </div>
             </div>
