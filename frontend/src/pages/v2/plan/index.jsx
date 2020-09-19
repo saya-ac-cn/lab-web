@@ -24,10 +24,6 @@ class Plan extends Component {
     },
   }
 
-  constructor(props){
-    super(props)
-  }
-
   /**
    * 获取计划列表数据
    * @returns {Promise<void>}
@@ -224,11 +220,11 @@ class Plan extends Component {
   render() {
     const {outhtml, listLoading, filters} = this.state;
     return (
-      <DocumentTitle title="saya.ac.cn-日程安排">
+      <DocumentTitle title="saya.ac.cn-计划安排">
         <div className="frontend2-plan">
           <div className="child-container">
             <div className="column-title">
-              日程安排
+              计划安排
             </div>
             <div className='switch-date'>
               <div

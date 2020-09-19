@@ -11,10 +11,6 @@ import './index.less'
 // 定义组件（ES6）
 class Growing extends Component {
 
-  constructor(props){
-    super(props)
-  }
-
 
   render() {
     return (
@@ -41,7 +37,7 @@ class Growing extends Component {
                 <div className="timeline-content">
                   <h3>2019年3月</h3>
                   <div className='des-div'>
-                    <img src={`${process.env.PUBLIC_URL}/picture/growing/psb2.png`}/>
+                    <img alt="2019年3月" src={`${process.env.PUBLIC_URL}/picture/growing/psb2.png`}/>
                     <div className="des-div-text">
                       第四个里程碑版本，时隔一年，网站再次更新。本次更新，主要对页面和功能进行了大幅度改版。前后端完全分离，前端采用Vue，后端采用Java，对静态资源实现了动静分离，加快访问速度。
                     </div>
@@ -55,7 +51,7 @@ class Growing extends Component {
                 <div className="timeline-content right">
                   <h3>2017年10月</h3>
                   <div className='des-div'>
-                    <img src={`${process.env.PUBLIC_URL}/picture/growing/psb4.png`}/>
+                    <img alt="2017年10月" src={`${process.env.PUBLIC_URL}/picture/growing/psb4.png`}/>
                     <div className="des-div-text">
                       第三个里程碑版本，进一步对网站的用户交互界面进行改版，统一各终端的访问方式，对各种设备能够做到自适应访问。整体框架切换到Laravel，部署运行更加快速。
                     </div>
@@ -69,7 +65,7 @@ class Growing extends Component {
                 <div className="timeline-content">
                   <h3>2017年3月</h3>
                   <div className='des-div'>
-                    <img src={`${process.env.PUBLIC_URL}/picture/growing/psb1.png`}/>
+                    <img alt="2017年3月" src={`${process.env.PUBLIC_URL}/picture/growing/psb1.png`}/>
                     <div className="des-div-text">
                       第二个里程碑版本，对网站整体进行了大幅度的改版升级，摒弃了早期不合理的设计，引入了全新的UI设计。另外，网站整体从原来的ASP.NET升级到PHP，使用Yii框架开发，数据库也做了相应的迁移。
                     </div>
@@ -92,7 +88,7 @@ class Growing extends Component {
                 <div className="timeline-content">
                   <h3>2016年8月</h3>
                   <div className='des-div'>
-                    <img src={`${process.env.PUBLIC_URL}/picture/growing/psb5.png`}/>
+                    <img alt="2016年8月" src={`${process.env.PUBLIC_URL}/picture/growing/psb5.png`}/>
                     <div className="des-div-text">
                       针对上一个版本存在的问题进行了修复，重构了主页和后端管理模块。增加了后端操作功能，对前端留言功能进行了完善，增加了留言提醒。
                     </div>
@@ -106,7 +102,7 @@ class Growing extends Component {
                 <div className="timeline-content right">
                   <h3>2016年7月</h3>
                   <div className='des-div'>
-                    <img src={`${process.env.PUBLIC_URL}/picture/growing/psb3.png`}/>
+                    <img alt="2016年7月" src={`${process.env.PUBLIC_URL}/picture/growing/psb3.png`}/>
                     <div className="des-div-text">
                       对网站进行持续更新，本版本对引导页及主页进行了大幅度的改版。更加的简洁，分类进一步完善。
                     </div>
