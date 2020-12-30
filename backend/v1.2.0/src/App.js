@@ -1,6 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-
+import Backend1 from './pages/layout/backend_1'
+import Login from './pages/login/index'
 /**
  * 应用根组件
  * @returns {*}
@@ -16,8 +17,8 @@ function App() {
             *在定义接口代理时，上述的路由单词已经被定义，如果使用，刷新页面将出现404，
             */}
         <Switch>
-          {/*<Route path={['/login','/']} exact={true} component={Login}/>*/}
-          {/*<Route path='/backstage' component={Backend1}/>*/}
+          <Route path={['/login','/']} exact={true} component={Login}/>
+          <Route path='/backstage' component={Backend1}/>
           {/* <Route path='/' component={Home}/>*/}
         </Switch>
       </BrowserRouter>

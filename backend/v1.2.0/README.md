@@ -1,6 +1,6 @@
 # 项目说明
 
-本项目作为个人网站后端部分项目，主题采用react+less+antd。其中第一个tag版本作为标准化的模板项目，可以直接使用。
+本项目作为实验室运营后端项目，主题采用react+less+antd。其中第一个tag版本作为标准化的模板项目，可以直接使用。
 
 ## 重要说明！！！
 * 本版本使用了较高版本的antd，不完全兼容上一个版本
@@ -16,10 +16,11 @@
   # 切换到阿里
   npm config set registry https://registry.npm.taobao.org
 ```
+### 升级node->https://segmentfault.com/a/1190000021739166
 
 ### 创建一个react项目
 ```shell script
- create-react-app v1.2.
+ create-react-app v1.2.0
 ```
 
 ### 安装antd
@@ -53,7 +54,31 @@
 ```shell script
   npm install less less-loader
 ```
+> 注意 less4.*版本 对于当前适配有问题（Unrecognized input. Possibly missing '(' in mixin call.），只能降低版本，问题反馈：https://github.com/ant-design/ant-design/issues/28427
 * 修改config-overrides.js
+``` javascript
+/**
+ * 针对antd按需加载配置
+ */
+const {override, fixBabelImports, addLessLoader} = require('customize-cra');
+
+module.exports = override(
+    // 针对antd实现按需打包: 根据import来打包(使用babel-plugin-import)
+    fixBabelImports('import', {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: true,  // 自动打包相关的样式
+    }),
+
+    // 使用less-loader对源码中的less的变量进行重新指定
+    addLessLoader({
+        lessOptions:{
+            javascriptEnabled: true,
+            modifyVars: {'@primary-color': '#ED2553'}
+        }
+    }),
+)
+```
 
 ### 引入路由
 

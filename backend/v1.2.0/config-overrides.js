@@ -1,7 +1,8 @@
 /**
  * 针对antd按需加载配置
  */
-const {override, fixBabelImports, addLessLoader} = require('customize-cra');
+const { override, fixBabelImports, addLessLoader, addWebpackAlias } = require("customize-cra");
+const path = require("path");
 
 module.exports = override(
     // 针对antd实现按需打包: 根据import来打包(使用babel-plugin-import)
@@ -12,10 +13,15 @@ module.exports = override(
     }),
 
     // 使用less-loader对源码中的less的变量进行重新指定
-    addLessLoader({
-        lessOptions:{
-            javascriptEnabled: true,
-            modifyVars: {'@primary-color': '#ED2553'}
-        }
-    }),
+	addLessLoader({
+	    lessOptions:{
+	        javascriptEnabled: true,
+	        modifyVars: {'@primary-color': '#752b7d'}
+	    }
+	}),
+
+	//增加路径别名的处理 
+	addWebpackAlias({  
+		'@': path.resolve('./src')  
+	})
 )
