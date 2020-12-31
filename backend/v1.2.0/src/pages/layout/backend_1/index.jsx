@@ -23,7 +23,10 @@ class LayoutBackend extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            // 默认让左侧的菜单展开
             collapsed: false,
+            // 当前展开的菜单数组
+            openKeys: [],
             searchfocus: false,
             searchValue: null
         };
@@ -115,19 +118,21 @@ class LayoutBackend extends Component {
             // 向pre添加<Menu.Item>
             if (!item.children && item.hidden === false) {
                 pre.push((
-                    <Menu.Item key={item.key}><Link to={item.key}>{item.title}</Link></Menu.Item>
+                    <Menu.Item key={item.key}><Button type="link" href={item.key}>{item.title}</Button></Menu.Item>
                 ))
             } else if (item.children && item.hidden === false) {
                 // 查找一个与当前请求路径匹配的子Item
                 const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0);
                 // 如果存在, 说明当前item的子列表需要打开
                 if (cItem) {
-                    this.openKey = item.key
+                    _this.setState({
+                        openKeys:[item.key]
+                    })
                 }
                 // 向pre添加<SubMenu>
                 pre.push((
                     <SubMenu key={item.key} icon={_this.transformComponent(item.icon)} title={<span>{item.title}</span>}>
-                        {this.getMenuNodes(item.children)}
+                        {_this.getMenuNodes(item.children)}
                     </SubMenu>
                 ));
             }
@@ -159,6 +164,41 @@ class LayoutBackend extends Component {
             }
         });
         return titles
+    };
+
+    /**
+     * 一级菜单点击展开事件
+     * @param _openKeys
+     */
+    onOpenChange = (_openKeys) => {
+        let _this = this;
+        const openKeys = this.state.openKeys;
+        const latestOpenKey = _openKeys.find(key => openKeys.indexOf(key) === -1);
+        menuConfig.reduce((pre, item) => {
+            if (item.hidden === false){
+                const cItem = _openKeys.find(cItem => openKeys.indexOf(cItem) === -1);
+                // 如果存在, 说明当前item的子列表需要打开
+                if (cItem) {
+                    // 切换
+                    _this.setState({
+                        openKeys: latestOpenKey ? [latestOpenKey] : [],
+                    });
+                }else {
+                    // 不切换保持原样
+                    _this.setState({ openKeys:_openKeys });
+                }
+            }
+        }, [])
+    };
+
+    getParentMenuChild = (path) => {
+        for (var i = 0; i < menuConfig.length; i++) {
+            const item = menuConfig[i];
+            if (path.indexOf(item.key) === 0){
+                return [item.key];
+            }
+        }
+        return []
     };
 
     /*
@@ -248,12 +288,18 @@ class LayoutBackend extends Component {
             return <Redirect to='/login'/>
         }
         // 读取状态
-        const {collapsed, searchfocus, searchValue} = this.state;
+        let {collapsed, searchfocus, openKeys, searchValue} = this.state;
         // 得到当前请求的路由路径
         let path = this.props.location.pathname;
         if (path.indexOf('/backstage/message/news') === 0){
             // 当前请求的是news及其下面的路由
             path = '/backstage/message/news'
+        }
+
+        if(openKeys.length === 0 || path !== openKeys[0]){
+            openKeys = this.getParentMenuChild(path)
+            console.log("-------------",openKeys)
+
         }
         // 显示搜索框
         let showSearch = true
@@ -263,10 +309,11 @@ class LayoutBackend extends Component {
             // 如果进入笔记模块，则不显示
             showSearch = false
         }
-        // 得到需要打开菜单项的key
-        const openKey = this.openKey;
         // 得到当前需要显示的title
         const {title, local} = this.getTitle();
+        //openKeys = ["/backstage/set"]
+        //console.log("-----",path="/backstage/set")
+        //console.log("-----",openKeys = ["/backstage/set"])
         return (
             <div className="backend-container">
                 <div className='background-div' style={{backgroundImage:`url('${user.user.background || process.env.PUBLIC_URL+'/picture/backend/admin_background1.jpg'}')`}}>
@@ -274,7 +321,6 @@ class LayoutBackend extends Component {
                 <header className="this-header">
                     <div className='header-logo'>
                         <div className='tab-operation'>
-
                             <Button type="link" size='large' onClick={this.handlTabClick}>
                                 <MenuOutlined/>
                             </Button>
@@ -333,7 +379,7 @@ class LayoutBackend extends Component {
                             </div>
                         </div>
                         <div className='menu-list'>
-                            <Menu className='menu-list-ul' selectedKeys={[path]} defaultOpenKeys={[openKey]} mode="inline"
+                            <Menu className='menu-list-ul' subMenuCloseDelay={1}  subMenuOpenDelay={1}  onOpenChange={this.onOpenChange} openKeys={openKeys} defaultOpenKeys={openKeys} mode="inline"
                                   inlineCollapsed={collapsed}>
                                 {
                                     this.menuNodes

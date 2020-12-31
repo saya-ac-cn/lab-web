@@ -9,21 +9,6 @@
 
 const backstageMenuList = [
     {
-        title: '控制面板',// 菜单标题名称
-        key: '/backstage/api',// 对应的path
-        icon: 'HomeOutlined',// 图标名称
-        hidden: false, //是否隐藏
-        requireAuth: true, // 是否需要登录后访问
-        children: [ // 子菜单列表
-            {
-                title: '远程控制',
-                key: '/backstage/api/mana',
-                hidden: false,
-                requireAuth: true
-            }
-        ]
-    },
-    {
         title: '设备管理',// 菜单标题名称
         key: '/backstage/device',// 对应的path
         icon: 'ToolOutlined',// 图标名称
@@ -39,6 +24,21 @@ const backstageMenuList = [
             {
                 title: '设备管理',
                 key: '/backstage/device/client',
+                hidden: false,
+                requireAuth: true
+            }
+        ]
+    },
+    {
+        title: '控制面板',// 菜单标题名称
+        key: '/backstage/set',// 对应的path
+        icon: 'HomeOutlined',// 图标名称
+        hidden: false, //是否隐藏
+        requireAuth: true, // 是否需要登录后访问
+        children: [ // 子菜单列表
+            {
+                title: '远程控制',
+                key: '/backstage/set/info',
                 hidden: false,
                 requireAuth: true
             }
