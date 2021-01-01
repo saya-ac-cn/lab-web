@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import frontendMenuListV1 from '../../../config/frontendMenuConfig1'
+import frontendMenuList from '../../../config/menuConfig'
 import './index.less'
-import {Redirect, Route, Switch, Link} from 'react-router-dom'
+import {Redirect, Route, Switch} from 'react-router-dom'
 import {Menu, Row, Col} from "antd";
-import FilesDownload from '../../v1/files'
-import NewsList from '../../v1/news'
-import NewsInfo from '../../v1/newsInfo'
-import NoteList from '../../v1/note'
-import NoteInfo from '../../v1/noteInfo'
-import Plan from '../../v1/plan'
-import Board from '../../v1/board'
+import FilesDownload from '../../files'
+import NewsList from '../../news'
+import NewsInfo from '../../newsInfo'
+import NoteList from '../../note'
+import NoteInfo from '../../noteInfo'
+import Plan from '../../plan'
+import Board from '../../board'
 /*
  * 文件名：index.jsx
  * 作者：shmily
@@ -29,7 +29,7 @@ class Frontend extends Component {
      */
     getMenuNodes = (menuList) => {
         return menuList.reduce((pre, item) => {
-            pre.push( <Menu.Item key={item.key}><Link to={item.key}>{item.title}</Link></Menu.Item>)
+          pre.push( <Menu.Item key={item.key}><a href={item.key}>{item.title}</a></Menu.Item>)
             return pre
         },[])
     }
@@ -39,7 +39,7 @@ class Frontend extends Component {
     */
     componentWillMount() {
         let _this = this; //声明一个变量指向vue实例this,保证作用域一致
-        _this.menuNodes = _this.getMenuNodes(frontendMenuListV1)
+        _this.menuNodes = _this.getMenuNodes(frontendMenuList)
     };
 
     render() {
@@ -67,13 +67,13 @@ class Frontend extends Component {
                 {/*主体部分开始*/}
                 <section className="main-section">
                     <Switch>
-                        <Route path='/v1/pandora/files' component={FilesDownload}/>
-                        <Route path='/v1/pandora/news' component={NewsList}/>
-                        <Route path='/v1/pandora/note' component={NoteList}/>
-                        <Route path='/v1/pandora/newsInfo/:id' component={NewsInfo}/>
-                        <Route path='/v1/pandora/noteInfo/:id' component={NoteInfo}/>
-                        <Route path='/v1/pandora/plan' component={Plan}/>
-                        <Route path='/v1/pandora/board' component={Board}/>
+                        <Route path='/pandora/files' component={FilesDownload}/>
+                        <Route path='/pandora/news' component={NewsList}/>
+                        <Route path='/pandora/note' component={NoteList}/>
+                        <Route path='/pandora/newsInfo/:id' component={NewsInfo}/>
+                        <Route path='/pandora/noteInfo/:id' component={NoteInfo}/>
+                        <Route path='/pandora/plan' component={Plan}/>
+                        <Route path='/pandora/board' component={Board}/>
                         {/*默认、及匹配不到时的页面*/}
                         <Redirect to='/'/>
                     </Switch>
