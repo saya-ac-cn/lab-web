@@ -104,6 +104,11 @@ module.exports = override(
    npm install --save react-document-title
 ```
 
+## 安装cropper（图片裁剪）
+```shell script
+npm install react-cropper
+```
+
 ### 重大变更历程事件
 
 > ## 2020-12-28 修改记录-项目初始化

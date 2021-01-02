@@ -7,9 +7,11 @@ import memoryUtils from "../../../utils/memoryUtils";
 import storageUtils from '../../../utils/storageUtils'
 import {isEmptyObject} from "../../../utils/var"
 import { Button, Input, Menu, Popover, Avatar, Breadcrumb, Badge, Modal} from 'antd';
-import { FundProjectionScreenOutlined, NotificationOutlined,ToolOutlined, HistoryOutlined, MessageOutlined, DesktopOutlined,HomeOutlined,ExceptionOutlined,CodeOutlined,LaptopOutlined} from '@ant-design/icons';
-import Files from '../../files'
+import {NotificationOutlined,MessageOutlined, DatabaseOutlined,StockOutlined,FieldTimeOutlined,SearchOutlined,UserOutlined,AccountBookOutlined,ScheduleOutlined,PushpinOutlined,CarryOutOutlined,MoneyCollectOutlined,SwitcherOutlined} from '@ant-design/icons';
 import {requestLogout} from '../../../api'
+import Info from '../../me/info'
+import Logs from '../../me/logs'
+import Transaction from '../../financial/transaction'
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -39,20 +41,17 @@ class LayoutBackend extends Component {
      */
     transformComponent = (value) => {
         switch(value) {
-            case 'DesktopOutlined': {
-                return <DesktopOutlined/>
+            case 'DatabaseOutlined': {
+                return <DatabaseOutlined/>
             }
-            case 'FundProjectionScreenOutlined': {
-                return <FundProjectionScreenOutlined/>
+            case 'UserOutlined':{
+              return <UserOutlined/>
             }
-            case 'ToolOutlined': {
-                return <ToolOutlined/>
+            case 'AccountBookOutlined':{
+              return <AccountBookOutlined/>
             }
-            case 'HomeOutlined': {
-                return <HomeOutlined/>
-            }
-            case 'HistoryOutlined': {
-                return <HistoryOutlined/>
+            case 'ScheduleOutlined':{
+              return <ScheduleOutlined/>
             }
             default: {
                 return <MessageOutlined/>
@@ -93,7 +92,7 @@ class LayoutBackend extends Component {
     initHeaderMenu = () => (
         <div className="backend-layout-header-info-hover">
             <div className='user-img-div'>
-                <Avatar size={64} icon="user" src={this.userCatche.user.logo}/>
+                <Avatar size={64} icon={<UserOutlined/>} src={this.userCatche.user.logo}/>
                 <div className='operator-img'>
                     <span>{this.userCatche.user.user}</span>
                     <Link to='/backstage/set/info'>更换头像</Link>
@@ -255,19 +254,6 @@ class LayoutBackend extends Component {
         this.props.history.push('/backstage/grow/notes/create')
     }
 
-    /**
-     * 判断对象是否为空
-     * @param data
-     * @returns {boolean}
-     */
-    isEmptyObject = (data) => {
-        // 手写实现的判断一个对象{}是否为空对象，没有任何属性 非空返回false
-        var item;
-        for (item in data)
-            return false;
-        return true;
-    }
-
     /*
     * 在第一次render()之前执行一次
     * 为第一个render()准备数据(必须同步的)
@@ -291,19 +277,17 @@ class LayoutBackend extends Component {
         let {collapsed, searchfocus, openKeys, searchValue} = this.state;
         // 得到当前请求的路由路径
         let path = this.props.location.pathname;
-        if (path.indexOf('/backstage/message/news') === 0){
+        if (path.indexOf('/backstage/memory/news') === 0){
             // 当前请求的是news及其下面的路由
             path = '/backstage/message/news'
         }
-
-        if(openKeys.length === 0 || path !== openKeys[0]){
-            openKeys = this.getParentMenuChild(path)
-            console.log("-------------",openKeys)
-
-        }
+        // if(openKeys.length === 0 || path !== openKeys[0]){
+        //     openKeys = this.getParentMenuChild(path)
+        //     console.log("-------------",openKeys)
+        // }
         // 显示搜索框
         let showSearch = true
-        if (path.indexOf('/backstage/grow/notes') === 0){
+        if (path.indexOf('/backstage/memory/notes') === 0){
             // 当前请求的是news及其下面的路由
             path = '/backstage/grow/notes'
             // 如果进入笔记模块，则不显示
@@ -311,12 +295,9 @@ class LayoutBackend extends Component {
         }
         // 得到当前需要显示的title
         const {title, local} = this.getTitle();
-        //openKeys = ["/backstage/set"]
-        //console.log("-----",path="/backstage/set")
-        //console.log("-----",openKeys = ["/backstage/set"])
         return (
             <div className="backend-container">
-                <div className='background-div' style={{backgroundImage:`url('${user.user.background || process.env.PUBLIC_URL+'/picture/backend/admin_background1.jpg'}')`}}>
+                <div className='background-div' style={{backgroundImage:`url('${user.user.backgroundUrl || process.env.PUBLIC_URL+'/picture/backend/admin_background1.jpg'}')`}}>
                 </div>
                 <header className="this-header">
                     <div className='header-logo'>
@@ -328,7 +309,7 @@ class LayoutBackend extends Component {
                         <div className='project-div' style={{backgroundImage:`url('${process.env.PUBLIC_URL}/picture/svg/project.svg')`}}>
                         </div>
                         <div className='project-name'>
-                            Lab
+                            亲亲里
                         </div>
                     </div>
                     <div className='header-search'>
@@ -336,7 +317,7 @@ class LayoutBackend extends Component {
                             {
                                 showSearch ?
                                     <div className='header-search-form-input' style={{background:searchfocus?'#fff':'rgba(241,243,244,0.24)'}}>
-                                        <Button onClick={this.handleSearch}><MenuOutlined/></Button>
+                                        <Button onClick={this.handleSearch}><SearchOutlined/></Button>
                                         <Input placeholder="搜索笔记"
                                                value={searchValue}
                                                onChange={this.searchInputChange}
@@ -349,7 +330,7 @@ class LayoutBackend extends Component {
                         </div>
                         <div className='header-search-menu'>
                             {
-                                !(this.isEmptyObject(user.plan)) ?
+                                !(isEmptyObject(user.plan)) ?
                                     <Popover content={user.plan.reduce((pre, item) => {pre.push(<p key={item.id}>{item.describe}</p>);return pre},[])} title="今天计划">
                                         <Badge count={user.plan.length} dot color="#2db7f5">
                                             <NotificationOutlined/>
@@ -387,9 +368,9 @@ class LayoutBackend extends Component {
                             </Menu>
                         </div>
                         <div className={`menu-copyright ${collapsed?"menu-copyright-close":null}`}>
-                            <Button type="link" title='切换壁纸' href="/backstage/oss/wallpaper"><CodeOutlined/></Button>
-                            <Button type="link" title='数据监控' href="/backstage/set/dashBoard"><LaptopOutlined/></Button>
-                            <Button type="link" title='网站留言' href="/backstage/message/guestbook"><ExceptionOutlined/></Button>
+                            <Button type="link" title='切换壁纸' href="/backstage/oss/wallpaper"><SwitcherOutlined/></Button>
+                            <Button type="link" title='复刻记忆' href="/backstage/set/dashBoard"><StockOutlined/></Button>
+                            <Button type="link" title='定时备份' href="/backstage/message/guestbook"><FieldTimeOutlined/></Button>
                         </div>
                     </div>
                     <div className='content-container'>
@@ -407,14 +388,16 @@ class LayoutBackend extends Component {
                         <div className='content-div'>
                             <div className='container-div'>
                                 <Switch>
-                                    <Route path='/backstage/set/info' component={Files}/>
+                                    <Route path='/backstage/me/info' component={Info}/>
+                                    <Route path='/backstage/me/logs' component={Logs}/>
+                                    <Route path='/backstage/financial/transaction' component={Transaction}/>
                                     {/*默认、及匹配不到时的页面*/}
-                                    <Redirect to='/backstage/set/info'/>
+                                    <Redirect to='/backstage/me/info'/>
                                 </Switch>
                             </div>
                             <div className='operation-info'>
                                 {
-                                    !(this.isEmptyObject(user.log)) ?
+                                    !(isEmptyObject(user.log)) ?
                                         <span>{`您上次操作时间:${user.log.date},操作地点:${user.log.city}(${user.log.ip}),操作明细:${user.log.logType.describe}`}</span> :
                                         <span>Hi，这是您第一次使用吧？如有需要帮助的请及时联系运营团队。</span>
                                 }
@@ -422,10 +405,10 @@ class LayoutBackend extends Component {
                         </div>
                     </div>
                     <div className='quick-div'>
-                        <Button type="link" title='流水申报' href="/backstage/financial/transaction"><NotificationOutlined/></Button>
+                        <Button type="link" title='流水申报' href="/backstage/financial/transaction"><MoneyCollectOutlined/></Button>
                         <Button type="link" title='发布动态' href="/backstage/message/news/publish"><NotificationOutlined/></Button>
-                        <Button type="link" title='安排计划' href="/backstage/grow/plan"><NotificationOutlined/></Button>
-                        <Button type="link" title='便利贴' href="/backstage/grow/memo"><NotificationOutlined/></Button>
+                        <Button type="link" title='安排计划' href="/backstage/grow/plan"><CarryOutOutlined/></Button>
+                        <Button type="link" title='便利贴' href="/backstage/grow/memo"><PushpinOutlined/></Button>
                     </div>
                 </section>
             </div>

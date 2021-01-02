@@ -12,10 +12,6 @@ module.exports = function (app) {
         target: url,
         changeOrigin: true,
     }));
-    app.use(createProxyMiddleware('/frontend/**', {
-        target: url,
-        changeOrigin: true,
-    }));
     app.use(createProxyMiddleware('/warehouse/**', {
         target: url,
         changeOrigin: true,

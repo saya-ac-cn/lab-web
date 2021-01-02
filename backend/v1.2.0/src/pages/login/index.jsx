@@ -149,7 +149,7 @@ class Login extends Component {
     // 读取状态数据
     const {userState, pwdState, userName, passWord,loading} = this.state;
     return (
-      <DocumentTitle title='物联网智慧家庭·统一身份认证入口'>
+      <DocumentTitle title='亲亲里·统一身份认证入口'>
         <div className="login-register-container"
              style={{backgroundImage: `url('${process.env.PUBLIC_URL}/picture/login/login_background1.png')`}}>
           <div className="login-register-box">

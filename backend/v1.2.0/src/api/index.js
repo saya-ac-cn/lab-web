@@ -93,6 +93,10 @@ export const deletePlan = params => ajax(`${backendAPI}/api/set/plan/delete`, pa
 export const getFinancialType = params => ajax(`${backendAPI}/api/financial/transactionType`, params, 'GET');
 // 获取财政流水
 export const getTransactionList = params => ajax(`${backendAPI}/api/financial/transaction`, params, 'GET');
+// 查看收支明细（明细记录折叠存）
+export const getTransactionDetail = params => ajax(`${backendAPI}/api/financial/transactionDetail`, params, 'GET');
+// 分页查看收支明细（明细记录折叠存）
+export const getTransactionDetailPage = params => ajax(`${backendAPI}/api/financial/transactionDetailPage`, params, 'GET');
 // 财政申报
 export const applyTransaction = params => ajax(`${backendAPI}/api/financial/insertTransaction`, params, 'POST');
 // 修改流水
