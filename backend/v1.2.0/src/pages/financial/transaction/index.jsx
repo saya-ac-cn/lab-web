@@ -12,9 +12,11 @@ import {
 import DocumentTitle from 'react-document-title'
 import moment from 'moment';
 import {Button, Col, DatePicker, Spin, Form, Select, Table, Modal} from "antd";
-import {openNotificationWithIcon} from "../../../utils/window";
+import {openNotificationWithIcon,showLoading} from "../../../utils/window";
 // import AddForm from './addForm'
  import ViewInfo from './viewInfo'
+import BillDeclare from './declare'
+import BillDetail from './detail'
 // import EditForm from './editForm'
 import axios from "axios";
 /*
@@ -45,7 +47,6 @@ class Transaction extends Component {
             endTime: null,// 搜索表单的结束时间
             tradeType: ''//用户选择的交易类别
         },
-        type: [],// 系统返回的交易类别
         queryType: [],// 查询专用类别
         addModalVisible: false,
         viewModalVisible: false,
@@ -134,7 +135,7 @@ class Transaction extends Component {
             endTime: this.state.filters.endTime,
         };
         // 在发请求前, 显示loading
-        this.setState({listLoading: { indicator:<LoadingOutlined/>,size:'large',spinning:true}});
+        this.setState({listLoading: showLoading()});
         // 发异步ajax请求, 获取数据
         const {msg, code, data} = await getTransactionList(para)
         // 在请求完成后, 隐藏loading
@@ -208,7 +209,6 @@ class Transaction extends Component {
             copyType.push(<Option key='-1' value="">请选择</Option>)
             copyType.push(type)
             _this.setState({
-                type: type,
                 queryType: copyType
             })
         } else {
@@ -313,7 +313,7 @@ class Transaction extends Component {
      * 预览流水详情
      */
     openViewModal = (value) => {
-        this.viewData = value.tradeId;
+        this.viewDataId = value.tradeId;
         this.handleViewModal(true)
     }
 
@@ -524,15 +524,31 @@ class Transaction extends Component {
                     {/*        this.form = form*/}
                     {/*    }}/>*/}
                     {/*</Modal>*/}
-                    <Modal
-                        title={`流水明细:id-${this.viewData}`}
-                        width="80%"
-                        visible={viewModalVisible === true}
-                        onCancel={() => this.handleViewModal(false)} footer={null}>
-                        <ViewInfo tradeId={this.viewData || -1} setForm={(form) => {
-                            this.form = form
-                        }}/>
-                    </Modal>
+                  <Modal
+                      title="流水申报"
+                      width="80%"
+                      visible={addModalVisible === true}
+                      okText='提交'
+                      onCancel={() => this.handleAddModal(false)}
+                      onOk={this.handleApply}>
+                      <BillDeclare tradeId={this.viewDataId || -1}/>
+                  </Modal>
+                  <Modal
+                    title={`收支明细（编号:${this.viewDataId})`}
+                    width="80%"
+                    visible={viewModalVisible === true}
+                    onCancel={() => this.handleViewModal(false)} footer={null}>
+                    <BillDetail tradeId={this.viewDataId || -1}/>
+                  </Modal>
+                    {/*<Modal*/}
+                    {/*    title={`流水明细:id-${this.viewDataId}`}*/}
+                    {/*    width="80%"*/}
+                    {/*    visible={viewModalVisible === true}*/}
+                    {/*    onCancel={() => this.handleViewModal(false)} footer={null}>*/}
+                    {/*    <ViewInfo tradeId={this.viewDataId || -1} setForm={(form) => {*/}
+                    {/*        this.form = form*/}
+                    {/*    }}/>*/}
+                    {/*</Modal>*/}
                     {/*<Modal*/}
                     {/*    title="修改流水"*/}
                     {/*    width="70%"*/}

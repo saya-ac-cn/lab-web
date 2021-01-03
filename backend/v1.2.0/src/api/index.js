@@ -89,8 +89,10 @@ export const createPlan = params => ajax(`${backendAPI}/api/set/plan/create`, pa
 export const updatePlan = params => ajax(`${backendAPI}/api/set/plan/edit`, params, 'PUT');
 // 删除计划
 export const deletePlan = params => ajax(`${backendAPI}/api/set/plan/delete`, params, 'DELETE');
-// 获取交易类别
+// 获取所有的支付类别
 export const getFinancialType = params => ajax(`${backendAPI}/api/financial/transactionType`, params, 'GET');
+// 获取所有的交易摘要
+export const getFinancialAmount = params => ajax(`${backendAPI}/api/financial/transactionAmount`, params, 'GET');
 // 获取财政流水
 export const getTransactionList = params => ajax(`${backendAPI}/api/financial/transaction`, params, 'GET');
 // 查看收支明细（明细记录折叠存）
