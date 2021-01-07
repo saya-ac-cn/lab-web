@@ -31,6 +31,9 @@ const {Option} = Select;
 // 定义组件（ES6）
 class Transaction extends Component {
 
+    detailRef = React.createRef();
+
+
     state = {
         // 返回的单元格数据
         datas: [],
@@ -49,7 +52,6 @@ class Transaction extends Component {
         },
         queryType: [],// 查询专用类别
         addModalVisible: false,
-        viewModalVisible: false,
         editModalVisible: false,
     }
 
@@ -294,28 +296,18 @@ class Transaction extends Component {
     }
 
     /**
-     * 财务流水明细弹框事件
-     * @param flag
-     */
-    handleViewModal = (flag) => {
-        let _this = this;
-        let viewModalVisible = flag;
-        _this.setState({
-            viewModalVisible
-        }, function () {
-            if (flag === false) {
-                _this.getDatas()
-            }
-        })
-    }
-
-    /**
      * 预览流水详情
      */
     openViewModal = (value) => {
         this.viewDataId = value.tradeId;
-        this.handleViewModal(true)
+        // 触发子组件的调用
+        this.child.handleDisplay(this.viewDataId)
     }
+
+    bindRef (ref) {
+        this.child = ref
+    }
+
 
     /**
      * 编辑财务申报弹窗
@@ -502,7 +494,7 @@ class Transaction extends Component {
 
     render() {
         // 读取状态数据
-        const {datas, dataTotal, nowPage, pageSize, listLoading, type, queryType, filters, addModalVisible, viewModalVisible, editModalVisible} = this.state;
+        const {datas, dataTotal, nowPage, pageSize, listLoading, type, queryType, filters, addModalVisible, editModalVisible} = this.state;
         let {beginTime, endTime, tradeType} = filters;
         let rangeDate;
         if (beginTime !== null && endTime !== null) {
@@ -533,22 +525,7 @@ class Transaction extends Component {
                       onOk={this.handleApply}>
                       <BillDeclare tradeId={this.viewDataId || -1}/>
                   </Modal>
-                  <Modal
-                    title={`收支明细（编号:${this.viewDataId})`}
-                    width="80%"
-                    visible={viewModalVisible === true}
-                    onCancel={() => this.handleViewModal(false)} footer={null}>
-                    <BillDetail tradeId={this.viewDataId || -1}/>
-                  </Modal>
-                    {/*<Modal*/}
-                    {/*    title={`流水明细:id-${this.viewDataId}`}*/}
-                    {/*    width="80%"*/}
-                    {/*    visible={viewModalVisible === true}*/}
-                    {/*    onCancel={() => this.handleViewModal(false)} footer={null}>*/}
-                    {/*    <ViewInfo tradeId={this.viewDataId || -1} setForm={(form) => {*/}
-                    {/*        this.form = form*/}
-                    {/*    }}/>*/}
-                    {/*</Modal>*/}
+                    <BillDetail onRef={this.bindRef.bind(this)}/>
                     {/*<Modal*/}
                     {/*    title="修改流水"*/}
                     {/*    width="70%"*/}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Row, Col, Table} from 'antd';
+import {Row, Col, Table, Modal} from 'antd';
 import './detail.less'
 import PropTypes from "prop-types";
 import {getTransactionDetail} from "../../../api";
@@ -14,20 +14,13 @@ import {openNotificationWithIcon,showLoading} from "../../../utils/window";
 // 定义组件（ES6）
 class BillDetail extends Component {
 
-  /**
-   * 设置参数传递是否为空，数据类型等要求属性：
-   * @type {{setForm: (*|Validator<NonNullable<T>>|(() => any))}}
-   */
-  static propTypes = {
-    tradeId: PropTypes.number,
-  };
-
   state = {
     // 返回的账单数据
     bill: null,
     // 是否显示加载
     listLoading: false,
     tradeId: -1,
+    visibleModal:false
   }
 
   /**
@@ -91,23 +84,23 @@ class BillDetail extends Component {
     } else {
       openNotificationWithIcon("error", "错误提示", msg);
     }
-  }
+  };
 
+  handleCancel = () => {
+    this.setState({visibleModal: false});
+  };
 
-  /**
-   * 在组件接收新props时调用。初始渲染不调用此方法
-   * @param data
-   * 子父组件传值问题：https://www.jianshu.com/p/713206e571cf
-   */
-  componentDidUpdate(props) {
+  handleDisplay = (val) => {
+    console.log("-----",val)
     let _this = this;
-    if (props.tradeId !== _this.props.tradeId) {
-      _this.setState({tradeId: _this.props.tradeId}, function () {
-        // 执行初始化加载页面数据
-        _this.getDatas()
-      })
-    }
-  }
+    _this.setState({
+      tradeId: val,
+      visibleModal: true
+    },function () {
+      // 执行初始化加载页面数据
+      _this.getDatas()
+    });
+  };
 
 
   /**
@@ -124,62 +117,65 @@ class BillDetail extends Component {
   componentDidMount() {
     // 加载页面数据
     let _this = this
-    _this.setState({
-      bill:null,
-      tradeId: _this.props.tradeId
-    }, function () {
-      _this.getDatas()
-    })
+    this.props.onRef(_this)
+    _this.setState({bill:null})
   };
 
   render() {
-    const {bill, listLoading} = this.state
+    const {tradeId, bill, listLoading,visibleModal} = this.state
     return (
-      <section className="transaction-detail">
-        <Row className="detail-header">
-          <Col span={12} offset={6}>
-            收支明细
-          </Col>
-        </Row>
-        <Row className="detail-tradeDate">
-          <Col span={6} offset={18}>
-            <span className='input-label'>交易日期：</span>{!bill?'-':bill.tradeDate}
-          </Col>
-        </Row>
-        <Row gutter={[12, 12]}>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>收支总额：</span>{!bill?'-':bill.currencyNumber}元</div>
-          </Col>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>收入总额：</span>{!bill?'-':bill.deposited}元</div>
-          </Col>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>支出总额：</span>{!bill?'-':bill.expenditure}元</div>
-          </Col>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>交易方式：</span>{!bill||!bill.tradeTypeEntity?'-':bill.tradeTypeEntity.transactionType}</div>
-          </Col>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>交易摘要：</span>{!bill||!bill.tradeAmountEntity?'-':bill.tradeAmountEntity.tag}</div>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <Table size="middle" className='detail-grid' rowKey="id" bordered pagination={false} loading={listLoading} columns={this.columns} dataSource={!bill?null:bill.infoList}/>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>填报人：</span>{!bill?'-':bill.source}</div>
-          </Col>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>填报时间：</span>{!bill?'-':bill.createTime}</div>
-          </Col>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>最后一次修改日期：</span>{!bill?'-':bill.updateTime}</div>
-          </Col>
-        </Row>
-      </section>
+        <Modal
+            title={`收支明细（编号:${tradeId})`}
+            width="80%"
+            visible={visibleModal}
+            onCancel={() => this.handleCancel()}
+            footer={null}>
+          <section className="transaction-detail">
+            <Row className="detail-header">
+              <Col span={12} offset={6}>
+                收支明细
+              </Col>
+            </Row>
+            <Row className="detail-tradeDate">
+              <Col span={6} offset={18}>
+                <span className='input-label'>交易日期：</span>{!bill?'-':bill.tradeDate}
+              </Col>
+            </Row>
+            <Row gutter={[12, 12]}>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>收支总额：</span>{!bill?'-':bill.currencyNumber}元</div>
+              </Col>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>收入总额：</span>{!bill?'-':bill.deposited}元</div>
+              </Col>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>支出总额：</span>{!bill?'-':bill.expenditure}元</div>
+              </Col>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>交易方式：</span>{!bill||!bill.tradeTypeEntity?'-':bill.tradeTypeEntity.transactionType}</div>
+              </Col>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>交易摘要：</span>{!bill||!bill.tradeAmountEntity?'-':bill.tradeAmountEntity.tag}</div>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Table size="middle" className='detail-grid' rowKey="id" bordered pagination={false} loading={listLoading} columns={this.columns} dataSource={!bill?null:bill.infoList}/>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>填报人：</span>{!bill?'-':bill.source}</div>
+              </Col>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>填报时间：</span>{!bill?'-':bill.createTime}</div>
+              </Col>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>最后一次修改日期：</span>{!bill?'-':bill.updateTime}</div>
+              </Col>
+            </Row>
+          </section>
+        </Modal>
     );
   }
 }
