@@ -14,11 +14,11 @@ import moment from 'moment';
 import {Button, Col, DatePicker, Spin, Form, Select, Table, Modal} from "antd";
 import {openNotificationWithIcon,showLoading} from "../../../utils/window";
 // import AddForm from './addForm'
- import ViewInfo from './viewInfo'
 import BillDeclare from './declare'
 import BillDetail from './detail'
 // import EditForm from './editForm'
 import axios from "axios";
+import {formatMoney} from '../../../utils/var'
 /*
  * 文件名：transaction.jsx
  * 作者：liunengkai
@@ -51,9 +51,8 @@ class Transaction extends Component {
             tradeType: ''//用户选择的交易类别
         },
         queryType: [],// 查询专用类别
-        addModalVisible: false,
         editModalVisible: false,
-    }
+    };
 
     /*
     * 初始化Table所有列的数组
@@ -69,11 +68,13 @@ class Transaction extends Component {
                 title: '存入',
                 dataIndex: 'deposited', // 显示数据对应的属性名
                 align:'right',
+                render:(value,row) => (formatMoney(row.deposited))
             },
             {
                 title: '取出',
                 dataIndex: 'expenditure',// 显示数据对应的属性名
                 align:'right',
+                render:(value,row) => (formatMoney(row.expenditure))
             },
             {
                 title: '交易方式',
@@ -99,6 +100,7 @@ class Transaction extends Component {
                 title: '产生总额',
                 dataIndex: 'currencyNumber',// 显示数据对应的属性名
                 align:'right',
+                render:(value,row) => (formatMoney(row.currencyNumber))
             },
             {
                 title: '修改时间',
@@ -238,6 +240,12 @@ class Transaction extends Component {
         });
     };
 
+    // 只能选择今天以前的日期
+    disabledDate = (current) => {
+        // Can not select days before today and today
+        return current && current > moment().endOf('day');
+    }
+
     // 交易方式选框发生改变
     onChangeType = (value) => {
         let _this = this;
@@ -255,57 +263,28 @@ class Transaction extends Component {
      * 财务流水申报弹框事件
      * @param flag
      */
-    handleAddModal = (flag) => {
+    handleAddModal = () => {
         let _this = this;
-        let addModalVisible = flag;
-        _this.setState({
-            addModalVisible
-        })
-    }
-
-    /**
-     * 递交申请
-     * @param e
-     */
-    handleApply = (e) => {
-        // 阻止表单的默认提交
-        e.preventDefault();
-        let _this = this
-        _this.form.validateFields(['transactionAmount', 'tradeType', 'tradeDate','applyContent'], async (err, values) => {
-            console.log(values)
-            if (!err) {
-                _this.setState({listLoading: true});
-                let para = {
-                    tradeType: values.tradeType,
-                    tradeDate: (values.tradeDate).format('YYYY-MM-DD'),
-                    transactionAmount: values.transactionAmount,
-                    infoList: values.applyContent
-                }
-                const {msg, code} = await applyTransaction(para)
-                _this.setState({listLoading: false});
-                if (code === 0) {
-                    _this.form.resetFields(['applyList', 'tradeType', 'transactionAmount', 'applyContent'])
-                    _this.handleAddModal(false)
-                    openNotificationWithIcon("success", "操作结果", "申报成功");
-                    _this.getDatas();
-                } else {
-                    openNotificationWithIcon("error", "错误提示", msg);
-                }
-            }
-        })
+        // 触发子组件的调用
+        _this.billDeclareRef.handleDisplay()
     }
 
     /**
      * 预览流水详情
      */
     openViewModal = (value) => {
-        this.viewDataId = value.tradeId;
+        let _this = this;
+        _this.viewDataId = value.tradeId;
         // 触发子组件的调用
-        this.child.handleDisplay(this.viewDataId)
+        _this.billDetailRef.handleDisplay(this.viewDataId)
     }
 
-    bindRef (ref) {
-        this.child = ref
+    bindBillDetailRef = (ref) => {
+        this.billDetailRef = ref
+    }
+
+    bindBillDeclareRef = (ref) => {
+        this.billDeclareRef = ref
     }
 
 
@@ -473,19 +452,28 @@ class Transaction extends Component {
                 _this.setState({listLoading: false});
                 openNotificationWithIcon("error", "错误提示", "导出财务流水明细报表失败");
             });
-    }
+    };
+
+    /**
+     * 财政申报页面专属的刷新方法
+     */
+    refreshListFromDeclare = () =>{
+        this.getDatas();
+    };
 
     /**
      * 初始化页面配置信息
      */
     componentWillMount() {
+        this.refreshListFromDeclare  = this.refreshListFromDeclare.bind(this);
         // 初始化表格属性设置
         this.initColumns();
         this.initDatas();
-    }
+    };
 
-    /*
-    执行异步任务: 发异步ajax请求
+
+    /**
+     * 执行异步任务: 发异步ajax请求
      */
     componentDidMount() {
         // 加载页面数据
@@ -494,7 +482,7 @@ class Transaction extends Component {
 
     render() {
         // 读取状态数据
-        const {datas, dataTotal, nowPage, pageSize, listLoading, type, queryType, filters, addModalVisible, editModalVisible} = this.state;
+        const {datas, dataTotal, nowPage, pageSize, listLoading, type, queryType, filters, editModalVisible} = this.state;
         let {beginTime, endTime, tradeType} = filters;
         let rangeDate;
         if (beginTime !== null && endTime !== null) {
@@ -505,27 +493,8 @@ class Transaction extends Component {
         return (
             <DocumentTitle title="财务流水">
                 <section>
-                    {/*<Modal*/}
-                    {/*    title="流水申报"*/}
-                    {/*    width="70%"*/}
-                    {/*    visible={addModalVisible === true}*/}
-                    {/*    okText='提交'*/}
-                    {/*    onCancel={() => this.handleAddModal(false)}*/}
-                    {/*    onOk={this.handleApply}>*/}
-                    {/*    <AddForm type={type || {}} setForm={(form) => {*/}
-                    {/*        this.form = form*/}
-                    {/*    }}/>*/}
-                    {/*</Modal>*/}
-                  <Modal
-                      title="流水申报"
-                      width="80%"
-                      visible={addModalVisible === true}
-                      okText='提交'
-                      onCancel={() => this.handleAddModal(false)}
-                      onOk={this.handleApply}>
-                      <BillDeclare tradeId={this.viewDataId || -1}/>
-                  </Modal>
-                    <BillDetail onRef={this.bindRef.bind(this)}/>
+                    <BillDeclare onRef={this.bindBillDeclareRef.bind(this)} refreshList={this.refreshListFromDeclare}/>
+                    <BillDetail onRef={this.bindBillDetailRef.bind(this)}/>
                     {/*<Modal*/}
                     {/*    title="修改流水"*/}
                     {/*    width="70%"*/}
@@ -546,7 +515,7 @@ class Transaction extends Component {
                                 </Select>
                             </Form.Item>
                             <Form.Item>
-                                <RangePicker value={rangeDate} onChange={this.onChangeDate}/>
+                                <RangePicker value={rangeDate} disabledDate={this.disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="button" onClick={this.getDatas}>
@@ -559,7 +528,7 @@ class Transaction extends Component {
                                 </Button>
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="button" onClick={() => this.handleAddModal(true)}>
+                                <Button type="primary" htmlType="button" onClick={this.handleAddModal}>
                                     <PlusOutlined/>申报
                                 </Button>
                             </Form.Item>

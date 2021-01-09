@@ -1,11 +1,13 @@
 import React, {Component } from 'react';
-import {Row, Col, Input, InputNumber, Table, DatePicker, Tooltip, Popconfirm, Select, Form} from 'antd';
+import {Row, Col, Input, InputNumber, Table, DatePicker, Tooltip, Popconfirm, Select, List, Modal} from 'antd';
 import {PlusOutlined,CloseOutlined,ExclamationCircleOutlined} from '@ant-design/icons';
 import memoryUtils from "../../../utils/memoryUtils";
 import './detail.less'
 import {Redirect} from "react-router-dom";
 import {openNotificationWithIcon} from "../../../utils/window";
-import {getFinancialType,getFinancialAmount} from "../../../api";
+import {getFinancialType, getFinancialAmount, applyTransaction} from "../../../api";
+import {formatMoney} from '../../../utils/var'
+import moment from 'moment';
 /*
  * 文件名：declare.jsx
  * 作者：saya
@@ -15,16 +17,16 @@ import {getFinancialType,getFinancialAmount} from "../../../api";
 const {Option} = Select;
 // 定义组件（ES6）
 class Declare extends Component {
-
   state = {
+    visibleModal:false,
     // 是否显示加载
     listLoading: false,
-    tradeId: -1,
     financialType:[],
     financialAmount:[],
     bill: {
       tradeType:null,
       transactionAmount:null,
+      tradeDate: null,
       currencyNumber:0.0,
       deposited:0.0,
       expenditure:0.0
@@ -76,7 +78,7 @@ class Declare extends Component {
         dataIndex: 'currencyNumber', // 显示数据对应的属性名
         align:'right',
         render: (text, record, index) => {
-          return <InputNumber value={text} style={{border: 0,width: '10em',background: 'none',textAlign:'right'}} ordered={false} min={0} precision={2} formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}  parser={value => value.replace(/\s?|(,*)/g, '')} onChange={(e) => this.inputChange(e, record, index, 'currencyNumber')}/>
+          return <InputNumber value={text} style={{border: 0,width: '10em',background: 'none',textAlign:'right'}} ordered={false} min={0} parser={value => value.replace(/\s?|(,*)/g, '')} onChange={(e) => this.inputChange(e, record, index, 'currencyNumber')}/>
         }
       },
       {
@@ -98,30 +100,33 @@ class Declare extends Component {
    * 继续添加财政明细
    */
   continueAdd = () => {
-    let infoList = this.state.infoList
+    let infoList = this.state.infoList;
     let item = {
       index:infoList[infoList.length-1].index+1,
       flog: 1,
       currencyNumber: 0,
       currencyDetails: ''
-    }
-    infoList = infoList.concat(item)
+    };
+    infoList = infoList.concat(item);
     this.setState({infoList})
-  }
+  };
 
   /**
    * 删除明细添加行
    * @param index
    */
   deleteLine = (index) => {
-    let infoList = this.state.infoList
+    const _this = this;
+    let infoList = _this.state.infoList;
     if(infoList.length === 1){
       openNotificationWithIcon("error", "错误提示", '每一笔流水申请下边必须要有一条详情记录');
     }else{
-      infoList = infoList.filter((item, key) => key !== index)
-      this.setState({infoList})
+      infoList = infoList.filter((item, key) => key !== index);
+      _this.setState({ infoList },function () {
+        _this.renewList()
+      });
     }
-  }
+  };
 
   /**
    * input改变事件
@@ -131,14 +136,32 @@ class Declare extends Component {
    * @param field
    */
   inputChange = (e, record, index, field) => {
-    let { infoList } = this.state;
+    const _this = this;
+    let { infoList } = _this.state;
     if ('currencyNumber' === field){
+      // 修改了交易金额
       // 对于 InputNumber 类型的输入框需要另类处理
-      infoList[index].currencyNumber = e;
+      let currencyNumber = e;
+      if (typeof(currencyNumber) === "string"){
+        currencyNumber = currencyNumber.replace(/[^0-9.]/ig,"");
+      }
+      // 替换后再次检查
+      if ('' === currencyNumber) {
+        currencyNumber = 0;
+      }
+      // 核对本次修改了值和上次是否一致，如果不一致需要触发重新计算
+      if(infoList[index].currencyNumber !== currencyNumber){
+        infoList[index].currencyNumber = currencyNumber
+      }
+      infoList[index].currencyNumber = currencyNumber;
+      _this.setState({ infoList },function () {
+        _this.renewList()
+      });
     }else{
-      infoList[index][field] = e.target.value;
+      // 修改了摘要
+      infoList[index][field] = (e.target.value).replace(/(^\s*)|(\s*$)/g, '');
+      _this.setState({ infoList })
     }
-    this.setState({ infoList });
   };
 
   /**
@@ -149,8 +172,12 @@ class Declare extends Component {
   onChangeFlag = (value,index) => {
     let _this = this;
     let { infoList } = this.state;
-    infoList[index].flog = value;
-    _this.setState({infoList});
+    if (infoList[index].flog !== value){
+      infoList[index].flog = value;
+      _this.setState({infoList},function () {
+        _this.renewList()
+      });
+    }
   };
 
   /**
@@ -205,6 +232,131 @@ class Declare extends Component {
     _this.setState({bill});
   };
 
+  handleCancel = () => {
+    this.setState({visibleModal: false});
+  };
+
+  handleDisplay = () => {
+    let _this = this;
+    _this.setState({
+      visibleModal: true
+    });
+  };
+
+  /**
+   * 只能选择今天及其以前的日期
+   * @param current
+   * @returns {*|boolean}
+   */
+  disabledDate = (current) => {
+    return current && current > moment();
+  };
+
+  /**
+   * 申报时间改变事件
+   * @param date
+   * @param dateString
+   */
+  tradeDateChange = (date, dateString) => {
+    const _this = this;
+    let { bill } = _this.state;
+    bill.tradeDate = date;//!dateString?null:moment(dateString);
+    _this.setState({bill});
+  };
+
+  /**
+   * 更新列表数据
+   */
+  renewList = () => {
+    let _this = this;
+    let { infoList,bill } = _this.state;
+    let currencyNumber = 0.0;
+    let deposited = 0.0;
+    let expenditure = 0.0;
+    infoList.forEach(item => {
+      if(1 === item.flog){
+        deposited += item.currencyNumber;
+      }else{
+        expenditure += item.currencyNumber;
+      }
+      currencyNumber += item.currencyNumber;
+    });
+    bill.currencyNumber = currencyNumber;
+    bill.deposited = deposited;
+    bill.expenditure = expenditure;
+    _this.setState({bill})
+  };
+
+  /**
+   * 递交申请
+   * @param e
+   */
+  handleApply = async () => {
+    const _this = this;
+    let { infoList,bill } = _this.state;
+    if (!bill.tradeDate) {
+      openNotificationWithIcon("warning", "提示", '请选择交易日期');
+      return
+    }
+    //bill.tradeDate = (bill.tradeDate).toString();
+    if (!bill.tradeType) {
+      openNotificationWithIcon("warning", "提示", '请选择交易方式');
+      return
+    }
+    if (!bill.transactionAmount) {
+      openNotificationWithIcon("warning", "提示", '请选择交易摘要');
+      return
+    }
+    for(let index = 0 ;index < infoList.length; index++){
+      let item = infoList[index];
+      if(!item.currencyDetails){
+        openNotificationWithIcon("warning", "提示", `您在第${item.index}行的摘要还未填写`);
+        return
+      }
+      if(item.currencyNumber <= 0){
+        openNotificationWithIcon("warning", "提示", `在您填写的第${item.index}行中，发现无效的交易金额(交易金额必须大于0)`);
+        return
+      }
+    }
+    let param = {
+      tradeType: bill.tradeType,
+      tradeDate: (bill.tradeDate).format('YYYY-MM-DD'),
+      transactionAmount: bill.transactionAmount,
+      infoList: infoList
+    };
+    const {msg, code} = await applyTransaction(param);
+    if (code === 0) {
+      _this.resetForm();
+      _this.props.refreshList();
+      openNotificationWithIcon("success", "操作结果", "申报成功");
+      _this.handleCancel();
+    } else {
+      openNotificationWithIcon("error", "错误提示", msg);
+    }
+  };
+
+  /**
+   * 重置表单
+   */
+  resetForm = () => {
+    const bill = {
+      tradeType:null,
+          transactionAmount:null,
+          tradeDate: null,
+          currencyNumber:0.0,
+          deposited:0.0,
+          expenditure:0.0
+    };
+    const infoList =[{
+      index:1,
+      flog: 1,
+      currencyNumber: 0,
+      currencyDetails: ''
+    }];
+    this.setState({bill,infoList})
+  };
+
+
   /**
    * 初始化页面配置信息
    */
@@ -217,8 +369,9 @@ class Declare extends Component {
    * 执行异步任务: 发异步ajax请求
    */
   componentDidMount() {
-    this.initFinancialType()
-    this.initFinancialAmount()
+    this.props.onRef(this);
+    this.initFinancialType();
+    this.initFinancialAmount();
     const user = memoryUtils.user;
     // 如果内存没有存储user ==> 当前没有登陆
     if (!user || !user.user) {
@@ -226,70 +379,83 @@ class Declare extends Component {
       return <Redirect to='/login'/>
     }
     // 加载页面数据
-    let _this = this
-    let bill = _this.state.bill
-    bill.source = user.user.user
-    _this.setState({bill})
+    let bill = this.state.bill;
+    bill.source = user.user.user;
+    this.setState({bill})
   };
 
 
   render() {
-    const {bill, listLoading,infoList,financialType,financialAmount} = this.state
+    const {visibleModal,bill, listLoading,infoList,financialType,financialAmount} = this.state
     return (
-      <section className="transaction-detail">
-        <Row className='detail-addLine'>
-          <Col span={6} offset={18}>
-            <Tooltip placement="left" title="添加1行">
-              <PlusOutlined onClick={this.continueAdd}/>
-            </Tooltip>
-          </Col>
-        </Row>
-        <Row className="detail-header">
-          <Col span={12} offset={6}>
-            收支明细
-          </Col>
-        </Row>
-        <Row className="detail-tradeDate">
-          <Col span={6} offset={18}>
-            <span className='input-label'>交易日期：</span><DatePicker bordered={false} format={"YYYY-MM-DD"} placeholder="交易日期"/>
-          </Col>
-        </Row>
-        <Row gutter={[12, 12]}>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>收支总额：</span>{!bill?'-':bill.currencyNumber}元</div>
-          </Col>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>收入总额：</span>{!bill?'-':bill.deposited}元</div>
-          </Col>
-          <Col className="gutter-row" span={8}>
-            <div><span className='input-label'>支出总额：</span>{!bill?'-':bill.expenditure}元</div>
-          </Col>
-          <Col className="gutter-row" span={8}>
-            <div>
-              <span className='input-label'>交易方式：</span>
-              <Select value={bill.tradeType} className='declare-select' bordered={false} onChange={(e) => this.onChangeTypeAmount(e,'tradeType')}>
-                {financialType}
-              </Select>
-            </div>
-          </Col>
-          <Col className="gutter-row" span={8}>
-            <div>
-              <span className='input-label'>交易摘要：</span>
-              <Select value={bill.transactionAmount} className='declare-select' bordered={false} onChange={(e) => this.onChangeTypeAmount(e,'transactionAmount')}>
-                {financialAmount}
-              </Select>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <Table size="middle" className='detail-grid' rowKey="index" bordered pagination={false} loading={listLoading} columns={this.columns} dataSource={!infoList?null:infoList}/>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}><span className='input-label'>注意：</span>1、请依次从第一条开始，逐上而下填写，中间不要跳过空白行；2、同一天可以申报多次；3、同一笔流水申请只能对应一种交易方式；4、一笔流水下面必须有一条交易明细，最多不超过十条。</Col>
-        </Row>
-      </section>
+        <Modal
+            title="流水申报"
+            width="80%"
+            visible={visibleModal}
+            okText='申报'
+            maskClosable={false}
+            onCancel={() => this.handleCancel()}
+            onOk={this.handleApply}>
+          <section className="transaction-detail">
+            <Row className='detail-addLine'>
+              <Col span={6} offset={18}>
+                <Tooltip placement="left" title="添加1行">
+                  <PlusOutlined onClick={this.continueAdd}/>
+                </Tooltip>
+              </Col>
+            </Row>
+            <Row className="detail-header">
+              <Col span={12} offset={6}>
+                收支明细
+              </Col>
+            </Row>
+            <Row className="detail-tradeDate">
+              <Col span={6} offset={18}>
+                <span className='input-label'>交易日期：</span><DatePicker value={bill.tradeDate} disabledDate={this.disabledDate} onChange={this.tradeDateChange} bordered={false} format={"YYYY-MM-DD"} placeholder="交易日期"/>
+              </Col>
+            </Row>
+            <Row gutter={[12, 12]}>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>收支总额：</span>{formatMoney(!bill?0:bill.currencyNumber)}元</div>
+              </Col>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>收入总额：</span>{formatMoney(!bill?0:bill.deposited)}元</div>
+              </Col>
+              <Col className="gutter-row" span={8}>
+                <div><span className='input-label'>支出总额：</span>{formatMoney(!bill?0:bill.expenditure)}元</div>
+              </Col>
+              <Col className="gutter-row" span={8}>
+                <div>
+                  <span className='input-label'>交易方式：</span>
+                  <Select value={bill.tradeType} className='declare-select' bordered={false} onChange={(e) => this.onChangeTypeAmount(e,'tradeType')}>
+                    {financialType}
+                  </Select>
+                </div>
+              </Col>
+              <Col className="gutter-row" span={8}>
+                <div>
+                  <span className='input-label'>交易摘要：</span>
+                  <Select value={bill.transactionAmount} className='declare-select' bordered={false} onChange={(e) => this.onChangeTypeAmount(e,'transactionAmount')}>
+                    {financialAmount}
+                  </Select>
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Table size="middle" className='detail-grid' rowKey="index" bordered pagination={false} loading={listLoading} columns={this.columns} dataSource={!infoList?null:infoList}/>
+              </Col>
+            </Row>
+            <Row>
+              <List size="small" split={false} header={'注意：'}>
+                <List.Item>1、请依次从第一条开始，逐上而下填写，中间不要跳过空白行；</List.Item>
+                <List.Item>2、同一天可以申报多次；</List.Item>
+                <List.Item>3、同一笔流水申请只能对应一种交易方式；</List.Item>
+                <List.Item>4、一笔流水下面必须有一条交易明细，最多不超过十条；</List.Item>
+              </List>
+            </Row>
+          </section>
+        </Modal>
     );
   }
 }

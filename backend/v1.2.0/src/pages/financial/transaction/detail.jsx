@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Row, Col, Table, Modal} from 'antd';
 import './detail.less'
-import PropTypes from "prop-types";
 import {getTransactionDetail} from "../../../api";
 import {openNotificationWithIcon,showLoading} from "../../../utils/window";
+import {formatMoney} from '../../../utils/var'
 /*
  * 文件名：detail.jsx
  * 作者：saya
@@ -59,6 +59,7 @@ class BillDetail extends Component {
         title: '交易金额（元）',
         dataIndex: 'currencyNumber', // 显示数据对应的属性名
         align:'right',
+        render:(value,row) => (formatMoney(row.currencyNumber))
       }
     ]
   };
@@ -143,13 +144,13 @@ class BillDetail extends Component {
             </Row>
             <Row gutter={[12, 12]}>
               <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>收支总额：</span>{!bill?'-':bill.currencyNumber}元</div>
+                <div><span className='input-label'>收支总额：</span>{formatMoney(!bill?0:bill.currencyNumber)}元</div>
               </Col>
               <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>收入总额：</span>{!bill?'-':bill.deposited}元</div>
+                <div><span className='input-label'>收入总额：</span>{formatMoney(!bill?0:bill.deposited)}元</div>
               </Col>
               <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>支出总额：</span>{!bill?'-':bill.expenditure}元</div>
+                <div><span className='input-label'>支出总额：</span>{formatMoney(!bill?0:bill.expenditure)}元</div>
               </Col>
               <Col className="gutter-row" span={8}>
                 <div><span className='input-label'>交易方式：</span>{!bill||!bill.tradeTypeEntity?'-':bill.tradeTypeEntity.transactionType}</div>
