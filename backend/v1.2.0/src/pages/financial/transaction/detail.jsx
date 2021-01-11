@@ -4,6 +4,7 @@ import './detail.less'
 import {getTransactionDetail} from "../../../api";
 import {openNotificationWithIcon,showLoading} from "../../../utils/window";
 import {formatMoney} from '../../../utils/var'
+import moment from 'moment';
 /*
  * 文件名：detail.jsx
  * 作者：saya
@@ -21,7 +22,7 @@ class BillDetail extends Component {
     listLoading: false,
     tradeId: -1,
     visibleModal:false
-  }
+  };
 
   /**
   * 初始化Table所有列的数组
@@ -43,9 +44,9 @@ class BillDetail extends Component {
         align:'center',
         render: (text, record) => {
           if (record.flog === 1) {
-            return '存入'
+            return '收入'
           } else if (record.flog === 2) {
-            return '取出'
+            return '支出'
           } else {
             return '未知'
           }
@@ -75,7 +76,7 @@ class BillDetail extends Component {
     // 在发请求前, 显示loading
     this.setState({listLoading: showLoading()});
     // 发异步ajax请求, 获取数据
-    const {msg, code, data} = await getTransactionDetail(para)
+    const {msg, code, data} = await getTransactionDetail(para);
     // 在请求完成后, 隐藏loading
     this.setState({listLoading: false});
     if (code === 0) {
@@ -92,7 +93,6 @@ class BillDetail extends Component {
   };
 
   handleDisplay = (val) => {
-    console.log("-----",val)
     let _this = this;
     _this.setState({
       tradeId: val,
@@ -117,16 +117,16 @@ class BillDetail extends Component {
    */
   componentDidMount() {
     // 加载页面数据
-    let _this = this
-    this.props.onRef(_this)
+    const _this = this;
+    _this.props.onRef(_this);
     _this.setState({bill:null})
   };
 
   render() {
-    const {tradeId, bill, listLoading,visibleModal} = this.state
+    const {tradeId, bill, listLoading,visibleModal} = this.state;
     return (
         <Modal
-            title={`收支明细（编号:${tradeId})`}
+            title='收支详情'
             width="80%"
             visible={visibleModal}
             onCancel={() => this.handleCancel()}
@@ -137,9 +137,14 @@ class BillDetail extends Component {
                 收支明细
               </Col>
             </Row>
+            <Row className='detail-tradeNumber'>
+              <Col span={5} offset={19}>
+                <span className='input-label'>收支单号：</span>{tradeId}
+              </Col>
+            </Row>
             <Row className="detail-tradeDate">
-              <Col span={6} offset={18}>
-                <span className='input-label'>交易日期：</span>{!bill?'-':bill.tradeDate}
+              <Col span={5} offset={19}>
+                <span className='input-label'>交易日期：</span>{!bill?'-':moment(bill.tradeDate).format('YYYY年MM月DD日')}
               </Col>
             </Row>
             <Row gutter={[12, 12]}>

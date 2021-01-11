@@ -23,6 +23,7 @@ class Declare extends Component {
     listLoading: false,
     financialType:[],
     financialAmount:[],
+    currentUser:'',
     bill: {
       tradeType:null,
       transactionAmount:null,
@@ -34,10 +35,11 @@ class Declare extends Component {
     infoList: [{
       index:1,
       flog: 1,
+      source: null,
       currencyNumber: 0,
       currencyDetails: ''
     }]
-  }
+  };
 
   /**
    * 初始化Table所有列的数组
@@ -51,7 +53,8 @@ class Declare extends Component {
       },
       {
         title: '用户',
-        render:(value, row) => (!this.state.bill?'-':this.state.bill.source),
+        dataIndex: 'source',
+        render:(value, row) => (!value ? this.state.currentUser:value),
         align:'center',
       },
       {
@@ -60,8 +63,8 @@ class Declare extends Component {
         align:'center',
         render: (text, record, index) => {
           return <Select value={text} bordered={false} onChange={(e) => this.onChangeFlag(e,index)}>
-            <Option value={1}>存入</Option>
-            <Option value={2}>取出</Option>
+            <Option value={1}>收入</Option>
+            <Option value={2}>支出</Option>
           </Select>
         }
       },
@@ -78,7 +81,7 @@ class Declare extends Component {
         dataIndex: 'currencyNumber', // 显示数据对应的属性名
         align:'right',
         render: (text, record, index) => {
-          return <InputNumber value={text} style={{border: 0,width: '10em',background: 'none',textAlign:'right'}} ordered={false} min={0} parser={value => value.replace(/\s?|(,*)/g, '')} onChange={(e) => this.inputChange(e, record, index, 'currencyNumber')}/>
+          return <InputNumber value={text} className='input-currencyNumber' ordered={false} min={0} parser={value => value.replace(/\s?|(,*)/g, '')} onChange={(e) => this.inputChange(e, record, index, 'currencyNumber')}/>
         }
       },
       {
@@ -100,10 +103,11 @@ class Declare extends Component {
    * 继续添加财政明细
    */
   continueAdd = () => {
-    let infoList = this.state.infoList;
+    let {infoList,currentUser} = this.state;
     let item = {
       index:infoList[infoList.length-1].index+1,
       flog: 1,
+      source:currentUser,
       currencyNumber: 0,
       currencyDetails: ''
     };
@@ -378,15 +382,12 @@ class Declare extends Component {
       // 自动跳转到登陆(在render()中)
       return <Redirect to='/login'/>
     }
-    // 加载页面数据
-    let bill = this.state.bill;
-    bill.source = user.user.user;
-    this.setState({bill})
+    this.setState({currentUser:user.user.user})
   };
 
 
   render() {
-    const {visibleModal,bill, listLoading,infoList,financialType,financialAmount} = this.state
+    const {visibleModal,bill, listLoading,infoList,financialType,financialAmount} = this.state;
     return (
         <Modal
             title="流水申报"
@@ -410,7 +411,7 @@ class Declare extends Component {
               </Col>
             </Row>
             <Row className="detail-tradeDate">
-              <Col span={6} offset={18}>
+              <Col span={5} offset={19}>
                 <span className='input-label'>交易日期：</span><DatePicker value={bill.tradeDate} disabledDate={this.disabledDate} onChange={this.tradeDateChange} bordered={false} format={"YYYY-MM-DD"} placeholder="交易日期"/>
               </Col>
             </Row>

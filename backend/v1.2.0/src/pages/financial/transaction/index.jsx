@@ -13,10 +13,9 @@ import DocumentTitle from 'react-document-title'
 import moment from 'moment';
 import {Button, Col, DatePicker, Spin, Form, Select, Table, Modal} from "antd";
 import {openNotificationWithIcon,showLoading} from "../../../utils/window";
-// import AddForm from './addForm'
 import BillDeclare from './declare'
 import BillDetail from './detail'
-// import EditForm from './editForm'
+import BillRenew from './renew'
 import axios from "axios";
 import {formatMoney} from '../../../utils/var'
 /*
@@ -31,7 +30,9 @@ const {Option} = Select;
 // 定义组件（ES6）
 class Transaction extends Component {
 
-    detailRef = React.createRef();
+    billDetailRef = React.createRef();
+    billDeclareRef = React.createRef();
+    billRenewRef = React.createRef();
 
 
     state = {
@@ -51,7 +52,6 @@ class Transaction extends Component {
             tradeType: ''//用户选择的交易类别
         },
         queryType: [],// 查询专用类别
-        editModalVisible: false,
     };
 
     /*
@@ -203,14 +203,14 @@ class Transaction extends Component {
     initDatas = async () => {
         let _this = this;
         // 发异步ajax请求, 获取数据
-        const {msg, code, data} = await getFinancialType()
+        const {msg, code, data} = await getFinancialType();
         if (code === 0) {
             let type = [];
             data.forEach(item => {
                 type.push((<Option key={item.id} value={item.id}>{item.transactionType}</Option>));
             });
             let copyType = []
-            copyType.push(<Option key='-1' value="">请选择</Option>)
+            copyType.push(<Option key='-1' value="">请选择</Option>);
             copyType.push(type)
             _this.setState({
                 queryType: copyType
@@ -218,7 +218,7 @@ class Transaction extends Component {
         } else {
             openNotificationWithIcon("error", "错误提示", msg);
         }
-    }
+    };
 
     // 日期选择发生变化
     onChangeDate = (date, dateString) => {
@@ -244,7 +244,7 @@ class Transaction extends Component {
     disabledDate = (current) => {
         // Can not select days before today and today
         return current && current > moment().endOf('day');
-    }
+    };
 
     // 交易方式选框发生改变
     onChangeType = (value) => {
@@ -264,84 +264,41 @@ class Transaction extends Component {
      * @param flag
      */
     handleAddModal = () => {
-        let _this = this;
+        const _this = this;
         // 触发子组件的调用
         _this.billDeclareRef.handleDisplay()
-    }
+    };
 
     /**
      * 预览流水详情
      */
     openViewModal = (value) => {
-        let _this = this;
-        _this.viewDataId = value.tradeId;
+        const _this = this;
         // 触发子组件的调用
-        _this.billDetailRef.handleDisplay(this.viewDataId)
-    }
-
-    bindBillDetailRef = (ref) => {
-        this.billDetailRef = ref
-    }
-
-    bindBillDeclareRef = (ref) => {
-        this.billDeclareRef = ref
-    }
-
-
-    /**
-     * 编辑财务申报弹窗
-     * @param flog
-     */
-    handleEditModal = (flog) => {
-        let _this = this
-        let editModalVisible = flog
-        _this.setState({
-            editModalVisible
-        })
-    }
+        _this.billDetailRef.handleDisplay(value.tradeId)
+    };
 
     /**
      * 打开编辑弹窗
      * @param value
      */
     openEditModal = (value) => {
-        this.updateData = value
-        this.handleEditModal(true)
-    }
+        const _this = this;
+        // 触发子组件的调用
+        _this.billRenewRef.handleDisplay(value.tradeId);
+    };
 
-    /**
-     * 提交到后台修改
-     * @param e
-     */
-    handleEdit = (e) => {
-        // 阻止表单的默认提交
-        e.preventDefault();
-        let _this = this
-        _this.form.validateFields(['updateTradeType', 'tradeDate', 'updateTransactionAmount'], async (err, values) => {
-            console.log(values)
-            if (!err) {
-                let para = {
-                    tradeId: _this.updateData.tradeId,
-                    tradeType: values.updateTradeType,
-                    tradeDate: (values.tradeDate).format('YYYY-MM-DD'),
-                    transactionAmount: values.updateTransactionAmount,
-                }
-                const {msg, code} = await updateTransaction(para)
-                _this.setState({listLoading: false});
-                if (code === 0) {
-                    openNotificationWithIcon("success", "操作结果", "修改成功");
-                    // 重置表单
-                    _this.form.resetFields(['updateTradeType', 'updateTransactionAmount'])
-                    // 关闭弹窗
-                    _this.handleEditModal(false)
-                    // 重新加载数据
-                    _this.getDatas();
-                } else {
-                    openNotificationWithIcon("error", "错误提示", msg);
-                }
-            }
-        })
-    }
+    bindBillDetailRef = (ref) => {
+        this.billDetailRef = ref
+    };
+
+    bindBillDeclareRef = (ref) => {
+        this.billDeclareRef = ref
+    };
+
+    bindBillRenewRef = (ref) => {
+        this.billRenewRef = ref
+    };
 
     /**
      * 删除流水申报
@@ -462,10 +419,18 @@ class Transaction extends Component {
     };
 
     /**
+     * 财政修改页面专属的刷新方法
+     */
+    refreshListFromRenew = () =>{
+        this.getDatas();
+    };
+
+    /**
      * 初始化页面配置信息
      */
     componentWillMount() {
         this.refreshListFromDeclare  = this.refreshListFromDeclare.bind(this);
+        this.refreshListFromRenew  = this.refreshListFromRenew.bind(this);
         // 初始化表格属性设置
         this.initColumns();
         this.initDatas();
@@ -482,7 +447,7 @@ class Transaction extends Component {
 
     render() {
         // 读取状态数据
-        const {datas, dataTotal, nowPage, pageSize, listLoading, type, queryType, filters, editModalVisible} = this.state;
+        const {datas, dataTotal, nowPage, pageSize, listLoading, queryType, filters} = this.state;
         let {beginTime, endTime, tradeType} = filters;
         let rangeDate;
         if (beginTime !== null && endTime !== null) {
@@ -495,17 +460,7 @@ class Transaction extends Component {
                 <section>
                     <BillDeclare onRef={this.bindBillDeclareRef.bind(this)} refreshList={this.refreshListFromDeclare}/>
                     <BillDetail onRef={this.bindBillDetailRef.bind(this)}/>
-                    {/*<Modal*/}
-                    {/*    title="修改流水"*/}
-                    {/*    width="70%"*/}
-                    {/*    visible={editModalVisible === true}*/}
-                    {/*    okText='提交'*/}
-                    {/*    onCancel={() => this.handleEditModal(false)}*/}
-                    {/*    onOk={this.handleEdit}>*/}
-                    {/*    <EditForm line={this.updateData || {}} type={type || {}} setForm={(form) => {*/}
-                    {/*        this.form = form*/}
-                    {/*    }}/>*/}
-                    {/*</Modal>*/}
+                    <BillRenew onRef={this.bindBillRenewRef.bind(this)} refreshList={this.refreshListFromRenew}/>
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
                             <Form.Item>
