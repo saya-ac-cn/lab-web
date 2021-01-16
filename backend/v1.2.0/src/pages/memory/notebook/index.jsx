@@ -1,24 +1,22 @@
 import React, {Component} from 'react';
-import {Button, Col, Input, Form, Table, DatePicker, Modal} from "antd";
-import {getMemoList, getMemo, deleteMemo} from "../../../api";
+import {Button, Col, Tag, Input, Table, Form, Modal} from "antd";
+import {deleteNoteBook, getNoteBookList} from "../../../api";
 import {openNotificationWithIcon} from "../../../utils/window";
-import moment from 'moment';
 import DocumentTitle from 'react-document-title'
-import MemoFrom from "./edit";
 import {DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined} from "@ant-design/icons";
-import {disabledDate} from "../../../utils/var"
+import EditNoteBook from "./edit";
+
 /*
  * 文件名：index.jsx
  * 作者：liunengkai
- * 创建日期：2019-09-22 - 17:35
- * 描述：便笺
+ * 创建日期：2019-08-24 - 21:58
+ * 描述：笔记簿管理
  */
-const {RangePicker} = DatePicker;
 
 // 定义组件（ES6）
-class Memo extends Component {
+class NoteBook extends Component {
 
-    memoFormRef = React.createRef();
+  bookFormRef = React.createRef();
 
     state = {
         // 返回的单元格数据
@@ -32,10 +30,10 @@ class Memo extends Component {
         // 是否显示加载
         listLoading: false,
         filters: {
-            beginTime: null,// 搜索表单的开始时间
-            endTime: null,// 搜索表单的结束时间
-            title: null, // 标题
+            name: null,// 笔记簿名
+            status: null// 笔记簿状态
         },
+        modalStatus: 0, // 标识添加/更新的确认框是否显示, 0: 都不显示, 1: 显示添加, 2: 显示更新
     };
 
     /*
@@ -44,28 +42,41 @@ class Memo extends Component {
     initColumns = () => {
         this.columns = [
             {
-                title: '标题',
-                dataIndex: 'title', // 显示数据对应的属性名
+                title: '笔记簿名',
+                dataIndex: 'name', // 显示数据对应的属性名
+                align:'center',
+            },
+            {
+                title: '状态',
+                align:'center',
+                render: (text, record) => {
+                    if (record.status === 1) {
+                        return <Tag color="success">已公开</Tag>
+                    } else if (record.status === 2) {
+                        return <Tag color="error">已屏蔽</Tag>
+                    } else {
+                        return <Tag color="warning">未知</Tag>
+                    }
+                }
             },
             {
                 title: '创建者',
                 dataIndex: 'source', // 显示数据对应的属性名
+                align:'center',
             },
             {
-                title: '创建时间',
-                dataIndex: 'createtime', // 显示数据对应的属性名
-            },
-            {
-                title: '修改时间',
-                dataIndex: 'updatetime', // 显示数据对应的属性名
+                title: '笔记总数',
+                dataIndex: 'notesCount', // 显示数据对应的属性名
+                align:'right',
             },
             {
                 title: '操作',
+                align:'center',
                 render: (text, record) => (
                     <div>
                         <Button type="primary" onClick={() => this.handleModalEdit(record)} shape="circle" icon={<EditOutlined/>}/>
                         &nbsp;
-                        <Button type="danger" onClick={() => this.handleDellMemo(record)} shape="circle" icon={<DeleteOutlined/>}/>
+                        <Button type="danger"  onClick={() => this.handleDeleteNoteBook(record)} shape="circle" icon={<DeleteOutlined/>}/>
                     </div>
                 ),
             },
@@ -73,22 +84,20 @@ class Memo extends Component {
     };
 
     /**
-     * 获取便利贴列表数据
+     * 获取笔记簿列表数据
      * @returns {Promise<void>}
      */
     getDatas = async () => {
         let para = {
-            title: this.state.filters.title,
+            name: this.state.filters.name,
             nowPage: this.state.nowPage,
             pageSize: this.state.pageSize,
-            status: this.state.filters.status,
-            beginTime: this.state.filters.beginTime,
-            endTime: this.state.filters.endTime,
+            status: this.state.filters.status
         };
         // 在发请求前, 显示loading
         this.setState({listLoading: true});
         // 发异步ajax请求, 获取数据
-        const {msg, code, data} = await getMemoList(para);
+        const {msg, code, data} = await getNoteBookList(para);
         // 在请求完成后, 隐藏loading
         this.setState({listLoading: false});
         if (code === 0) {
@@ -140,82 +149,49 @@ class Memo extends Component {
         });
     };
 
-    // 日期选择发生变化
-    onChangeDate = (date, dateString) => {
-        let _this = this;
-        let {filters} = _this.state;
-        // 为空要单独判断
-        if (dateString[0] !== '' && dateString[1] !== '') {
-            filters.beginTime = dateString[0];
-            filters.endTime = dateString[1];
-        } else {
-            filters.beginTime = null;
-            filters.endTime = null;
-        }
-        _this.setState({
-            nowPage: 1,
-            filters
-        }, function () {
-            _this.getDatas()
-        });
-    };
-
-
-    /**
-     * 双向绑定用户查询主题
-     * @param event
-     */
-    titleInputChange = (event) => {
-        let _this = this;
-        const value = event.target.value;
-        let filters = _this.state.filters;
-        filters.title = value;
-        _this.setState({
-            nowPage: 1,
-            filters
-        })
-    };
-
     /*
-    * 显示添加的弹窗
-    */
+     * 显示添加的弹窗
+     */
     handleModalAdd = () => {
-        this.memoFormRef.handleDisplay({});
+      this.bookFormRef.handleDisplay({});
     };
 
     /*
     * 显示修改的弹窗
     */
-    handleModalEdit = async (value) => {
-        let _this = this;
-        let para = {
-            id: value.id
-        };
-        // 发异步ajax请求, 获取数据
-        const {msg, code, data} = await getMemo(para);
-        if (code === 0) {
-            _this.memoFormRef.handleDisplay(data);
-        } else {
-            openNotificationWithIcon("error", "错误提示", msg);
-        }
+    handleModalEdit = (value) => {
+      this.bookFormRef.handleDisplay(value);
     };
 
+    bindBookFormRef = (ref) => {
+      this.bookFormRef = ref
+    };
+
+    refreshListFromBookForm= () =>{
+      this.getDatas();
+    };
 
     /*
-    * 删除指定便利贴
+    * 删除指定笔记簿
     */
-    handleDellMemo = (item) => {
+    handleDeleteNoteBook = (item) => {
         let _this = this;
+        let tips = '';
+        if (item.notesCount > 0){
+            tips = `“${item.name}”笔记簿下还有：${item.notesCount}条笔记，您确认删除该笔记簿及该笔记簿下的所有笔记？`
+        }else{
+            tips = `您确认删除“${item.name}”空笔记簿？`
+        }
         Modal.confirm({
             title: '删除确认',
-            content: `确认删除标题为:${item.title}的便利贴吗?`,
+            content: tips,
             cancelText: '再想想',
             okText: '不要啦',
             onOk: async () => {
                 // 在发请求前, 显示loading
                 _this.setState({listLoading: true});
                 let para = { id: item.id };
-                const {msg, code} = await deleteMemo(para);
+                const {msg, code} = await deleteNoteBook(para);
                 // 在请求完成后, 隐藏loading
                 _this.setState({listLoading: false});
                 if (code === 0) {
@@ -228,12 +204,19 @@ class Memo extends Component {
         })
     };
 
-    bindMemoFormRef = (ref) => {
-        this.memoFormRef = ref
-    };
-
-    refreshListFromMemoForm= () =>{
-        this.getDatas();
+    /**
+     * 双向绑定用户查询主题
+     * @param event
+     */
+    nameInputChange = (event) => {
+        let _this = this;
+        const value = event.target.value;
+        let filters = _this.state.filters;
+        filters.name = value;
+        _this.setState({
+            nowPage: 1,
+            filters
+        })
     };
 
     /*
@@ -243,7 +226,7 @@ class Memo extends Component {
     componentDidMount() {
       // 初始化表格属性设置
       this.initColumns();
-      this.refreshListFromMemoForm  = this.refreshListFromMemoForm.bind(this);
+      this.refreshListFromBookForm  = this.refreshListFromBookForm.bind(this);
       // 加载页面数据
       this.getDatas();
     };
@@ -251,39 +234,29 @@ class Memo extends Component {
 
     render() {
         // 读取状态数据
-        const {datas, dataTotal, nowPage, pageSize, listLoading, filters} = this.state;
-        let {beginTime, endTime, title} = filters;
-        let rangeDate;
-        if (beginTime !== null && endTime !== null) {
-            rangeDate = [moment(beginTime), moment(endTime)]
-        } else {
-            rangeDate = [null, null]
-        }
+        const {datas, dataTotal, nowPage, pageSize, listLoading,filters, modalStatus} = this.state;
         return (
-            <DocumentTitle title='便利贴'>
+            <DocumentTitle title="笔记分类">
                 <section>
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
                             <Form.Item>
-                                <Input type='text' value={title} onChange={this.titleInputChange}
-                                       placeholder='按标题检索'/>
-                            </Form.Item>
-                            <Form.Item>
-                                <RangePicker value={rangeDate} disabledDate={disabledDate} onChange={this.onChangeDate}/>
+                                <Input type='text' value={filters.name} onChange={this.nameInputChange}
+                                       placeholder='按笔记簿检索'/>
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="button" onClick={this.getDatas}>
-                                    <SearchOutlined/>查询
+                                  <SearchOutlined/>查询
                                 </Button>
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="button" onClick={this.reloadPage}>
-                                    <ReloadOutlined/>重置
+                                  <ReloadOutlined/>重置
                                 </Button>
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="button" onClick={this.handleModalAdd}>
-                                    <PlusOutlined/>创建
+                                  <PlusOutlined/>发布
                                 </Button>
                             </Form.Item>
                         </Form>
@@ -291,14 +264,32 @@ class Memo extends Component {
                     <Col span={24} className="dataTable">
                         <Table size="middle" rowKey="id" bordered loading={listLoading} columns={this.columns} dataSource={datas}
                                pagination={{
-                                   current: nowPage,
+                                   current:nowPage,
                                    showTotal: () => `当前第${nowPage}页 共${dataTotal}条`,
                                    pageSize: pageSize, showQuickJumper: true, total: dataTotal, showSizeChanger: true,
                                    onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize, current),
                                    onChange: this.changePage,
                                }}/>
                     </Col>
-                    <MemoFrom onRef={this.bindMemoFormRef.bind(this)} refreshList={this.refreshListFromMemoForm}/>
+                  <EditNoteBook onRef={this.bindBookFormRef.bind(this)} refreshList={this.refreshListFromBookForm}/>
+                    {/*<Modal*/}
+                    {/*    title="添加笔记分类"*/}
+                    {/*    visible={modalStatus === 1}*/}
+                    {/*    onOk={this.handleAddNoteBook}*/}
+                    {/*    onCancel={this.handleModalCancel}>*/}
+                    {/*    <EditNoteBook noteBook={notebook} setForm={(form) => {*/}
+                    {/*        this.form = form*/}
+                    {/*    }}/>*/}
+                    {/*</Modal>*/}
+                    {/*<Modal*/}
+                    {/*    title="编辑笔记分类"*/}
+                    {/*    visible={modalStatus === 2}*/}
+                    {/*    onOk={this.handleEditNoteBook}*/}
+                    {/*    onCancel={this.handleModalCancel}>*/}
+                    {/*    <EditNoteBook noteBook={notebook} setForm={(form) => {*/}
+                    {/*        this.form = form*/}
+                    {/*    }}/>*/}
+                    {/*</Modal>*/}
                 </section>
             </DocumentTitle>
         );
@@ -306,4 +297,4 @@ class Memo extends Component {
 }
 
 // 对外暴露
-export default Memo;
+export default NoteBook;

@@ -88,7 +88,7 @@ const backstageMenuList = [
                 requireAuth: true
             },
             {
-                title: '笔记分类',
+                title: '笔记簿',
                 key: '/backstage/memory/notebook',
                 hidden: false,
                 requireAuth: true

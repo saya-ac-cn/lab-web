@@ -106,7 +106,12 @@ module.exports = override(
 
 ## 安装cropper（图片裁剪）
 ```shell script
-npm install react-cropper
+  npm install react-cropper
+```
+
+## 安装MarkDown（for-editor）
+```shell script
+  npm install for-editor -S
 ```
 
 ### 重大变更历程事件

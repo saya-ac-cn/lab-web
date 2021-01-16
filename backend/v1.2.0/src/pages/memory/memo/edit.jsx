@@ -63,7 +63,6 @@ class EditMemo extends Component {
                 _this.handleRenewMemo(value);
             }
         }).catch(e => console.log("修改或添加便利贴错误",e));
-
     };
 
     /**
@@ -116,17 +115,11 @@ class EditMemo extends Component {
      * 为第一次render()准备数据
      * 因为要异步加载数据，所以方法改为async执行
      */
-    componentWillMount() {
+    componentDidMount() {
         this.formItemLayout = {
             labelCol: {span: 4},
             wrapperCol: {span: 14},
         };
-    };
-
-    /**
-     * 执行异步任务: 发异步ajax请求
-     */
-    componentDidMount() {
         // 加载页面数据
         const _this = this;
         _this.props.onRef(_this);

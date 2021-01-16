@@ -13,6 +13,8 @@ import Info from '../../me/info'
 import Logs from '../../me/logs'
 import Transaction from '../../financial/transaction'
 import Memo from '../../memory/memo'
+import NoteBook from "../../memory/notebook";
+import Notes from "../../memory/notes";
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -259,13 +261,13 @@ class LayoutBackend extends Component {
     * 在第一次render()之前执行一次
     * 为第一个render()准备数据(必须同步的)
     */
-    componentWillMount() {
-        this.userCatche = memoryUtils.user || {};
-        // 初始化左侧导航
-        this.menuNodes = this.getMenuNodes(menuConfig);
-        // 顶部用户头像下拉
-        this.headerUserInfo = this.initHeaderMenu()
-    }
+  componentDidMount() {
+      this.userCatche = memoryUtils.user || {};
+      // 初始化左侧导航
+      this.menuNodes = this.getMenuNodes(menuConfig);
+      // 顶部用户头像下拉
+      this.headerUserInfo = this.initHeaderMenu()
+  }
 
     render() {
         const user = memoryUtils.user;
@@ -392,6 +394,8 @@ class LayoutBackend extends Component {
                                     <Route path='/backstage/me/info' component={Info}/>
                                     <Route path='/backstage/me/logs' component={Logs}/>
                                     <Route path='/backstage/financial/transaction' component={Transaction}/>
+                                    <Route path='/backstage/memory/notebook' component={NoteBook}/>
+                                    <Route path='/backstage/memory/notes' component={Notes}/>
                                     <Route path='/backstage/memory/memo' component={Memo}/>
                                     {/*默认、及匹配不到时的页面*/}
                                     <Redirect to='/backstage/me/info'/>

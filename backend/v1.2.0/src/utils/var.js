@@ -1,7 +1,7 @@
 /**
  * 变量操作js工具类
  */
-
+import moment from "moment";
 
 /**
  * 判断对象是否为空
@@ -71,3 +71,9 @@ export const deepClone = (target) => {
     // 返回最终结果
     return result;
 };
+
+// 只能选择今天以前的日期
+export const disabledDate = (current) => {
+  // Can not select days before today and today
+  return current && current > moment().endOf('day');
+}

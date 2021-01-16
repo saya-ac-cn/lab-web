@@ -17,7 +17,7 @@ import BillDeclare from './declare'
 import BillDetail from './detail'
 import BillRenew from './renew'
 import axios from "axios";
-import {formatMoney} from '../../../utils/var'
+import {formatMoney,disabledDate} from '../../../utils/var'
 /*
  * 文件名：transaction.jsx
  * 作者：liunengkai
@@ -240,12 +240,6 @@ class Transaction extends Component {
         });
     };
 
-    // 只能选择今天以前的日期
-    disabledDate = (current) => {
-        // Can not select days before today and today
-        return current && current > moment().endOf('day');
-    };
-
     // 交易方式选框发生改变
     onChangeType = (value) => {
         let _this = this;
@@ -428,22 +422,15 @@ class Transaction extends Component {
     /**
      * 初始化页面配置信息
      */
-    componentWillMount() {
-        // 绑定刷新（供子页面调用）
-        this.refreshListFromDeclare  = this.refreshListFromDeclare.bind(this);
-        this.refreshListFromRenew  = this.refreshListFromRenew.bind(this);
-        // 初始化表格属性设置
-        this.initColumns();
-        this.initDatas();
-    };
-
-
-    /**
-     * 执行异步任务: 发异步ajax请求
-     */
     componentDidMount() {
-        // 加载页面数据
-        this.getDatas();
+      // 绑定刷新（供子页面调用）
+      this.refreshListFromDeclare  = this.refreshListFromDeclare.bind(this);
+      this.refreshListFromRenew  = this.refreshListFromRenew.bind(this);
+      // 初始化表格属性设置
+      this.initColumns();
+      this.initDatas();
+      // 加载页面数据
+      this.getDatas();
     };
 
     render() {
@@ -471,7 +458,7 @@ class Transaction extends Component {
                                 </Select>
                             </Form.Item>
                             <Form.Item>
-                                <RangePicker value={rangeDate} disabledDate={this.disabledDate} onChange={this.onChangeDate}/>
+                                <RangePicker value={rangeDate} disabledDate={disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="button" onClick={this.getDatas}>

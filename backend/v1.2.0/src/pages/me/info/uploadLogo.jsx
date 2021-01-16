@@ -27,7 +27,7 @@ class UploadLogo extends Component {
 
   onCropperInit = cropper => { this.cropper = cropper }
 
-  componentWillMount() {
+  componentDidMount() {
       const fileReader = new FileReader();
       fileReader.onload = (e) => {
           const dataURL = e.target.result;

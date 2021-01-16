@@ -107,15 +107,9 @@ class BillDetail extends Component {
   /**
    * 初始化页面配置信息
    */
-  componentWillMount() {
+  componentDidMount() {
     // 初始化表格属性设置
     this.initColumns();
-  }
-
-  /**
-   * 执行异步任务: 发异步ajax请求
-   */
-  componentDidMount() {
     // 加载页面数据
     const _this = this;
     _this.props.onRef(_this);

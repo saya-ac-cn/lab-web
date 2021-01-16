@@ -7,7 +7,7 @@ import moment from 'moment';
 import axios from 'axios'
 import DocumentTitle from 'react-document-title'
 import './index.less'
-
+import {disabledDate} from "../../../utils/var"
 /*
  * 文件名：index.jsx
  * 作者：liunengkai
@@ -164,12 +164,6 @@ class Logs extends Component {
         });
     };
 
-    // 只能选择今天以前的日期
-    disabledDate = (current) => {
-        // Can not select days before today and today
-        return current && current > moment().endOf('day');
-    }
-
     // 日期选择发生变化
     onChangeDate = (date, dateString) => {
         let _this = this;
@@ -247,20 +241,14 @@ class Logs extends Component {
     *为第一次render()准备数据
     * 因为要异步加载数据，所以方法改为async执行
     */
-    componentWillMount() {
-        // 初始化日志类别数据
-        this.getTypeData();
-        // 初始化表格属性设置
-        this.initColumns();
-    };
-
-    /*
-    执行异步任务: 发异步ajax请求
-     */
-    componentDidMount() {
-        // 加载页面数据
-        this.getDatas();
-    };
+  componentDidMount() {
+      // 初始化日志类别数据
+      this.getTypeData();
+      // 初始化表格属性设置
+      this.initColumns();
+      // 加载页面数据
+      this.getDatas();
+  };
 
     render() {
         // 读取状态数据
@@ -284,7 +272,7 @@ class Logs extends Component {
                                 </Select>
                             </Form.Item>
                             <Form.Item>
-                                <RangePicker value={rangeDate} disabledDate={this.disabledDate} onChange={this.onChangeDate}/>
+                                <RangePicker value={rangeDate} disabledDate={disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="button" onClick={this.getDatas}>

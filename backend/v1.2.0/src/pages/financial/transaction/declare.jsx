@@ -364,15 +364,9 @@ class Declare extends Component {
   /**
    * 初始化页面配置信息
    */
-  componentWillMount() {
+  componentDidMount() {
     // 初始化表格属性设置
     this.initColumns();
-  }
-
-  /**
-   * 执行异步任务: 发异步ajax请求
-   */
-  componentDidMount() {
     this.props.onRef(this);
     this.initFinancialType();
     this.initFinancialAmount();

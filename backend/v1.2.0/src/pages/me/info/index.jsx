@@ -145,7 +145,7 @@ class Info extends Component {
     /**
      * 初始化页面配置信息
      */
-    componentWillMount() {
+    componentDidMount() {
         this.formItemLayout = {
             labelCol: {span: 4},
             wrapperCol: {span: 14},
@@ -153,12 +153,6 @@ class Info extends Component {
         this.buttonItemLayout = {
             wrapperCol: {span: 14, offset: 4},
         };
-    };
-
-    /**
-    * 执行异步任务: 发异步ajax请求
-    */
-    componentDidMount() {
         this.getPersonalInfo()
     }
 
