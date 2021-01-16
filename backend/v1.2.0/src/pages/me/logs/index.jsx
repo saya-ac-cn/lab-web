@@ -164,6 +164,12 @@ class Logs extends Component {
         });
     };
 
+    // 只能选择今天以前的日期
+    disabledDate = (current) => {
+        // Can not select days before today and today
+        return current && current > moment().endOf('day');
+    }
+
     // 日期选择发生变化
     onChangeDate = (date, dateString) => {
         let _this = this;
@@ -278,7 +284,7 @@ class Logs extends Component {
                                 </Select>
                             </Form.Item>
                             <Form.Item>
-                                <RangePicker value={rangeDate} onChange={this.onChangeDate}/>
+                                <RangePicker value={rangeDate} disabledDate={this.disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="button" onClick={this.getDatas}>

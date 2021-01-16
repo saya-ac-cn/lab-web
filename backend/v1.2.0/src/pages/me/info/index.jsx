@@ -101,7 +101,6 @@ class Info extends Component {
       let _this = this;
       // 阻止表单的默认提交
       //e.preventDefault();
-      console.log("--------------",_this.pwdFormRef.current.validateFields())
       _this.pwdFormRef.current.validateFields(['password1', 'password2']).then(async value => {
           // 在发请求前, 显示loading
           _this.setState({loading: true});

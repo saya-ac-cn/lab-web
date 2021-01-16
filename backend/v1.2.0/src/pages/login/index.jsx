@@ -3,7 +3,6 @@ import './index.less'
 import {Button,message, Input} from 'antd';
 import DocumentTitle from 'react-document-title'
 import {requestLogin} from '../../api'
-import {Redirect} from 'react-router-dom'
 import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 /*

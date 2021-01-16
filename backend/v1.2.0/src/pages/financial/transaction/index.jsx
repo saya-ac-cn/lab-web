@@ -429,6 +429,7 @@ class Transaction extends Component {
      * 初始化页面配置信息
      */
     componentWillMount() {
+        // 绑定刷新（供子页面调用）
         this.refreshListFromDeclare  = this.refreshListFromDeclare.bind(this);
         this.refreshListFromRenew  = this.refreshListFromRenew.bind(this);
         // 初始化表格属性设置

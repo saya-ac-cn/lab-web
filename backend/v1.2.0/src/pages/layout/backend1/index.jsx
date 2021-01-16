@@ -12,6 +12,7 @@ import {requestLogout} from '../../../api'
 import Info from '../../me/info'
 import Logs from '../../me/logs'
 import Transaction from '../../financial/transaction'
+import Memo from '../../memory/memo'
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -391,6 +392,7 @@ class LayoutBackend extends Component {
                                     <Route path='/backstage/me/info' component={Info}/>
                                     <Route path='/backstage/me/logs' component={Logs}/>
                                     <Route path='/backstage/financial/transaction' component={Transaction}/>
+                                    <Route path='/backstage/memory/memo' component={Memo}/>
                                     {/*默认、及匹配不到时的页面*/}
                                     <Redirect to='/backstage/me/info'/>
                                 </Switch>

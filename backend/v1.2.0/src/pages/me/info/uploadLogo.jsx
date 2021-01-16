@@ -1,4 +1,4 @@
-import React, {Component,useRef} from 'react';
+import React, {Component} from 'react';
 import Cropper from 'react-cropper'// 引入Cropper
 import 'cropperjs/dist/cropper.css'//引入样式
 import {Modal} from 'antd';
@@ -76,7 +76,6 @@ class UploadLogo extends Component {
     saveCropperImg = () => {
       let _this = this;
         // 用户未选择
-      console.log('_this.cropperRef',_this.cropper)
         if (_this.cropper.getCroppedCanvas() === 'null') {
             return false
         }

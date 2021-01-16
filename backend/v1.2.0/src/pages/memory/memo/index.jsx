@@ -271,8 +271,6 @@ class Memo extends Component {
         } else {
             rangeDate = [null, null]
         }
-        // 读取所选中的行数据
-        const line = this.line || {}; // 如果还没有指定一个空对象
         return (
             <DocumentTitle title='便利贴'>
                 <section>
