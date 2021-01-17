@@ -15,6 +15,8 @@ import Transaction from '../../financial/transaction'
 import Memo from '../../memory/memo'
 import NoteBook from "../../memory/notebook";
 import Notes from "../../memory/notes";
+import News from "../../memory/news";
+import Plan from "../../memory/plan";
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -394,6 +396,8 @@ class LayoutBackend extends Component {
                                     <Route path='/backstage/me/info' component={Info}/>
                                     <Route path='/backstage/me/logs' component={Logs}/>
                                     <Route path='/backstage/financial/transaction' component={Transaction}/>
+                                    <Route path='/backstage/memory/news' component={News}/>
+                                    <Route path='/backstage/memory/plan' component={Plan}/>
                                     <Route path='/backstage/memory/notebook' component={NoteBook}/>
                                     <Route path='/backstage/memory/notes' component={Notes}/>
                                     <Route path='/backstage/memory/memo' component={Memo}/>
