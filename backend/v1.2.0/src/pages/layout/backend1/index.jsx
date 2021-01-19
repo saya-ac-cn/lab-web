@@ -17,6 +17,7 @@ import NoteBook from "../../memory/notebook";
 import Notes from "../../memory/notes";
 import News from "../../memory/news";
 import Plan from "../../memory/plan";
+import DB from "../../oss/db";
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -401,6 +402,7 @@ class LayoutBackend extends Component {
                                     <Route path='/backstage/memory/notebook' component={NoteBook}/>
                                     <Route path='/backstage/memory/notes' component={Notes}/>
                                     <Route path='/backstage/memory/memo' component={Memo}/>
+                                    <Route path='/backstage/oss/db' component={DB}/>
                                     {/*默认、及匹配不到时的页面*/}
                                     <Redirect to='/backstage/me/info'/>
                                 </Switch>
