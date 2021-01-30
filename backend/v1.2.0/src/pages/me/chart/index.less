@@ -1,10 +1,16 @@
 .background-chart{
   .notice-tooltip{
-    float:right
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .date-switch{
+      padding: 0;
+    }
   }
   .rate-area{
     height: 70px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     div{
       display: inline-block;
@@ -14,11 +20,11 @@
         margin-right: 0.5em;
       }
     }
-    .m2m-rate{
-      margin-right: 1.5em;
-    }
   }
   .extra-divider{
     margin: 1em 0;
+  }
+  .ant-card-body{
+    padding: 1em;
   }
 }

@@ -76,4 +76,9 @@ export const deepClone = (target) => {
 export const disabledDate = (current) => {
   // Can not select days before today and today
   return current && current > moment().endOf('day');
-}
+};
+
+// 只能选择本月及其以前的月份
+export const disabledMonth = (current) => {
+    return current && current > moment().endOf('month');
+};

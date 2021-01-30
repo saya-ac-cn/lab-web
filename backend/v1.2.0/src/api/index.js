@@ -139,8 +139,8 @@ export const getBackUpDBList = params => ajax(`${backendAPI}/api/oss/db`, params
 export const downloadBackUpDB = `${backendAPI}/api/oss/db/download/`;
 // 获取数据总量及词云数据
 export const getCountAndWordCloud = () => ajax(`${backendAPI}/api/set/countAndWordCloud`, {}, 'GET');
-// 查询活动率
-export const getActivityRate= params => ajax(`${backendAPI}/api/set/activityRate/${params}`, params, 'GET');
+// 查询活跃度
+export const getActivityRate= params => ajax(`${backendAPI}/api/set/activityRate/${params}`, {}, 'GET');
 // 统计动态发布
 export const getNewsRate = params => ajax(`${backendAPI}/api/message/newsRate/${params}`, {}, 'GET');
 // 收支增长率
