@@ -516,7 +516,7 @@ class Renew extends Component {
     };
 
     render() {
-        const {tradeId, newBill, listLoading,visibleModal,financialType,financialAmount} = this.state;
+        const {bill,tradeId, newBill, listLoading,visibleModal,financialType,financialAmount} = this.state;
         return (
             <Modal
                 title='收支详情'
@@ -536,7 +536,7 @@ class Renew extends Component {
                     </Row>
                     <Row className="detail-header">
                         <Col span={12} offset={6}>
-                            收支明细
+                          {!bill||!bill.tradeDate?'-':moment(bill.tradeDate).format('YYYY年MM月DD日')}收支明细
                         </Col>
                     </Row>
                     <Row className='detail-tradeNumber'>
@@ -582,14 +582,17 @@ class Renew extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col className="gutter-row" span={8}>
-                            <div><span className='input-label'>填报人：</span>{!newBill?'-':newBill.source}</div>
+                        <Col className="gutter-row" span={6}>
+                            <div><span className='input-label'>填报人：</span>{!bill||!bill.source?'-':bill.source}</div>
                         </Col>
-                        <Col className="gutter-row" span={8}>
-                            <div><span className='input-label'>填报时间：</span>{!newBill?'-':newBill.createTime}</div>
+                        <Col className="gutter-row" span={6}>
+                            <div><span className='input-label'>填报时间：</span>{!bill||!bill.createTime?'-':moment(bill.createTime).format('YYYY年MM月DD日 HH:mm:ss')}</div>
                         </Col>
-                        <Col className="gutter-row" span={8}>
-                            <div><span className='input-label'>最后一次修改日期：</span>{!newBill?'-':newBill.updateTime}</div>
+                        <Col className="gutter-row" span={6}>
+                            <div><span className='input-label'>最后修改日期：</span>{!bill||!bill.updateTime?'-':moment(bill.updateTime).format('YYYY年MM月DD日 HH:mm:ss')}</div>
+                        </Col>
+                        <Col className="gutter-row" span={6}>
+                          <div><span className='input-label'>打印时间：</span>{moment().format('YYYY年MM月DD日 HH:mm:ss')}</div>
                         </Col>
                     </Row>
                 </section>

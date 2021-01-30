@@ -5,7 +5,7 @@ import {Button, Col, Form, DatePicker, Table} from "antd";
 import moment from 'moment';
 import axios from "axios";
 import DocumentTitle from 'react-document-title'
-import {ReloadOutlined, SearchOutlined,DownloadOutlined} from "@ant-design/icons";
+import {ReloadOutlined, SearchOutlined,CloudDownloadOutlined} from "@ant-design/icons";
 import {disabledDate} from "../../../utils/var";
 /*
  * 文件名：index.jsx
@@ -56,7 +56,7 @@ class DB extends Component {
                 title: '下载',
                 render: (text, record) => (
                     <span onClick={() => this.downloadFile(record)}>
-                        <DownloadOutlined/>
+                        <CloudDownloadOutlined/>
                     </span>
                 ),
             },
@@ -206,7 +206,7 @@ class DB extends Component {
                 <section>
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
-                            <Form.Item>
+                            <Form.Item label="备份时间:">
                                 <RangePicker value={rangeDate} disabledDate={disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>

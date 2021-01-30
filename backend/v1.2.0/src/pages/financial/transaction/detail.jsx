@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Row, Col, Table, Modal} from 'antd';
-import './detail.less'
 import {getTransactionDetail} from "../../../api";
 import {openNotificationWithIcon,showLoading} from "../../../utils/window";
 import {formatMoney} from '../../../utils/var'
@@ -11,6 +10,47 @@ import moment from 'moment';
  * 创建日期：2021/1/3 - 下午1:59
  * 描述：账单详情
  */
+
+/**
+ * 由于在调用浏览器的打印功能时，会丢失外部的css样式，针对这个问题，统一写成内联样式
+ */
+const detailHeader = {
+  'height': '5em',
+  'display': 'flex',
+  'alignItems': 'center',
+  'justifyItems': 'center',
+  'textAlign': 'center',
+  'fontSize': '1.4em'
+};
+
+const detailTradeNumber = {
+  'display': 'flex',
+  'alignItems': 'center',
+  'justifyItems': 'left',
+  'textAlign': 'left',
+  'fontSize': '1.1em'
+};
+
+const detailTradeDate = {
+  'height': '4em',
+  'display': 'flex',
+  'alignItems': 'center',
+  'justifyItems': 'left',
+  'textAlign': 'left',
+  'fontSize': '1.1em',
+};
+
+const inputLabel = {
+  'fontWeight': 'bold'
+};
+
+const tableFooter = {
+  'fontSize':'0.4em'
+}
+
+const detailGrid = {
+  'paddingBottom': '0.5em'
+}
 
 // 定义组件（ES6）
 class BillDetail extends Component {
@@ -92,6 +132,12 @@ class BillDetail extends Component {
     this.setState({visibleModal: false});
   };
 
+  handlePrint = () => {
+    window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+    window.print();
+    window.location.reload();
+  }
+
   handleDisplay = (val) => {
     let _this = this;
     _this.setState({
@@ -123,55 +169,60 @@ class BillDetail extends Component {
             title='收支详情'
             width="80%"
             visible={visibleModal}
+            onOk={() => this.handlePrint()}
             onCancel={() => this.handleCancel()}
-            footer={null}>
-          <section className="transaction-detail">
-            <Row className="detail-header">
+            cancelText='取消'
+            okText='打印'>
+          <section className="transaction-detail" id='billDetails'>
+            <Row style={detailHeader}>
               <Col span={12} offset={6}>
-                收支明细
+                {!bill||!bill.tradeDate?'-':moment(bill.tradeDate).format('YYYY年MM月DD日')}收支明细
               </Col>
             </Row>
-            <Row className='detail-tradeNumber'>
+            <Row style={detailTradeNumber}>
               <Col span={5} offset={19}>
-                <span className='input-label'>收支单号：</span>{tradeId}
+                <span style={inputLabel}>收支单号：</span>{tradeId}
               </Col>
             </Row>
-            <Row className="detail-tradeDate">
+            <Row style={detailTradeDate}>
               <Col span={5} offset={19}>
-                <span className='input-label'>交易日期：</span>{!bill?'-':moment(bill.tradeDate).format('YYYY年MM月DD日')}
+                <span style={inputLabel}>交易日期：</span>{!bill?'-':moment(bill.tradeDate).format('YYYY年MM月DD日')}
               </Col>
             </Row>
             <Row gutter={[12, 12]}>
-              <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>收支总额：</span>{formatMoney(!bill?0:bill.currencyNumber)}元</div>
+              <Col span={8}>
+                <div><span style={inputLabel}>收支总额：</span>{formatMoney(!bill?0:bill.currencyNumber)}元</div>
               </Col>
-              <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>收入总额：</span>{formatMoney(!bill?0:bill.deposited)}元</div>
+              <Col span={8}>
+                <div><span style={inputLabel}>收入总额：</span>{formatMoney(!bill?0:bill.deposited)}元</div>
               </Col>
-              <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>支出总额：</span>{formatMoney(!bill?0:bill.expenditure)}元</div>
+              <Col span={8}>
+                <div><span style={inputLabel}>支出总额：</span>{formatMoney(!bill?0:bill.expenditure)}元</div>
               </Col>
-              <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>交易方式：</span>{!bill||!bill.tradeTypeEntity?'-':bill.tradeTypeEntity.transactionType}</div>
+              <Col span={8}>
+                <div><span style={inputLabel}>交易方式：</span>{!bill||!bill.tradeTypeEntity?'-':bill.tradeTypeEntity.transactionType}</div>
               </Col>
-              <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>交易摘要：</span>{!bill||!bill.tradeAmountEntity?'-':bill.tradeAmountEntity.tag}</div>
+              <Col span={8}>
+                <div><span style={inputLabel}>交易摘要：</span>{!bill||!bill.tradeAmountEntity?'-':bill.tradeAmountEntity.tag}</div>
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <Table size="middle" className='detail-grid' rowKey="id" bordered pagination={false} loading={listLoading} columns={this.columns} dataSource={!bill?null:bill.infoList}/>
+                <Table size="middle" style={detailGrid} rowKey="id" bordered pagination={false} loading={listLoading} columns={this.columns} dataSource={!bill?null:bill.infoList}/>
               </Col>
             </Row>
             <Row>
-              <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>填报人：</span>{!bill?'-':bill.source}</div>
+              <Col style={tableFooter} span={6}>
+                <div><span style={inputLabel}>填报人：</span>{!bill?'-':bill.source}</div>
               </Col>
-              <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>填报时间：</span>{!bill?'-':bill.createTime}</div>
+              <Col style={tableFooter} span={6}>
+                <div><span style={inputLabel}>填报时间：</span>{!bill||!bill.createTime?'-':moment(bill.createTime).format('YYYY年MM月DD日 HH:mm:ss')}</div>
               </Col>
-              <Col className="gutter-row" span={8}>
-                <div><span className='input-label'>最后一次修改日期：</span>{!bill?'-':bill.updateTime}</div>
+              <Col style={tableFooter} span={6}>
+                <div><span style={inputLabel}>最后修改时间：</span>{!bill||!bill.updateTime?'-':moment(bill.updateTime).format('YYYY年MM月DD日 HH:mm:ss')}</div>
+              </Col>
+              <Col style={tableFooter} span={6}>
+                <div><span style={inputLabel}>打印时间：</span>{moment().format('YYYY年MM月DD日 HH:mm:ss')}</div>
               </Col>
             </Row>
           </section>

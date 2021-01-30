@@ -231,11 +231,11 @@ class List extends Component {
                 <section>
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
-                            <Form.Item>
+                            <Form.Item label="主题:">
                                 <Input type='text' value={topic} onChange={this.topicInputChange}
                                        placeholder='按主题检索'/>
                             </Form.Item>
-                            <Form.Item>
+                            <Form.Item label="发布时间:">
                                 <RangePicker value={rangeDate} disabledDate={disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>

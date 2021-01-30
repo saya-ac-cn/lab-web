@@ -22,16 +22,16 @@ const backstageMenuList = [
                 requireAuth: true
             },
             {
-              title: '复刻记忆',
-              key: '/backstage/me/dashBoard',
-              hidden: false,
-              requireAuth: true
-            },
-            {
                 title: '操作日志',
                 key: '/backstage/me/logs',
                 hidden: false,
                 requireAuth: true
+            },
+            {
+              title: '概览',
+              key: '/backstage/me/chart',
+              hidden: false,
+              requireAuth: true
             }
         ]
     },

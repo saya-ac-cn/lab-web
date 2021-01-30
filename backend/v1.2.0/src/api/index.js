@@ -39,10 +39,6 @@ export const deleteNews = params => ajax(`${backendAPI}/api/message/news/delete`
 export const getNews = params => ajax(`${backendAPI}/api/message/news/show`, params, 'GET');
 // 修改动态
 export const editNews = params => ajax(`${backendAPI}/api/message/news/edit`, params, 'PUT');
-// 审核留言
-export const checkGuestBook = params => ajax(`${backendAPI}/api/message/guestbook/check`, params, 'PUT');
-// 查看分页留言
-export const getGuestBookList = params => ajax(`${backendAPI}/api/message/guestbook`, params, 'GET');
 // 查看分页后的图片
 export const getPictureList = params => ajax(`${backendAPI}/api/oss/picture`, params, 'GET');
 // 上传壁纸
@@ -141,8 +137,20 @@ export const getApi = params => ajax(`${backendAPI}/api/set/api/list`, params, '
 export const getBackUpDBList = params => ajax(`${backendAPI}/api/oss/db`, params, 'GET');
 // 下载备份的数据库文件
 export const downloadBackUpDB = `${backendAPI}/api/oss/db/download/`;
-// 获取后台监控统计
-export const getDashBoard = params => ajax(`${backendAPI}/api/set/dashBoard`, params, 'GET');
+// 获取数据总量及词云数据
+export const getCountAndWordCloud = () => ajax(`${backendAPI}/api/set/countAndWordCloud`, {}, 'GET');
+// 查询活动率
+export const getActivityRate= params => ajax(`${backendAPI}/api/set/activityRate/${params}`, params, 'GET');
+// 统计动态发布
+export const getNewsRate = params => ajax(`${backendAPI}/api/message/newsRate/${params}`, {}, 'GET');
+// 收支增长率
+export const getAccountGrowthRate = params => ajax(`${backendAPI}/api/financial/accountGrowthRate/${params}`, {}, 'GET');
+// 收入比重
+export const getIncomePercentage = params => ajax(`${backendAPI}/api/financial/incomePercentage/${params}`, {}, 'GET');
+// 统计指定月份中各摘要的排名
+export const getOrderByAmount = params => ajax(`${backendAPI}/api/financial/orderByAmount/${params}`, {}, 'GET');
+// 统计指定指定日期月份前6个月的账单
+export const getPreSixMonthBill = params => ajax(`${backendAPI}/api/financial/preSixMonthBill/${params}`, {}, 'GET');
 // 查询单条便笺
 export const getMemo = params => ajax(`${backendAPI}/api/message/memo/show`, params, 'GET');
 // 获取分页便笺

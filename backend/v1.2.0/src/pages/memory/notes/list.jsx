@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Button, Col, DatePicker, Input, Table, Form, Modal, Tag} from "antd";
-import {getNotesList, deleteNotes} from "../../../api";
+import {Button, Col, DatePicker, Input, Table, Form, Modal, Tag, Select} from "antd";
+import {getNotesList, deleteNotes, getNoteBookGroup} from "../../../api";
 import {openNotificationWithIcon} from "../../../utils/window";
 import {Link} from "react-router-dom";
 import DocumentTitle from 'react-document-title'
@@ -16,6 +16,7 @@ import {getUrlParameter} from "../../../utils/url"
  * 注意：在本页面中，不显示笔记搜索框
  */
 const {RangePicker} = DatePicker;
+const {Option} = Select;
 // 定义组件（ES6）
 class NotesList extends Component {
 
@@ -36,20 +37,21 @@ class NotesList extends Component {
           // 是否显示加载
           listLoading: false,
           tagColor:['magenta','red','volcano','orange','gold','lime','green','cyan','blue','geekblue','purple'],
+          notebooks: [],
         };
         if (!!search){
           state.filters = {
             beginTime: null,// 搜索表单的开始时间
             endTime: null,// 搜索表单的结束时间
             topic: search, // 主题
-            name: null
+            notebookId: null
           }
         }else{
           state.filters = {
             beginTime: null,// 搜索表单的开始时间
             endTime: null,// 搜索表单的结束时间
             topic: null, // 主题
-            name: null
+            notebookId: null
           }
         }
       _this.state = state
@@ -128,7 +130,7 @@ class NotesList extends Component {
         let para = {
             'nowPage': this.state.nowPage,
             'topic': this.state.filters.topic,
-            'notebook.name':this.state.filters.name,
+            'notebookId':this.state.filters.notebookId,
             'beginTime': this.state.filters.beginTime,
             'endTime': this.state.filters.endTime,
             'pageSize': this.state.pageSize,
@@ -150,6 +152,27 @@ class NotesList extends Component {
             openNotificationWithIcon("error", "错误提示", msg);
         }
     };
+
+  /**
+   * 得到笔记簿下拉选择列表数据
+   */
+  getNoteBooks = async () =>{
+    let _this = this;
+    // 发异步ajax请求, 获取数据
+    const {msg, code, data} = await getNoteBookGroup()
+    if (code === 0) {
+      let notebooks = [];
+      notebooks.push(<Option key='-1' value="">请选择</Option>);
+      data.forEach(item => {
+        notebooks.push((<Option key={item.id} value={item.id}>{item.name}</Option>));
+      });
+      _this.setState({
+        notebooks
+      })
+    } else {
+      openNotificationWithIcon("error", "错误提示", msg);
+    }
+  }
 
 
     /**
@@ -227,17 +250,18 @@ class NotesList extends Component {
         })
     };
 
-    /**
-     * 双向绑定用户查询分类
-     * @param event
-     */
-    nameInputChange = (event) => {
-        let _this = this;
-        const value = event.target.value;
-        let filters = _this.state.filters;
-        filters.name = value;
-        _this.setState(filters)
-    };
+  // 笔记簿选框发生改变
+  onChangeBooks = (value) => {
+    let _this = this;
+    let filters = _this.state.filters;
+    filters.notebookId = value;
+    _this.setState({
+      filters,
+      nowPage: 1,
+    }, function () {
+      _this.getDatas()
+    });
+  };
 
     /*
     * 删除指定笔记
@@ -273,12 +297,14 @@ class NotesList extends Component {
         this.initColumns();
         // 加载页面数据
         this.getDatas();
+        // 初始化用户笔记簿数据
+        this.getNoteBooks()
     };
 
     render() {
         // 读取状态数据
-        const {datas, dataTotal, nowPage, pageSize, listLoading,filters} = this.state;
-        let {beginTime,endTime,topic,name} = filters;
+        const {datas, dataTotal, nowPage, pageSize, listLoading,filters,notebooks} = this.state;
+        let {beginTime,endTime,topic,notebookId} = filters;
         let rangeDate;
         if (beginTime !== null && endTime !== null){
             rangeDate = [moment(beginTime),moment(endTime)]
@@ -290,15 +316,16 @@ class NotesList extends Component {
                 <section>
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
-                            <Form.Item>
+                            <Form.Item label="主题:">
                                 <Input type='text' value={topic} onChange={this.topicInputChange}
                                        placeholder='按主题检索'/>
                             </Form.Item>
-                            <Form.Item>
-                                <Input type='text' value={name} onChange={this.nameInputChange}
-                                       placeholder='按分类检索'/>
+                            <Form.Item label="分类:">
+                              <Select showSearch placeholder="请选择所属分类" style={{width: '200px'}} value={notebookId} onChange={this.onChangeBooks}>
+                                {notebooks}
+                              </Select>
                             </Form.Item>
-                            <Form.Item>
+                            <Form.Item label="添加时间:">
                                 <RangePicker value={rangeDate} disabledDate={disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>

@@ -240,7 +240,7 @@ class NoteBook extends Component {
                 <section>
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
-                            <Form.Item>
+                            <Form.Item label="笔记簿:">
                                 <Input type='text' value={filters.name} onChange={this.nameInputChange}
                                        placeholder='按笔记簿检索'/>
                             </Form.Item>

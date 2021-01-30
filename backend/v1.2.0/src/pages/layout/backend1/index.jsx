@@ -19,6 +19,9 @@ import News from "../../memory/news";
 import Plan from "../../memory/plan";
 import DB from "../../oss/db";
 import Files from "../../oss/file";
+import Wallpaper from "../../oss/wallpaper";
+import Illustration from "../../oss/illustration";
+import Chart from "../../me/chart";
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -397,12 +400,15 @@ class LayoutBackend extends Component {
                                 <Switch>
                                     <Route path='/backstage/me/info' component={Info}/>
                                     <Route path='/backstage/me/logs' component={Logs}/>
+                                    <Route path='/backstage/me/chart' component={Chart}/>
                                     <Route path='/backstage/financial/transaction' component={Transaction}/>
                                     <Route path='/backstage/memory/news' component={News}/>
                                     <Route path='/backstage/memory/plan' component={Plan}/>
                                     <Route path='/backstage/memory/notebook' component={NoteBook}/>
                                     <Route path='/backstage/memory/notes' component={Notes}/>
                                     <Route path='/backstage/memory/memo' component={Memo}/>
+                                    <Route path='/backstage/oss/wallpaper' component={Wallpaper}/>
+                                    <Route path='/backstage/oss/illustration' component={Illustration}/>
                                     <Route path='/backstage/oss/files' component={Files}/>
                                     <Route path='/backstage/oss/db' component={DB}/>
                                     {/*默认、及匹配不到时的页面*/}

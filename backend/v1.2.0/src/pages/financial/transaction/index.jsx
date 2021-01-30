@@ -65,13 +65,13 @@ class Transaction extends Component {
                 align:'center',
             },
             {
-                title: '存入',
+                title: '收入金额',
                 dataIndex: 'deposited', // 显示数据对应的属性名
                 align:'right',
                 render:(value,row) => (formatMoney(row.deposited))
             },
             {
-                title: '取出',
+                title: '支出金额',
                 dataIndex: 'expenditure',// 显示数据对应的属性名
                 align:'right',
                 render:(value,row) => (formatMoney(row.expenditure))
@@ -97,7 +97,7 @@ class Transaction extends Component {
                 align:'center',
             },
             {
-                title: '产生总额',
+                title: '收支总额',
                 dataIndex: 'currencyNumber',// 显示数据对应的属性名
                 align:'right',
                 render:(value,row) => (formatMoney(row.currencyNumber))
@@ -444,20 +444,20 @@ class Transaction extends Component {
             rangeDate = [null, null]
         }
         return (
-            <DocumentTitle title="财务流水">
+            <DocumentTitle title="收入支出">
                 <section>
                     <BillDeclare onRef={this.bindBillDeclareRef.bind(this)} refreshList={this.refreshListFromDeclare}/>
                     <BillDetail onRef={this.bindBillDetailRef.bind(this)}/>
                     <BillRenew onRef={this.bindBillRenewRef.bind(this)} refreshList={this.refreshListFromRenew}/>
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
-                            <Form.Item>
+                            <Form.Item label="交易类别:">
                                 <Select style={{width: '200px'}} value={tradeType} showSearch
                                         onChange={this.onChangeType} placeholder="请选择交易类别">
                                     {queryType}
                                 </Select>
                             </Form.Item>
-                            <Form.Item>
+                            <Form.Item label="填报时间:">
                                 <RangePicker value={rangeDate} disabledDate={disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>

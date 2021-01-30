@@ -5,7 +5,7 @@ import {openNotificationWithIcon} from "../../../utils/window";
 import moment from 'moment';
 import axios from "axios";
 import DocumentTitle from 'react-document-title'
-import {DeleteOutlined, DownloadOutlined, EditOutlined, ReloadOutlined, SearchOutlined} from "@ant-design/icons";
+import {DeleteOutlined, CloudDownloadOutlined, EditOutlined, ReloadOutlined, SearchOutlined,CloudUploadOutlined} from "@ant-design/icons";
 import {disabledDate} from "../../../utils/var";
 /*
  * 文件名：index.jsx
@@ -104,7 +104,7 @@ class Files extends Component {
                 title: '下载',
                 render: (text, record) => (
                     <div>
-                        <Button type="primary" onClick={() => this.downloadFile(record)} shape="circle" icon={<DownloadOutlined/>}/>
+                        <Button type="primary" onClick={() => this.downloadFile(record)} shape="circle" icon={<CloudDownloadOutlined/>}/>
                         &nbsp;
                         <Button type="primary" onClick={() => this.handleChangeFile(record)} shape="circle" icon={<EditOutlined/>}/>
                         &nbsp;
@@ -384,11 +384,11 @@ class Files extends Component {
                 <section>
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
-                            <Form.Item>
+                            <Form.Item label="文件名:">
                                 <Input type='text' value={filters.filename} onChange={this.fileInputInputChange}
                                        placeholder='请输入文件名'/>
                             </Form.Item>
-                            <Form.Item>
+                            <Form.Item label="上传时间:">
                                 <RangePicker value={rangeDate} disabledDate={disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>
@@ -403,7 +403,7 @@ class Files extends Component {
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="button" onClick={this.handleOpenUpload}>
-                                    <Icon type="cloud-upload" />上传
+                                    <CloudUploadOutlined/>上传
                                 </Button>
                             </Form.Item>
                         </Form>

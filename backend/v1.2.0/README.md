@@ -114,6 +114,11 @@ module.exports = override(
   npm install for-editor -S
 ```
 
+## 安装antd图表
+```shell script
+  npm install @ant-design/charts
+```
+
 ### 重大变更历程事件
 
 > ## 2020-12-28 修改记录-项目初始化

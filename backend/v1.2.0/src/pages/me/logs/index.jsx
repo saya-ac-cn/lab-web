@@ -265,13 +265,13 @@ class Logs extends Component {
                 <section>
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
-                            <Form.Item>
+                            <Form.Item label="操作类别:">
                                 <Select value={filters.selectType} className="queur-type" showSearch onChange={this.onChangeType}
-                                        placeholder="请选择日志类别">
+                                        placeholder="请选择操作类别">
                                     {type}
                                 </Select>
                             </Form.Item>
-                            <Form.Item>
+                            <Form.Item label="操作时间:">
                                 <RangePicker value={rangeDate} disabledDate={disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>

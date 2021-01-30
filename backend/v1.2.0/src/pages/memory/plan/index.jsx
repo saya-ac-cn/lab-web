@@ -405,7 +405,7 @@ class Plan extends Component {
                     <Row>
                         <Col span={24} className="toolbar">
                             <Form layout="inline">
-                                <Form.Item>
+                                <Form.Item label="计划时间:">
                                     <DatePicker value={rangeDate} picker="month" onChange={this.onChangeDate}/>
                                 </Form.Item>
                             </Form>
