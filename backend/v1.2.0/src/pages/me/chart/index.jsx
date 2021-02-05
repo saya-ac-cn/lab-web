@@ -3,10 +3,10 @@ import {Col, Row, DatePicker,Card, Statistic, Skeleton,Divider,List} from 'antd'
 import DocumentTitle from "react-document-title";
 import { TinyArea,TinyColumn,Progress,WordCloud,Rose,DualAxes } from '@ant-design/charts';
 import {QuestionCircleOutlined} from "@ant-design/icons";
-import {getAccountGrowthRate,getIncomePercentage,getActivityRate,getNewsRate,getOrderByAmount} from "../../../api/index";
+import {getAccountGrowthRate,getIncomePercentage,getActivityRate,getNewsRate,getOrderByAmount,getPreSixMonthBill,getCountAndWordCloud} from "../../../api/index";
 import moment from 'moment';
 import './index.less'
-import {disabledMonth} from "../../../utils/var";
+import {disabledMonth,formatMoney} from "../../../utils/var";
 import {openNotificationWithIcon} from "../../../utils/window";
 /*
  * 文件名：index.jsx
@@ -17,22 +17,22 @@ import {openNotificationWithIcon} from "../../../utils/window";
 
 
 var data4 = [
-  { "value": 3, "name": "关联" },
-  { "value": 3, "name": "分布" },
-  { "value": 3, "name": "区间" },
-  { "value": 3, "name": "占比" },
-  { "value": 3, "name": "地图" },
-  { "value": 3, "name": "时间" },
-  { "value": 3, "name": "比较" },
-  { "value": 3, "name": "流程" },
-  { "value": 3, "name": "趋势" },
+  { "notesCount": 3, "name": "关联" },
+  { "notesCount": 3, "name": "分布" },
+  { "notesCount": 3, "name": "区间" },
+  { "notesCount": 3, "name": "占比" },
+  { "notesCount": 3, "name": "地图" },
+  { "notesCount": 3, "name": "时间" },
+  { "notesCount": 3, "name": "比较" },
+  { "notesCount": 3, "name": "流程" },
+  { "notesCount": 3, "name": "趋势" },
 ];
 var config4 = {
   data: data4,
   height: 300,
   autoFit: true,
   wordField: 'name',
-  weightField: 'value',
+  weightField: 'notesCount',
   colorField: 'name',
   wordStyle: {
     fontFamily: 'Verdana',
@@ -47,153 +47,6 @@ var config4 = {
   }
 }
 
-var data5 = [
-  {
-    type: '分类一',
-    value: 27,
-  },
-  {
-    type: '分类二',
-    value: 25,
-  },
-  {
-    type: '分类三',
-    value: 18,
-  },
-  {
-    type: '分类四',
-    value: 15,
-  },
-  {
-    type: '分类五',
-    value: 10,
-  },
-  {
-    type: '其他',
-    value: 5,
-  },
-];
-var config5 = {
-  height: 300,
-  autoFit: true,
-  data: data5,
-  xField: 'type',
-  yField: 'value',
-  seriesField: 'type',
-  radius: 0.9,
-  label: { offset: -15 },
-};
-
-const data6 = [
-  '工资',
-  '房贷',
-  '租房',
-  '消费',
-  '研发',
-];
-
-var uvBillData = [
-  {
-    time: '2019-03',
-    value: 350,
-    type: '收入',
-  },
-  {
-    time: '2019-04',
-    value: 900,
-    type: '收入',
-  },
-  {
-    time: '2019-05',
-    value: 300,
-    type: '收入',
-  },
-  {
-    time: '2019-06',
-    value: 450,
-    type: '收入',
-  },
-  {
-    time: '2019-07',
-    value: 470,
-    type: '收入',
-  },
-  {
-    time: '2019-03',
-    value: 220,
-    type: '支出',
-  },
-  {
-    time: '2019-04',
-    value: 300,
-    type: '支出',
-  },
-  {
-    time: '2019-05',
-    value: 250,
-    type: '支出',
-  },
-  {
-    time: '2019-06',
-    value: 220,
-    type: '支出',
-  },
-  {
-    time: '2019-07',
-    value: 362,
-    type: '支出',
-  },
-];
-var transformData = [
-  {
-    time: '2019-03',
-    count: 800,
-  },
-  {
-    time: '2019-04',
-    count: 600,
-  },
-  {
-    time: '2019-05',
-    count: 400,
-  },
-  {
-    time: '2019-06',
-    count: 380,
-  },
-  {
-    time: '2019-07',
-    count: 220,
-  },
-];
-var config7 = {
-  autoFit: true,
-  data: [uvBillData, transformData],
-  xField: 'time',
-  yField: ['value', 'count'],
-  geometryOptions: [
-    {
-      geometry: 'column',
-      isGroup: true,
-      seriesField: 'type',
-      columnWidthRatio: 0.4,
-      label: {},
-      color: ['#5B8FF9', '#5D7092'],
-    },
-    {
-      geometry: 'line',
-      color: '#5AD8A6',
-    },
-  ],
-  meta: {
-    count: {
-      alias: '收支总额',
-      formatter: function formatter(v) {
-        return v//Number((v / 100).toFixed(1));
-      },
-    },
-  },
-};
 // 定义组件（ES6）
 class Chart extends Component {
 
@@ -244,16 +97,70 @@ class Chart extends Component {
         }
       }
     },
+    // 前半年统计图 和 摘要排名 共用的查询时间
     financial:{
       tradeDate:null,
     },
+    // 前半年账单
     financial6:{
+      config:{
+        autoFit: true,
+        xField: 'time',
+        yField: ['value', 'count'],
+        geometryOptions: [
+          {
+            geometry: 'column',
+            isGroup: true,
+            seriesField: 'type',
+            columnWidthRatio: 0.4,
+            label: {},
+            color: ['#5B8FF9', '#5D7092'],
+          },
+          {
+            geometry: 'line',
+            color: '#5AD8A6',
+          },
+        ],
+        meta: {
+          count: {
+            alias: '收支总额',
+          },
+        },
+      },
       loading:true,
-      serverData:{}
+      serverData:{
+        currencyNumber:[],
+        incomeAndPay:[],
+      }
     },
+    // 摘要排名
     amountOrder:{
       loading:true,
       serverData:[]
+    },
+    // 数据分布 及 词云
+    countAndWordCloud:{
+      loading:true,
+      wordCloudConfig:{
+        height: 260,
+        autoFit: true,
+        wordField: 'name',
+        weightField: 'notesCount',
+        colorField: 'name',
+        wordStyle: {
+          fontFamily: 'Verdana',
+          fontSize: [
+            8,
+            32
+          ],
+          rotation: 0
+        },
+        random: function random() {
+          return 0.5;
+        }
+      },
+      serverRoseData:[],
+      serverWordCloudData:[]
     }
   };
 
@@ -389,6 +296,60 @@ class Chart extends Component {
   };
 
   /**
+   * 前6个月账单
+   * @returns {Promise<void>}
+   */
+  loadPreSixMonthBill = async () => {
+    const _this = this;
+    let {financial6,financial} = _this.state;
+    financial6.loading = true;
+    _this.setState({financial6});
+    // 发异步ajax请求, 获取数据
+    const {msg, code, data} = await getPreSixMonthBill((financial.tradeDate).format('YYYY-MM-DD'));
+    financial6.loading = false;
+    if (code === 0) {
+      let currencyNumber = [];
+      let incomeAndPay = [];
+      for (let i = 0; i < data.length; i++) {
+        let item = data[i];
+        // 总收支
+        currencyNumber.push({time:item.tradeDate,count:item.currencyNumber})
+        // 总收入
+        incomeAndPay.push({time:item.tradeDate,value:item.deposited,type:'收入'})
+        // 总支出
+        incomeAndPay.push({time:item.tradeDate,value:item.expenditure,type:'支出'})
+      }
+      financial6.serverData = {currencyNumber:currencyNumber,incomeAndPay:incomeAndPay};
+      _this.setState({financial6});
+    }else {
+      _this.setState({financial6});
+      openNotificationWithIcon("error", "错误提示", msg);
+    }
+  };
+
+  /**
+   * 数据总量及词云数据
+   * @returns {Promise<void>}
+   */
+  loadCountAndWordCloud= async () => {
+    const _this = this;
+    let countAndWordCloud = _this.state.countAndWordCloud;
+    countAndWordCloud.loading = true;
+    _this.setState({countAndWordCloud});
+    // 发异步ajax请求, 获取数据
+    const {msg, code, data} = await getCountAndWordCloud();
+    countAndWordCloud.loading = false;
+    if (code === 0) {
+      countAndWordCloud.serverRoseData = data.rose;
+      countAndWordCloud.serverWordCloudData = data.wordCloud;
+      _this.setState({countAndWordCloud});
+    }else {
+      _this.setState({countAndWordCloud});
+      openNotificationWithIcon("error", "错误提示", msg);
+    }
+  };
+
+  /**
    * 页面中日期发生变化后的时间
    * @param date
    * @param filed
@@ -400,9 +361,32 @@ class Chart extends Component {
     _this.setState({
       [filed]: _chart
     },function () {
-      console.log("触发查询")
+      _this.tradeDateChangeHandle(filed);
     });
   };
+
+  tradeDateChangeHandle = (type) => {
+    switch (type) {
+      case "accountGrowthRate":
+        this.loadAccountGrowthRate();
+        break;
+      case "incomePercentage":
+        this.loadIncomePercentage();
+        break;
+      case "activityRate":
+        this.loadActivityRate();
+        break;
+      case "newsRate":
+        this.loadNewsRate()
+        break;
+      case "financial":
+        this.loadOrderByAmount();
+        this.loadPreSixMonthBill();
+        break;
+      default:
+        break
+    }
+  }
 
   /**
    * 鼠标放置活动率面积图事件
@@ -473,11 +457,13 @@ class Chart extends Component {
       _this.loadActivityRate();
       _this.loadNewsRate();
       _this.loadOrderByAmount();
+      _this.loadPreSixMonthBill();
+      _this.loadCountAndWordCloud();
     });
   }
 
   render() {
-    const {accountGrowthRate,incomePercentage,activityRate,newsRate,financial,amountOrder} = this.state;
+    const {accountGrowthRate,incomePercentage,activityRate,newsRate,financial,amountOrder,financial6,countAndWordCloud} = this.state;
     return (
       <DocumentTitle title='概览'>
         <section className='background-chart'>
@@ -497,7 +483,7 @@ class Chart extends Component {
                                 ? '-':
                                 <div>
                                   {accountGrowthRate.serverData.m2m+'%'}
-                                  <div style={{width:'1em',height:'1em',backgroundSize: 'cover',backgroundImage:`url('${process.env.PUBLIC_URL+(accountGrowthRate.serverData.m2m>0)?'/picture/chart/caret-up.svg':'/picture/chart/caret-down.svg'}')`}}></div>
+                                  <div style={{width:'1em',height:'1em',backgroundSize: 'cover',backgroundImage:`url('${process.env.PUBLIC_URL+'/picture/chart/'+(accountGrowthRate.serverData.m2m>0?'caret-up.svg':'caret-down.svg')}')`}}></div>
                                 </div>
                           }
                         </div>
@@ -508,14 +494,14 @@ class Chart extends Component {
                                 ? '-':
                                 <div>
                                   {accountGrowthRate.serverData.y2y+'%'}
-                                  <div style={{width:'1em',height:'1em',backgroundSize: 'cover',backgroundImage:`url('${process.env.PUBLIC_URL+(accountGrowthRate.serverData.y2y>0)?'/picture/chart/caret-up.svg':'/picture/chart/caret-down.svg'}')`}}></div>
+                                  <div style={{width:'1em',height:'1em',backgroundSize: 'cover',backgroundImage:`url('${process.env.PUBLIC_URL+'/picture/chart/'+(accountGrowthRate.serverData.y2y>0?'caret-up.svg':'caret-down.svg')}')`}}></div>
                                 </div>
                           }
                         </div>
                       </div>
                       <Divider className='extra-divider'/>
                       <div>
-                        日均收支金额(元)：{(accountGrowthRate.serverData && accountGrowthRate.serverData.avg)?accountGrowthRate.serverData.avg:'-'}
+                        日均收支金额(元)：{(accountGrowthRate.serverData && accountGrowthRate.serverData.avg)?formatMoney(accountGrowthRate.serverData.avg,2):'-'}
                       </div>
                     </Card>
               }
@@ -526,11 +512,11 @@ class Chart extends Component {
                     <Card><Skeleton active/></Card>
                     :
                     <Card>
-                      <Statistic title={<div className='notice-tooltip'>收支率<DatePicker bordered={false} disabledDate={disabledMonth} onChange={(e)=>this.tradeDateChange(e,'incomePercentage')}  picker="month" className='date-switch' value={incomePercentage.tradeDate} format='YYYY年MM月'/></div>} valueStyle={{ color: ((incomePercentage.serverData && incomePercentage.serverData.percentage)?incomePercentage.serverData.percentage:0)>=50?'#cf1322':'#3f8600' }} value={(incomePercentage.serverData && incomePercentage.serverData.percentage)?incomePercentage.serverData.percentage:'-'} precision={2} suffix="%"/>
+                      <Statistic title={<div className='notice-tooltip'>收支率<DatePicker bordered={false} disabledDate={disabledMonth} onChange={(e)=>this.tradeDateChange(e,'incomePercentage')}  picker="month" className='date-switch' value={incomePercentage.tradeDate} format='YYYY年MM月'/></div>} valueStyle={{ color: ((incomePercentage.serverData && incomePercentage.serverData.percentage)?incomePercentage.serverData.percentage:0)>=0.5?'#cf1322':'#3f8600' }} value={(incomePercentage.serverData && incomePercentage.serverData.percentage)?incomePercentage.serverData.percentage*100:'-'} precision={2} suffix="%"/>
                       <Progress height={70} autoFit={true} percent={(incomePercentage.serverData && incomePercentage.serverData.percentage)?incomePercentage.serverData.percentage:0} barWidthRatio={0.1} color={['#cf1322','#3f8600']} />
                       <Divider className='extra-divider'/>
                       <div>
-                        总收入金额(元)：{(incomePercentage.serverData && incomePercentage.serverData.account)?incomePercentage.serverData.account:'-'}
+                        总收支金额(元)：{(incomePercentage.serverData && incomePercentage.serverData.account)?incomePercentage.serverData.account:'-'}
                       </div>
                     </Card>
               }
@@ -569,9 +555,14 @@ class Chart extends Component {
           <Row gutter={[16, 16]}>
             <Col span={24}>
               <Card title="收入支出" bordered={false} extra={<DatePicker bordered={false} disabledDate={disabledMonth} onChange={(e)=>this.tradeDateChange(e,'financial')}  picker="month" className='date-switch' value={financial.tradeDate} format='YYYY年MM月'/>}>
-                <Row gutter={50}>
+                <Row gutter={50} style={{minHeight:'25em'}}>
                   <Col span={18}>
-                    <DualAxes {...config7} />
+                    {
+                      financial6.loading?
+                        <Skeleton active/>
+                        :
+                        <DualAxes {...financial6.config} data={[financial6.serverData.incomeAndPay, financial6.serverData.currencyNumber]}/>
+                    }
                   </Col>
                   <Col span={6}>
                     {
@@ -584,7 +575,7 @@ class Chart extends Component {
                               dataSource={amountOrder.serverData}
                               renderItem={item => (
                                   <List.Item>
-                                    {item.index}、{item.name}<span style={{float:'right'}}>{item.count}</span>
+                                    {item.index}、{item.name}<span style={{float:'right'}}>¥{formatMoney(item.count,2)}</span>
                                   </List.Item>
                               )}
                           />
@@ -594,16 +585,26 @@ class Chart extends Component {
               </Card>
             </Col>
           </Row>
-          <Row gutter={[16, 16]}>
+          <Row gutter={[16, 16]} >
             <Col span={15}>
-              <Card title="数据分布" bordered={false}>
-                <Rose {...config5} />
-              </Card>
+              {
+                countAndWordCloud.loading?
+                  <Card><Skeleton active/></Card>
+                  :
+                  <Card title="数据分布" bordered={false}>
+                    <Rose height={260} autoFit={true} xField='type' yField='value' seriesField='type' radius={0.9} label={{ offset: -15 }} data={countAndWordCloud.serverRoseData}/>
+                  </Card>
+              }
             </Col>
             <Col span={9}>
-              <Card title="活跃笔记簿" bordered={false}>
-                <WordCloud {...config4} />
-              </Card>
+              {
+                countAndWordCloud.loading?
+                  <Card><Skeleton active/></Card>
+                  :
+                  <Card title="活跃笔记簿" bordered={false}>
+                    <WordCloud {...countAndWordCloud.wordCloudConfig} data={countAndWordCloud.serverWordCloudData}/>
+                  </Card>
+              }
             </Col>
           </Row>
         </section>

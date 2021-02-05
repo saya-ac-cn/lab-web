@@ -9,11 +9,21 @@
 
 const backstageMenuList = [
     {
+      title: '主页',// 菜单标题名称
+      key: '/backstage/chart',// 对应的path
+      icon: 'HomeOutlined',// 图标名称
+      hidden: false, //是否隐藏
+      requireAuth: true, // 是否需要登录后访问
+      root:true, // 是否为根节点（当根节点下无子节点时，需要设置本位）
+      children: null
+    },
+    {
         title: '我',// 菜单标题名称
         key: '/backstage/me',// 对应的path
         icon: 'UserOutlined',// 图标名称
         hidden: false, //是否隐藏
         requireAuth: true, // 是否需要登录后访问
+        root:false, // 是否为根节点
         children: [ // 子菜单列表
             {
                 title: '个人信息',
@@ -27,12 +37,12 @@ const backstageMenuList = [
                 hidden: false,
                 requireAuth: true
             },
-            {
-              title: '概览',
-              key: '/backstage/me/chart',
-              hidden: false,
-              requireAuth: true
-            }
+            // {
+            //   title: '概览',
+            //   key: '/backstage/me/chart',
+            //   hidden: false,
+            //   requireAuth: true
+            // }
         ]
     },
     {
@@ -41,6 +51,7 @@ const backstageMenuList = [
         icon: 'AccountBookOutlined',// 图标名称
         hidden: false, //是否隐藏
         requireAuth: true, // 是否需要登录后访问
+        root:false, // 是否为根节点
         children: [ // 子菜单列表
             {
                 title: '收入支出',
@@ -74,6 +85,7 @@ const backstageMenuList = [
         icon: 'ScheduleOutlined',// 图标名称
         hidden: false, //是否隐藏
         requireAuth: true, // 是否需要登录后访问
+        root:false, // 是否为根节点
         children: [ // 子菜单列表
             {
               title: '消息动态',
@@ -113,6 +125,7 @@ const backstageMenuList = [
       icon: 'DatabaseOutlined',// 图标名称
       hidden: false, //是否隐藏
       requireAuth: true, // 是否需要登录后访问
+      root:false, // 是否为根节点
       children: [ // 子菜单列表
         {
           title: '图片壁纸',
