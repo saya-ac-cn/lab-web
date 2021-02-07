@@ -50,7 +50,7 @@ const backstageMenuList = [
             },
             {
                 title: '日度报表',
-                key: '/backstage/financial/financialForDay',
+                key: '/backstage/financial/day',
                 hidden: false,
                 requireAuth: true
             },

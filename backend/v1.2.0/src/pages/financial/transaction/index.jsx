@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {getTransactionList, getFinancialType, applyTransaction, updateTransaction, deleteTransaction, downTransaction, outTransactionInfoExcel} from '../../../api'
+import {getTransactionList, getFinancialType, deleteTransaction, downTransaction, outTransactionInfoExcel} from '../../../api'
 import {
-  LoadingOutlined,
   SearchOutlined,
   ReloadOutlined,
   FileExcelOutlined,
@@ -11,7 +10,7 @@ import {
   DeleteOutlined} from '@ant-design/icons';
 import DocumentTitle from 'react-document-title'
 import moment from 'moment';
-import {Button, Col, DatePicker, Spin, Form, Select, Table, Modal} from "antd";
+import {Button, Col, DatePicker, Form, Select, Table, Modal} from "antd";
 import {openNotificationWithIcon,showLoading} from "../../../utils/window";
 import BillDeclare from './declare'
 import BillDetail from './detail'

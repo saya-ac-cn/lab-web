@@ -22,6 +22,7 @@ import Files from "../../oss/file";
 import Wallpaper from "../../oss/wallpaper";
 import Illustration from "../../oss/illustration";
 import Chart from "../../me/chart";
+import FinancialForDay from "../../financial/day";
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -402,6 +403,7 @@ class LayoutBackend extends Component {
                                     <Route path='/backstage/me/logs' component={Logs}/>
                                     <Route path='/backstage/me/chart' component={Chart}/>
                                     <Route path='/backstage/financial/transaction' component={Transaction}/>
+                                    <Route path='/backstage/financial/day' component={FinancialForDay} />
                                     <Route path='/backstage/memory/news' component={News}/>
                                     <Route path='/backstage/memory/plan' component={Plan}/>
                                     <Route path='/backstage/memory/notebook' component={NoteBook}/>
