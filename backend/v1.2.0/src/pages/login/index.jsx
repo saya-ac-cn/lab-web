@@ -136,7 +136,7 @@ class Login extends Component {
       memoryUtils.user = data;// 保存在内存中
       storageUtils.saveUser(data); // 保存到local中
       // 跳转到管理界面 (不需要再回退回到登陆),push是需要回退
-      this.props.history.replace('/backstage')
+      this.props.history.replace('/backstage/chart')
     } else if (code === 5) {
       message.error('请输入用户名和密码');
     } else {

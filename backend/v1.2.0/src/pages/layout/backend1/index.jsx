@@ -7,7 +7,7 @@ import memoryUtils from "../../../utils/memoryUtils";
 import storageUtils from '../../../utils/storageUtils'
 import {isEmptyObject} from "../../../utils/var"
 import { Button, Input, Menu, Popover, Avatar, Breadcrumb, Badge, Modal} from 'antd';
-import {NotificationOutlined,MessageOutlined, DatabaseOutlined,StockOutlined,FieldTimeOutlined,SearchOutlined,UserOutlined,AccountBookOutlined,ScheduleOutlined,PushpinOutlined,CarryOutOutlined,MoneyCollectOutlined,SwitcherOutlined} from '@ant-design/icons';
+import {HomeOutlined,NotificationOutlined,MessageOutlined, DatabaseOutlined,StockOutlined,FieldTimeOutlined,SearchOutlined,UserOutlined,AccountBookOutlined,ScheduleOutlined,PushpinOutlined,CarryOutOutlined,MoneyCollectOutlined,SwitcherOutlined} from '@ant-design/icons';
 import {requestLogout} from '../../../api'
 import Info from '../../me/info'
 import Logs from '../../me/logs'
@@ -63,6 +63,9 @@ class LayoutBackend extends Component {
             }
             case 'ScheduleOutlined':{
               return <ScheduleOutlined/>
+            }
+            case 'HomeOutlined':{
+              return <HomeOutlined/>
             }
             default: {
                 return <MessageOutlined/>
@@ -127,9 +130,22 @@ class LayoutBackend extends Component {
         return menuList.reduce((pre, item) => {
             // 向pre添加<Menu.Item>
             if (!item.children && item.hidden === false) {
+              if(item.root){
+                // 处理只有根节点，无子节点的菜单
+                if(path===item.key){
+                  // 当前打开的是根节点且无子节点，无须展开
+                  _this.setState({
+                    openKeys:[]
+                  })
+                }
                 pre.push((
-                    <Menu.Item key={item.key}><Button type="link" href={item.key}>{item.title}</Button></Menu.Item>
+                  <Menu.Item key={item.key} icon={_this.transformComponent(item.icon)}><Button type="link" style={{padding:0,color:'rgba(255, 255, 255, 0.7)'}} href={item.key}>{item.title}</Button></Menu.Item>
                 ))
+              }else{
+                pre.push((
+                  <Menu.Item key={item.key}><Button type="link" href={item.key}>{item.title}</Button></Menu.Item>
+                ))
+              }
             } else if (item.children && item.hidden === false) {
                 // 查找一个与当前请求路径匹配的子Item
                 const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0);
@@ -141,7 +157,7 @@ class LayoutBackend extends Component {
                 }
                 // 向pre添加<SubMenu>
                 pre.push((
-                    <SubMenu key={item.key} icon={_this.transformComponent(item.icon)} title={<span>{item.title}</span>}>
+                    <SubMenu key={item.key} icon={_this.transformComponent(item.icon)} style={{color:'rgba(255, 255, 255, 0.7)'}} title={<span>{item.title}</span>}>
                         {_this.getMenuNodes(item.children)}
                     </SubMenu>
                 ));
@@ -292,10 +308,6 @@ class LayoutBackend extends Component {
             // 当前请求的是news及其下面的路由
             path = '/backstage/message/news'
         }
-        // if(openKeys.length === 0 || path !== openKeys[0]){
-        //     openKeys = this.getParentMenuChild(path)
-        //     console.log("-------------",openKeys)
-        // }
         // 显示搜索框
         let showSearch = true
         if (path.indexOf('/backstage/memory/notes') === 0){
@@ -401,7 +413,7 @@ class LayoutBackend extends Component {
                                 <Switch>
                                     <Route path='/backstage/me/info' component={Info}/>
                                     <Route path='/backstage/me/logs' component={Logs}/>
-                                    <Route path='/backstage/me/chart' component={Chart}/>
+                                    <Route path='/backstage/chart' component={Chart}/>
                                     <Route path='/backstage/financial/transaction' component={Transaction}/>
                                     <Route path='/backstage/financial/day' component={FinancialForDay} />
                                     <Route path='/backstage/memory/news' component={News}/>
