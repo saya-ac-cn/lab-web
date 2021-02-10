@@ -3,10 +3,10 @@ import {totalTransactionForDay, outTransactionForDayExcel} from "../../../api";
 import {openNotificationWithIcon} from "../../../utils/window";
 import moment from 'moment';
 import axios from 'axios';
-import {SearchOutlined,ReloadOutlined,PlusOutlined} from '@ant-design/icons';
+import {SearchOutlined, ReloadOutlined, FileExcelOutlined} from '@ant-design/icons';
 import DocumentTitle from 'react-document-title'
 import {Button, Col, DatePicker, Table, Form} from "antd";
-import {PlusOutlined, ReloadOutlined, SearchOutlined} from "@ant-design/icons";
+import {disabledDate, formatMoney} from "../../../utils/var";
 /*
  * 文件名：index.jsx
  * 作者：liunengkai
@@ -40,20 +40,27 @@ class FinancialForDay extends Component {
     initColumns = () => {
         this.columns = [
             {
-                title: '产生日期',
+                title: '统计日期',
                 dataIndex: 'tradeDate', // 显示数据对应的属性名
+                align:'center',
             },
             {
-                title: '流入',
+                title: '收入',
                 dataIndex: 'deposited', // 显示数据对应的属性名
+                align:'right',
+                render:(value,row) => (formatMoney(row.deposited))
             },
             {
-                title: '流出',
+                title: '支出',
                 dataIndex: 'expenditure', // 显示数据对应的属性名
+                align:'right',
+                render:(value,row) => (formatMoney(row.expenditure))
             },
             {
-                title: '产生总额',
+                title: '收支总额',
                 dataIndex: 'currencyNumber', // 显示数据对应的属性名
+                align:'right',
+                render:(value,row) => (formatMoney(row.currencyNumber))
             }
         ]
     };
@@ -213,7 +220,7 @@ class FinancialForDay extends Component {
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
                             <Form.Item>
-                                <RangePicker value={rangeDate} onChange={this.onChangeDate}/>
+                                <RangePicker value={rangeDate} disabledDate={disabledDate} onChange={this.onChangeDate}/>
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="button" onClick={this.getDatas}>
@@ -227,13 +234,13 @@ class FinancialForDay extends Component {
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="button" onClick={this.exportExcel}>
-                                    <PlusOutlined/>申报
+                                    <FileExcelOutlined/>导出
                                 </Button>
                             </Form.Item>
                         </Form>
                     </Col>
                     <Col span={24} className="dataTable">
-                        <Table size="middle" rowKey='tradeDate' loading={listLoading} columns={this.columns} dataSource={datas}
+                        <Table size="middle" bordered rowKey='tradeDate' loading={listLoading} columns={this.columns} dataSource={datas}
                                pagination={{
                                    current:nowPage,
                                    showTotal: () => `当前第${nowPage}页 共${dataTotal}条`,
