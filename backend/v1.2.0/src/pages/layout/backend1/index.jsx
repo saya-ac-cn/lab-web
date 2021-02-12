@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './index.less'
-import {Redirect, Route, Switch, Link, withRouter} from 'react-router-dom'
+import {Redirect, Route, Switch, Link} from 'react-router-dom'
 import { MenuOutlined } from '@ant-design/icons';
 import menuConfig from '../../../config/backendMenuConfig'
 import memoryUtils from "../../../utils/memoryUtils";
@@ -23,6 +23,8 @@ import Wallpaper from "../../oss/wallpaper";
 import Illustration from "../../oss/illustration";
 import Chart from "../../me/chart";
 import FinancialForDay from "../../financial/day";
+import FinancialForMonth from "../../financial/month";
+import FinancialForYear from "../../financial/year";
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -278,7 +280,7 @@ class LayoutBackend extends Component {
      */
     addNotes = () => {
         // 跳转到笔记列表界面 (需要再回退到当前页面),replace是不需要回退
-        this.props.history.push('/backstage/grow/notes/create')
+        this.props.history.push('/backstage/memory/notes/create')
     }
 
     /*
@@ -392,8 +394,8 @@ class LayoutBackend extends Component {
                         </div>
                         <div className={`menu-copyright ${collapsed?"menu-copyright-close":null}`}>
                             <Button type="link" title='切换壁纸' href="/backstage/oss/wallpaper"><SwitcherOutlined/></Button>
-                            <Button type="link" title='复刻记忆' href="/backstage/set/dashBoard"><StockOutlined/></Button>
-                            <Button type="link" title='定时备份' href="/backstage/message/guestbook"><FieldTimeOutlined/></Button>
+                            <Button type="link" title='数据统计' href="/backstage/chart"><StockOutlined/></Button>
+                            <Button type="link" title='操作日志' href="/backstage/me/logs"><FieldTimeOutlined/></Button>
                         </div>
                     </div>
                     <div className='content-container'>
@@ -416,6 +418,8 @@ class LayoutBackend extends Component {
                                     <Route path='/backstage/chart' component={Chart}/>
                                     <Route path='/backstage/financial/transaction' component={Transaction}/>
                                     <Route path='/backstage/financial/day' component={FinancialForDay} />
+                                    <Route path='/backstage/financial/month' component={FinancialForMonth}/>
+                                    <Route path='/backstage/financial/year' component={FinancialForYear}/>
                                     <Route path='/backstage/memory/news' component={News}/>
                                     <Route path='/backstage/memory/plan' component={Plan}/>
                                     <Route path='/backstage/memory/notebook' component={NoteBook}/>
@@ -439,10 +443,10 @@ class LayoutBackend extends Component {
                         </div>
                     </div>
                     <div className='quick-div'>
-                        <Button type="link" title='流水申报' href="/backstage/financial/transaction"><MoneyCollectOutlined/></Button>
-                        <Button type="link" title='发布动态' href="/backstage/message/news/publish"><NotificationOutlined/></Button>
-                        <Button type="link" title='安排计划' href="/backstage/grow/plan"><CarryOutOutlined/></Button>
-                        <Button type="link" title='便利贴' href="/backstage/grow/memo"><PushpinOutlined/></Button>
+                        <Button type="link" title='记账' href="/backstage/financial/transaction"><MoneyCollectOutlined/></Button>
+                        <Button type="link" title='发布动态' href="/backstage/memory/news/publish"><NotificationOutlined/></Button>
+                        <Button type="link" title='日程安排' href="/backstage/memory/plan"><CarryOutOutlined/></Button>
+                        <Button type="link" title='便利贴' href="/backstage/memory/memo"><PushpinOutlined/></Button>
                     </div>
                 </section>
             </div>

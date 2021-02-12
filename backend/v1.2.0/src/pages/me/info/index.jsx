@@ -65,34 +65,34 @@ class Info extends Component {
         //     password:1111111
         // })
         if (!value) {
-          return Promise.reject('密码必须输入')
+          return callback('密码必须输入')
         } else if (value.length < 6) {
-          return Promise.reject('密码长度不能小于6位')
+          return callback('密码长度不能小于6位')
         } else if (value.length > 20) {
-          return Promise.reject('密码长度不能大于20位')
+          return callback('密码长度不能大于20位')
         } else if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-          return Promise.reject('密码必须是英文、数字或下划线组成')
+          return callback('密码必须是英文、数字或下划线组成')
         } else {
-          return Promise.reject() // 验证通过
+          return callback() // 验证通过
         }
         // callback('xxxx') // 验证失败, 并指定提示的文本
     };
 
-    validatePwd2 = (rule, value) => {
+    validatePwd2 = (rule, value,callback) => {
         // 提取第一个密码框的值
         const password = this.pwdFormRef.current.getFieldValue('password1');
         if (!value) {
-          return Promise.reject('密码必须输入')
+          return callback('密码必须输入')
         } else if (value.length < 6) {
-          return Promise.reject('密码长度不能小于6位')
+          return callback('密码长度不能小于6位')
         } else if (value.length > 20) {
-          return Promise.reject('密码长度不能大于20位')
+          return callback('密码长度不能大于20位')
         } else if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-          return Promise.reject('密码必须是英文、数字或下划线组成')
+          return callback('密码必须是英文、数字或下划线组成')
         } else if (value !== password) {
-          return Promise.reject('您两次输入的密码不一致')
+          return callback('您两次输入的密码不一致')
         } else {
-          return Promise.reject() // 验证通过
+          return callback() // 验证通过
         }
     };
 

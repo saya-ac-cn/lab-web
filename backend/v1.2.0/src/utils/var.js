@@ -24,7 +24,7 @@ export const isEmptyObject = (data) => {
 export const formatMoney = (s, n) => {
     n = typeof(n)==="undefined"?2:n;
     n = n > 0 && n <= 20 ? n : 2;
-    s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+    s = parseFloat((s + "").replace(/[^\d.-]/g, "")).toFixed(n) + "";
     let l = s.split(".")[0].split("").reverse(),
         r = s.split(".")[1];
     let t= "";

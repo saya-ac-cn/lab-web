@@ -11,9 +11,7 @@ import {ConfigProvider} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import './console'
 // 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
-import moment from 'moment';
 import 'moment/locale/zh-cn';
-import locale from 'antd/es/locale/zh_CN';
 
 // 读取local中保存user, 保存到内存中
 const user = storageUtils.getUser();

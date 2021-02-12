@@ -67,13 +67,13 @@ const backstageMenuList = [
             },
             {
                 title: '月度报表',
-                key: '/backstage/financial/financialForMonth',
+                key: '/backstage/financial/month',
                 hidden: false,
                 requireAuth: true
             },
             {
                 title: '年度报表',
-                key: '/backstage/financial/financialForYear',
+                key: '/backstage/financial/year',
                 hidden: false,
                 requireAuth: true
             },

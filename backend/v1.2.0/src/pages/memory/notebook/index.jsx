@@ -33,7 +33,6 @@ class NoteBook extends Component {
             name: null,// 笔记簿名
             status: null// 笔记簿状态
         },
-        modalStatus: 0, // 标识添加/更新的确认框是否显示, 0: 都不显示, 1: 显示添加, 2: 显示更新
     };
 
     /*
@@ -234,7 +233,7 @@ class NoteBook extends Component {
 
     render() {
         // 读取状态数据
-        const {datas, dataTotal, nowPage, pageSize, listLoading,filters, modalStatus} = this.state;
+        const {datas, dataTotal, nowPage, pageSize, listLoading,filters} = this.state;
         return (
             <DocumentTitle title="笔记分类">
                 <section>
@@ -272,24 +271,6 @@ class NoteBook extends Component {
                                }}/>
                     </Col>
                   <EditNoteBook onRef={this.bindBookFormRef.bind(this)} refreshList={this.refreshListFromBookForm}/>
-                    {/*<Modal*/}
-                    {/*    title="添加笔记分类"*/}
-                    {/*    visible={modalStatus === 1}*/}
-                    {/*    onOk={this.handleAddNoteBook}*/}
-                    {/*    onCancel={this.handleModalCancel}>*/}
-                    {/*    <EditNoteBook noteBook={notebook} setForm={(form) => {*/}
-                    {/*        this.form = form*/}
-                    {/*    }}/>*/}
-                    {/*</Modal>*/}
-                    {/*<Modal*/}
-                    {/*    title="编辑笔记分类"*/}
-                    {/*    visible={modalStatus === 2}*/}
-                    {/*    onOk={this.handleEditNoteBook}*/}
-                    {/*    onCancel={this.handleModalCancel}>*/}
-                    {/*    <EditNoteBook noteBook={notebook} setForm={(form) => {*/}
-                    {/*        this.form = form*/}
-                    {/*    }}/>*/}
-                    {/*</Modal>*/}
                 </section>
             </DocumentTitle>
         );

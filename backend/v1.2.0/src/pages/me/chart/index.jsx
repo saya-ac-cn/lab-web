@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Col, Row, DatePicker,Card, Statistic, Skeleton,Divider,List} from 'antd';
 import DocumentTitle from "react-document-title";
 import { TinyArea,TinyColumn,Progress,WordCloud,Rose,DualAxes } from '@ant-design/charts';
-import {QuestionCircleOutlined} from "@ant-design/icons";
 import {getAccountGrowthRate,getIncomePercentage,getActivityRate,getNewsRate,getOrderByAmount,getPreSixMonthBill,getCountAndWordCloud} from "../../../api/index";
 import moment from 'moment';
 import './index.less'
@@ -14,38 +13,6 @@ import {openNotificationWithIcon} from "../../../utils/window";
  * 创建日期：2021/1/23 - 下午8:51
  * 描述：数据概览
  */
-
-
-var data4 = [
-  { "notesCount": 3, "name": "关联" },
-  { "notesCount": 3, "name": "分布" },
-  { "notesCount": 3, "name": "区间" },
-  { "notesCount": 3, "name": "占比" },
-  { "notesCount": 3, "name": "地图" },
-  { "notesCount": 3, "name": "时间" },
-  { "notesCount": 3, "name": "比较" },
-  { "notesCount": 3, "name": "流程" },
-  { "notesCount": 3, "name": "趋势" },
-];
-var config4 = {
-  data: data4,
-  height: 300,
-  autoFit: true,
-  wordField: 'name',
-  weightField: 'notesCount',
-  colorField: 'name',
-  wordStyle: {
-    fontFamily: 'Verdana',
-    fontSize: [
-      8,
-      32
-    ],
-    rotation: 0
-  },
-  random: function random() {
-    return 0.5;
-  }
-}
 
 // 定义组件（ES6）
 class Chart extends Component {
@@ -357,6 +324,9 @@ class Chart extends Component {
   tradeDateChange = (date,filed) => {
     const _this = this;
     let _chart = _this.state[filed];
+    if(!date){
+      return;
+    }
     _chart.tradeDate = date;
     _this.setState({
       [filed]: _chart
@@ -377,7 +347,7 @@ class Chart extends Component {
         this.loadActivityRate();
         break;
       case "newsRate":
-        this.loadNewsRate()
+        this.loadNewsRate();
         break;
       case "financial":
         this.loadOrderByAmount();
