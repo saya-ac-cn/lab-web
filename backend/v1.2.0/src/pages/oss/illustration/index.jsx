@@ -5,7 +5,7 @@ import './index.less'
 import {getPictureList, deletePicture} from "../../../api";
 import {openNotificationWithIcon} from "../../../utils/window";
 import DocumentTitle from 'react-document-title'
-import {disabledDate} from "../../../utils/var";
+import {disabledDate,isEmptyObject} from "../../../utils/var";
 import {
   CheckOutlined,
   DeleteOutlined,
@@ -77,7 +77,7 @@ class Illustration extends Component {
     rendering = (data) => {
         let {datas, nextpage} = this.state;
         // 渲染数据
-        if (!(this.isEmptyObject(data.grid))) {
+        if (!(isEmptyObject(data.grid))) {
             //第一页采用直接覆盖的显示方式
             if (data.pageNow === 1) {
                 datas = data.grid;//绑定到Vue
@@ -97,19 +97,6 @@ class Illustration extends Component {
             datas: datas,
             nextpage: nextpage
         })
-    };
-
-    /**
-     * 判断对象是否为空
-     * @param data
-     * @returns {boolean}
-     */
-    isEmptyObject = (data) => {
-        // 手写实现的判断一个对象{}是否为空对象，没有任何属性 非空返回false
-        var item;
-        for (item in data)
-            return false;
-        return true;
     };
 
     // 日期选择发生变化

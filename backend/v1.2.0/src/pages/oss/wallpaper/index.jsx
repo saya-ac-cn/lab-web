@@ -9,7 +9,7 @@ import axios from 'axios'
 import memoryUtils from "../../../utils/memoryUtils";
 import storageUtils from "../../../utils/storageUtils";
 import {ReloadOutlined, SearchOutlined,CloudUploadOutlined,DeleteOutlined,HeartOutlined,MinusOutlined,MoreOutlined,CheckOutlined} from "@ant-design/icons";
-import {disabledDate} from "../../../utils/var";
+import {disabledDate,isEmptyObject} from "../../../utils/var";
 
 /*
  * 文件名：index.jsx
@@ -79,7 +79,7 @@ class Wallpaper extends Component {
     rendering = (data) => {
         let {datas, nextpage} = this.state;
         // 渲染数据
-        if (!(this.isEmptyObject(data.grid))) {
+        if (!(isEmptyObject(data.grid))) {
             //第一页采用直接覆盖的显示方式
             if (data.pageNow === 1) {
                 datas = data.grid;//绑定到Vue
@@ -90,30 +90,17 @@ class Wallpaper extends Component {
             datas = 'null';
         }
         //显示是否加载下一页(当前页是最后一页)
-        console.log("是否当前页：",data.pageNow === data.totalPage)
+        //console.log("是否当前页：",data.pageNow === data.totalPage)
         if (data.pageNow === data.totalPage) {
             nextpage = 'null';
         } else {
             nextpage = data.pageNow + 1;
         }
-        console.log("设置下一页：",nextpage)
+        //console.log("设置下一页：",nextpage)
         this.setState({
             datas: datas,
             nextpage: nextpage
         })
-    };
-
-    /**
-     * 判断对象是否为空
-     * @param data
-     * @returns {boolean}
-     */
-    isEmptyObject = (data) => {
-        // 手写实现的判断一个对象{}是否为空对象，没有任何属性 非空返回false
-        var item;
-        for (item in data)
-            return false;
-        return true;
     };
 
     // 日期选择发生变化
@@ -227,7 +214,7 @@ class Wallpaper extends Component {
         }else{
             openNotificationWithIcon("error", "错误提示", '当前壁纸图片无效，该壁纸不能设置');
         }
-    }
+    };
 
     /**
      * 执行删除操作
@@ -335,10 +322,10 @@ class Wallpaper extends Component {
      * @param file
      */
     handleDelete = (file) => {
-        console.log(file)
+        //console.log(file)
         this.setState(state => {
             const index = state.fileList.indexOf(file);
-            console.log(index)
+            //console.log(index)
             const newFileList = state.fileList.slice();
             newFileList.splice(index, 1);
             return {

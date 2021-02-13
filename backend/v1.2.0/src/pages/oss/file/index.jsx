@@ -320,9 +320,9 @@ class Files extends Component {
      * @param item
      */
     handleChangeFile = (item) => {
-        let _this = this;
-        var message = '';
-        var sendStatus = null;
+        const _this = this;
+        let message = '';
+        let sendStatus = null;
         if (item.status === '1')
         {
             // 屏蔽

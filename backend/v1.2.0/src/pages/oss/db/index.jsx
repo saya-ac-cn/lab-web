@@ -94,7 +94,7 @@ class DB extends Component {
 
     reloadPage = () => {
         // 重置查询条件
-        let _this = this;
+        const _this = this;
         let filters = _this.state.filters;
         filters.beginTime = null;
         filters.endTime = null;
@@ -128,7 +128,7 @@ class DB extends Component {
 
     // 日期选择发生变化
     onChangeDate = (date, dateString) => {
-        let _this = this;
+        const _this = this;
         let {filters} = _this.state;
         // 为空要单独判断
         if (dateString[0] !== '' && dateString[1] !== ''){
