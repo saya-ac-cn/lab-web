@@ -140,7 +140,7 @@ class Transaction extends Component {
         // 在发请求前, 显示loading
         this.setState({listLoading: showLoading()});
         // 发异步ajax请求, 获取数据
-        const {msg, code, data} = await getTransactionList(para)
+        const {msg, code, data} = await getTransactionList(para);
         // 在请求完成后, 隐藏loading
         this.setState({listLoading: false});
         if (code === 0) {
@@ -153,7 +153,7 @@ class Transaction extends Component {
         } else {
             openNotificationWithIcon("error", "错误提示", msg);
         }
-    }
+    };
 
     /**
      * 刷新
@@ -208,9 +208,9 @@ class Transaction extends Component {
             data.forEach(item => {
                 type.push((<Option key={item.id} value={item.id}>{item.transactionType}</Option>));
             });
-            let copyType = []
+            let copyType = [];
             copyType.push(<Option key='-1' value="">请选择</Option>);
-            copyType.push(type)
+            copyType.push(type);
             _this.setState({
                 queryType: copyType
             })
@@ -254,7 +254,6 @@ class Transaction extends Component {
 
     /**
      * 财务流水申报弹框事件
-     * @param flag
      */
     handleAddModal = () => {
         const _this = this;
@@ -305,7 +304,7 @@ class Transaction extends Component {
                 // 在发请求前, 显示loading
                 _this.setState({listLoading: true});
                 let para = {tradeId: item.tradeId};
-                const {msg, code} = await deleteTransaction(para)
+                const {msg, code} = await deleteTransaction(para);
                 // 在请求完成后, 隐藏loading
                 _this.setState({listLoading: false});
                 if (code === 0) {
@@ -316,7 +315,7 @@ class Transaction extends Component {
                 }
             }
         })
-    }
+    };
 
     /**
      * 导出财务流水
@@ -330,7 +329,7 @@ class Transaction extends Component {
             beginTime: this.state.filters.beginTime,
             endTime: this.state.filters.endTime,
         };
-        console.log(para)
+        console.log(para);
         axios({
             method: "GET",
             url: downTransaction,   //接口地址
@@ -356,10 +355,11 @@ class Transaction extends Component {
                 }
             })
             .catch(function (res) {
+                console.log(res);
                 _this.setState({listLoading: false});
                 openNotificationWithIcon("error", "错误提示", "导出财务流水报表失败");
             });
-    }
+    };
 
     /**
      * 导出财务流水明细
@@ -373,7 +373,6 @@ class Transaction extends Component {
             beginTime: this.state.filters.beginTime,
             endTime: this.state.filters.endTime,
         };
-        console.log(para)
         axios({
             method: "GET",
             url: outTransactionInfoExcel,   //接口地址
@@ -399,6 +398,7 @@ class Transaction extends Component {
                 }
             })
             .catch(function (res) {
+                console.log(res);
                 _this.setState({listLoading: false});
                 openNotificationWithIcon("error", "错误提示", "导出财务流水明细报表失败");
             });

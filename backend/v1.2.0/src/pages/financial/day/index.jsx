@@ -187,10 +187,11 @@ class FinancialForDay extends Component {
                 }
             })
             .catch(function (res) {
+                console.log(res);
                 _this.setState({listLoading: false});
                 openNotificationWithIcon("error", "错误提示", "导出财务流水日度报表失败");
             });
-    }
+    };
 
     /*
     *为第一次render()准备数据

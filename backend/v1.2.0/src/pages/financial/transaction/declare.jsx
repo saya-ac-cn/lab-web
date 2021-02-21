@@ -54,7 +54,7 @@ class Declare extends Component {
       {
         title: '用户',
         dataIndex: 'source',
-        render:(value, row) => (!value ? this.state.currentUser:value),
+        render:(value) => (!value ? this.state.currentUser:value),
         align:'center',
       },
       {
@@ -190,7 +190,7 @@ class Declare extends Component {
   initFinancialType = async () => {
     let _this = this;
     // 发异步ajax请求, 获取数据
-    const {msg, code, data} = await getFinancialType()
+    const {msg, code, data} = await getFinancialType();
     if (code === 0) {
       let type = [];
       data.forEach(item => {
@@ -202,7 +202,7 @@ class Declare extends Component {
     } else {
       openNotificationWithIcon("error", "错误提示", msg);
     }
-  }
+  };
 
   /**
    * 获取所有的交易摘要
@@ -210,7 +210,7 @@ class Declare extends Component {
   initFinancialAmount = async () => {
     let _this = this;
     // 发异步ajax请求, 获取数据
-    const {msg, code, data} = await getFinancialAmount()
+    const {msg, code, data} = await getFinancialAmount();
     if (code === 0) {
       let type = [];
       data.forEach(item => {
@@ -222,7 +222,7 @@ class Declare extends Component {
     } else {
       openNotificationWithIcon("error", "错误提示", msg);
     }
-  }
+  };
 
   /**
    * 支付类型 或者 摘要 选择框改变事件
@@ -293,7 +293,6 @@ class Declare extends Component {
 
   /**
    * 递交申请
-   * @param e
    */
   handleApply = async () => {
     const _this = this;

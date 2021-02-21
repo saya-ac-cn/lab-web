@@ -46,11 +46,11 @@ const inputLabel = {
 
 const tableFooter = {
   'fontSize':'0.4em'
-}
+};
 
 const detailGrid = {
   'paddingBottom': '0.5em'
-}
+};
 
 // 定义组件（ES6）
 class BillDetail extends Component {
@@ -76,7 +76,7 @@ class BillDetail extends Component {
       },
       {
         title: '用户',
-        render:(value, row) => (!this.state.bill?'-':this.state.bill.source),
+        render:() => (!this.state.bill?'-':this.state.bill.source),
         align:'center',
       },
       {
@@ -136,7 +136,7 @@ class BillDetail extends Component {
     window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
     window.print();
     window.location.reload();
-  }
+  };
 
   handleDisplay = (val) => {
     let _this = this;

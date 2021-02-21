@@ -51,7 +51,7 @@ class Renew extends Component {
                 title: '用户',
                 dataIndex: 'source',
                 align:'center',
-                render:(value, row) => (!value ? (!this.state.newBill || !this.state.newBill.source?'': this.state.newBill.source):value),
+                render:(value) => (!value ? (!this.state.newBill || !this.state.newBill.source?'': this.state.newBill.source):value),
             },
             {
                 title: '交易类型',
@@ -203,7 +203,7 @@ class Renew extends Component {
             // 执行保存操作
             _this.addTransactionItem(dependSave);
         }
-    }
+    };
 
 
     /**
@@ -311,7 +311,7 @@ class Renew extends Component {
     initFinancialAmount = async () => {
         const _this = this;
         // 发异步ajax请求, 获取数据
-        const {msg, code, data} = await getFinancialAmount()
+        const {msg, code, data} = await getFinancialAmount();
         if (code === 0) {
             let type = [];
             data.forEach(item => {
@@ -347,7 +347,7 @@ class Renew extends Component {
             id: value.id,
             tradeId: value.tradeId
         };
-        const {msg, code} = await deleteTransactioninfo(para)
+        const {msg, code} = await deleteTransactioninfo(para);
         if (code === 0) {
             openNotificationWithIcon("success", "操作结果", "删除成功");
             this.getDatas();
@@ -451,7 +451,6 @@ class Renew extends Component {
 
     /**
      * 提交到后台修改
-     * @param e
      */
     handleEdit = async () => {
         const _this = this;
