@@ -33,7 +33,7 @@ const codeMessage = {
     502: '网关错误。',
     503: '服务不可用，服务器暂时过载或维护。',
     504: '网关超时。',
-}
+};
 
 
 export default function ajax(url, data = {}, type = 'GET') {
@@ -68,9 +68,9 @@ export default function ajax(url, data = {}, type = 'GET') {
             if (error === undefined || error.code === 'ECONNABORTED') {
                 message.error('服务请求超时')
             }
-            const { response: { status, statusText, data: { msg = '服务器发生错误' } }} = error
+            const { response: { status, statusText, data: { msg = '服务器发生错误' } }} = error;
             //const { response } = error
-            const text = codeMessage[status] || statusText || msg
+            const text = codeMessage[status] || statusText || msg;
             if (status === 401) {
                 // 未登录
                 storageUtils.removeUser();

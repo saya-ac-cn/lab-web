@@ -8,4 +8,4 @@
  */
 export const clearTrimValueEvent = (value) => {
     return value.target.value.replace(/\s+/g, '');
-}
+};

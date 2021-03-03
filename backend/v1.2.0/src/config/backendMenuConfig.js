@@ -153,5 +153,5 @@ const backstageMenuList = [
         }
       ]
     }
-]
+];
 export default backstageMenuList

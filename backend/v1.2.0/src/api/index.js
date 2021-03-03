@@ -125,14 +125,6 @@ export const outTransactionForMonthExcel = `${backendAPI}/api/financial/outTrans
 export const totalTransactionForYear = params => ajax(`${backendAPI}/api/financial/totalTransactionForYear`, params, 'GET');
 // 导出按月统计的报表
 export const outTransactionForYearExcel = `${backendAPI}/api/financial/outTransactionForYearExcel`;
-// 创建接口
-export const createApi = params => ajax(`${backendAPI}/api/set/api/create`, params, 'POST');
-// 修改接口
-export const editApi = params => ajax(`${backendAPI}/api/set/api/edit`, params, 'PUT');
-// 删除笔记
-export const deleteApi = params => ajax(`${backendAPI}/api/set/api/delete`, params, 'DELETE');
-// 获取接口
-export const getApi = params => ajax(`${backendAPI}/api/set/api/list`, params, 'GET');
 // 查看数据库备份执行列表
 export const getBackUpDBList = params => ajax(`${backendAPI}/api/oss/db`, params, 'GET');
 // 下载备份的数据库文件

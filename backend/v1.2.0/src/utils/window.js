@@ -16,4 +16,4 @@ export const openNotificationWithIcon_ = (type, message, description) => notific
 });
 
 // 重写loading样式
-export const showLoading = () => ({ indicator:<LoadingOutlined/>,size:'large',spinning:true})
+export const showLoading = () => ({ indicator:<LoadingOutlined/>,size:'large',spinning:true});

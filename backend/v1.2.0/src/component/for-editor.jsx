@@ -36,7 +36,7 @@ class ForEditor extends Component {
         this.setState({
             value
         })
-    }
+    };
 
     //添加图片时回调
     handleAddImg = async (file) => {
@@ -47,7 +47,7 @@ class ForEditor extends Component {
         } else {
             this.editorRef.current.$img2Url(file.name, 'file_url')
         }
-    }
+    };
 
     //向后台添加图片
     addImg = (file) => {
@@ -79,19 +79,15 @@ class ForEditor extends Component {
                     })
                 }
             })
-    }
+    };
 
     /**
      * 判断是否为空
      * @returns {boolean}
      */
     isNull = () => {
-        if (null === this.state.value || "" === (this.state.value).trim()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+        return null === this.state.value || "" === (this.state.value).trim();
+    };
 
     /**
      * 获取markdown
@@ -99,7 +95,7 @@ class ForEditor extends Component {
      */
     getValue = () => {
         return this.state.value;
-    }
+    };
 
     /**
      * 执行异步任务: 发异步ajax请求
@@ -111,7 +107,7 @@ class ForEditor extends Component {
     };
 
     render() {
-        const {value} = this.state
+        const {value} = this.state;
         return (
             <Editor
                 ref={this.editorRef}
