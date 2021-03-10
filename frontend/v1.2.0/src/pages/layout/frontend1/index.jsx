@@ -91,7 +91,7 @@ class Frontend extends Component {
               <Route path='/pandora/plan' component={Plan}/>
               <Route path='/pandora/me' component={About}/>
               {/*默认、及匹配不到时的页面*/}
-              <Redirect to='/'/>
+              <Redirect to='/404'/>
             </Switch>
 					</section>
 					{/*版权区域开始*/}
@@ -105,7 +105,7 @@ class Frontend extends Component {
                             Copyright &copy; 2016-{(new Date()).getFullYear() } Saya.ac.cn-亲亲里 All rights reserved 国家工信部域名备案信息：[saya.ac.cn/蜀ICP备19027394号]
                          </p>
                          <p>
-                            通讯地址：四川省宜宾市五粮液大道酒圣路8号(宜宾学院本部) 邮编：644000 Email：saya@saya.ac.cn
+                            通讯地址：四川省宜宾市五粮液大道东段酒圣路8号(宜宾学院本部) 邮编：644000 Email：saya@saya.ac.cn
                          </p>
                           <p>
                             建议您使用Google Chrome，分辨率1920*1080及以上浏览，获得更好用户体验
