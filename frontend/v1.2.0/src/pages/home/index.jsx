@@ -75,13 +75,13 @@ class Home extends Component {
     if (_width >= 1920){
       sectionWidth = _width * 0.8
     }else if(_width >= 1366){
-      sectionWidth = _width * 0.9
+      sectionWidth = _width * 0.8
     }else {
-      sectionWidth = _width * 0.95
+      sectionWidth = _width * 0.70
     }
-    scalar = sectionWidth / 150.0
+    scalar = sectionWidth / 150.0;
     _this.setState({sectionWidth,scalar})
-  }
+  };
 
   href = url => {
     // 跳转到管理界面 (不需要再回退回到登陆),push是需要回退,replace不需要
@@ -130,7 +130,7 @@ class Home extends Component {
                     <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,backgroundColor:'#8080C0',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/integral.svg')`}} className="inithover hover1">技术彩蛋</div>
                     <div className="field-grid" style={{width:scalar*17,height:scalar*17}}>
                       <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,backgroundColor:'#CCCC99'}} className="inithover hover1"></div>
-                      <div onClick={() => this.href("/v1")} style={{width:scalar*8,height:scalar*8,marginBottom:scalar, paddingLeft: '0.5em',paddingBottom: '0.5em',backgroundColor:'#99CC99',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/return.svg')`}} className="inithover hover1">返回旧版</div>
+                      <div onClick={() => this.href("/v1")} style={{width:scalar*8,height:scalar*8,marginBottom:scalar, paddingLeft: '0.5em',paddingBottom: '0.5em',backgroundColor:'#99CC99',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/return.svg')`,fontSize: '0.5em'}} className="inithover hover1">返回旧版</div>
                       <div style={{width:scalar*8,height:scalar*8,backgroundColor:'#FFCC99'}} className="inithover hover1"></div>
                       <div style={{width:scalar*8,height:scalar*8,backgroundColor:'#FF9966'}} className="inithover hover1"></div>
                     </div>
