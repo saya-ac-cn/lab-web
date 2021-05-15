@@ -21,7 +21,7 @@ class About extends Component {
               了解更多
             </div>
             <div className="about-web">
-              <div style={{backgroundImage:`${process.env.PUBLIC_URL}/picture/about/about1.jpg`}} className="web-picture"></div>
+              <div className="web-picture" style={{backgroundImage:`url('${process.env.PUBLIC_URL}/picture/about/about1.jpg')`}}></div>
               <div className="web-desc">
                 <h3>关于网站</h3>
                 <article>
