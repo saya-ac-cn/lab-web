@@ -23,6 +23,29 @@ class Growing extends Component {
             <div className="timeline">
 
               <div className="timeline-item">
+                <div className="timeline-icon pink">
+                </div>
+                <div className="timeline-content right">
+                  <h3>2021年5月</h3>
+                  <article>因服务器整体到期，域名重新进行通信管理局备案</article>
+                </div>
+              </div>
+
+              <div className="timeline-item">
+                <div className="timeline-icon orange">
+                </div>
+                <div className="timeline-content">
+                  <h3>2020年10月</h3>
+                  <div className='des-div'>
+                    <img alt="2019年3月" src={`${process.env.PUBLIC_URL}/picture/growing/psb6.png`}/>
+                    <div className="des-div-text">
+                      第五个里程碑版本。整体重构，持续改进页面布局、丰富完善功能。
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="timeline-item">
                 <div className="timeline-icon green">
                 </div>
                 <div className="timeline-content right">

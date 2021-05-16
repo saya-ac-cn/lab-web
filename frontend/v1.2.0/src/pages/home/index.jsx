@@ -25,7 +25,7 @@ class Home extends Component {
     // 单位标量
     scalar: 10,
     greetText: '好久不见，甚是想念，记得爱护自己！'
-  }
+  };
 
   /**
    * 根据小时，得到问候词
@@ -90,13 +90,13 @@ class Home extends Component {
 
 
   render() {
-    const {sectionWidth,scalar,greetText} = this.state
+    const {sectionWidth,scalar,greetText} = this.state;
     return (
       <DocumentTitle title="saya.ac.cn-主页">
         <div className="frontend-home">
           <header>
             <div className="header-content">
-              <span>Hello</span>
+              <span>极客印记</span>
               <span style={{fontSize:'0.4em'}}><SmileOutlined />&nbsp;&nbsp;{greetText}</span>
             </div>
           </header>
