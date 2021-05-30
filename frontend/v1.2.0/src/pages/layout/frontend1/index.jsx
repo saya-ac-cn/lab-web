@@ -12,6 +12,8 @@ import NoteInfo from '../../noteInfo'
 import Plan from '../../plan'
 import About from '../../about'
 import Growing from '../../growing'
+import File from '../../file'
+import Egg from "../../egg";
 const content = (
   <div style={{width:"10em",height:"10em",backgroundSize:"100%",backgroundImage:`url(${process.env.PUBLIC_URL}/picture/wx/wechat.png)`}}>
   </div>
@@ -86,9 +88,10 @@ class Frontend extends Component {
               <Route path='/pandora/note' exact={true} component={NoteList}/>
               <Route path='/pandora/note/:id' component={NoteInfo}/>
 
-              {/*<Route path='/pandora/newsInfo/:id' component={NewsInfo}/>*/}
               <Route path='/pandora/growing' component={Growing}/>
               <Route path='/pandora/plan' component={Plan}/>
+              <Route path='/pandora/files' component={File}/>
+              <Route path='/pandora/egg' component={Egg}/>
               <Route path='/pandora/me' component={About}/>
               {/*默认、及匹配不到时的页面*/}
               <Redirect to='/404'/>
