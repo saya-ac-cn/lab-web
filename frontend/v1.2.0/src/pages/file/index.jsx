@@ -69,7 +69,7 @@ class File extends Component {
     downloadFile = (row) => {
         let _this = this;
         // 在发请求前, 显示loading
-        _this.setState({listLoading: true});
+        //_this.setState({listLoading: true});
         axios({
             method: "GET",
             url: downloadFiles+row.id,   //接口地址
@@ -79,7 +79,7 @@ class File extends Component {
                 "Content-Type": "application/json"
             },
         }).then(function (res) {
-            _this.setState({listLoading: false});
+            //_this.setState({listLoading: false});
             let fileName = row.filename;//文件名称
             let blob = new Blob([res.data]);
             if (window.navigator.msSaveOrOpenBlob) {
@@ -92,7 +92,7 @@ class File extends Component {
                 window.URL.revokeObjectURL(link.href);
             }
         }).catch(function (res) {
-            _this.setState({listLoading: false});
+           //_this.setState({listLoading: false});
             openNotificationWithIcon_("error", "错误提示", "下载文件失败"+res);
         });
     };
@@ -153,7 +153,7 @@ class File extends Component {
                                     <Row id="datagrid" align='middle' justify='start'>
                                         {datas !== null ? datas.map((item) => (
                                                 <Col xs={3} sm={3} xxl={2} className="file-block" key={item.id}>
-                                                    <div className='file-icon' onClick={() => this.downloadFile(item)} style={{backgroundImage:`url('${process.env.PUBLIC_URL}/picture/suffix/pdf.svg')`}}></div>
+                                                    <div className='file-icon' onClick={() => this.downloadFile(item)} style={{backgroundImage:`url('${process.env.PUBLIC_URL}/picture/suffix/${item.filetype}.svg')`}}></div>
                                                     <Tooltip title={item.filename} color='#aec58b' placement="bottom">
                                                         <p className='file-name' onClick={() => this.downloadFile(item)}>{item.filename}</p>
                                                     </Tooltip>
