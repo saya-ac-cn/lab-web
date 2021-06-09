@@ -251,7 +251,7 @@ class Chart extends Component {
     amountOrder.loading = false;
     if (code === 0) {
       let array = [];
-      for (let i = 0; i < 5 && i < data.length; i++) {
+      for (let i = 0; i < 6 && i < data.length; i++) {
         array.push({'index':(i+1),'name':data[i].amountEntity.tag,'count':data[i].currencyNumber})
       }
       amountOrder.serverData = array;
