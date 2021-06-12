@@ -53,19 +53,23 @@ class Files extends Component {
                 uid: file.uid,
             }),
             onRemove: file => {
-                // 删除文件
-                _this.deleteFile({'uid':file.uid})
+                const { uid ,response} = file;
+                // 如果response.code不为0，则表示这个文件在服务器端已经上传失败了，此时调用删除方法只需要删除浏览器上的即可
+                if (response && 0 === response.code){
+                    // 删除文件
+                    _this.deleteFile({'uid':uid})
+                }
             },
             onChange(info) {
-                const { status } = info.file;
-                if (status !== 'uploading') {
-                    console.log(info.file, info.fileList);
-                }
-                if (status === 'done') {
-                    openNotificationWithIcon("success", "上传成功", `${info.file.name} file uploaded successfully.`);
-                    _this.getDatas();
-                } else if (status === 'error') {
-                    openNotificationWithIcon("error", "错误提示", `${info.file.name} file upload failed.`);
+                // 状态有：uploading done error removed
+                const { status ,response} = info.file;
+                if (status === 'done' || status === 'error') {
+                    if (0 === response.code){
+                        openNotificationWithIcon("success", "上传成功", `${info.file.name} file uploaded successfully.`);
+                        _this.getDatas();
+                    }else{
+                        openNotificationWithIcon("error", "错误提示", `${info.file.name} file upload failed.cause by:${response.msg}`);
+                    }
                 }
             },
         };

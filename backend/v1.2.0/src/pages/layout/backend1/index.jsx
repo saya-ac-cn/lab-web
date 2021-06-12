@@ -73,7 +73,7 @@ class LayoutBackend extends Component {
                 return <MessageOutlined/>
             }
         }
-    }
+    };
 
     // 切换面板
     handlTabClick = () => {
@@ -90,7 +90,7 @@ class LayoutBackend extends Component {
         this.setState({
             searchfocus: false
         })
-    }
+    };
 
 
     /**

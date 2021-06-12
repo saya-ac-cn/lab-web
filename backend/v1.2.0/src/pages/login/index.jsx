@@ -43,8 +43,8 @@ class Login extends Component {
     // 密码框状态
     pwdState: false,
     // 给用户输入的文本框和密码框
-    userName: 'Pandora',
-    passWord: 'Pandora',
+    userName: '',
+    passWord: '',
     loading: false
   };
 
@@ -61,7 +61,7 @@ class Login extends Component {
     } else {
       _this.setState({userState: true});
     }
-  }
+  };
 
   /**
    * 用户名文本框获得焦点事件
@@ -69,7 +69,7 @@ class Login extends Component {
   userOnFocus = () => {
     let _this = this;
     _this.setState({userState: true});
-  }
+  };
 
   /**
    * 用户名密码失去焦点事件
@@ -83,7 +83,7 @@ class Login extends Component {
     } else {
       _this.setState({pwdState: true});
     }
-  }
+  };
 
   /**
    * 用户名密码框获得焦点事件
@@ -91,7 +91,7 @@ class Login extends Component {
   pwdOnFocus = () => {
     let _this = this;
     _this.setState({pwdState: true});
-  }
+  };
 
   /**
    * 双向绑定用户文本框

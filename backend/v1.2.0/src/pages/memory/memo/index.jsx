@@ -61,6 +61,7 @@ class Memo extends Component {
             },
             {
                 title: '操作',
+                align:'center',
                 render: (text, record) => (
                     <div>
                         <Button type="primary" onClick={() => this.handleModalEdit(record)} shape="circle" icon={<EditOutlined/>}/>
