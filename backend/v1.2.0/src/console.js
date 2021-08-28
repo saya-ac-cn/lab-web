@@ -4,19 +4,19 @@
     {
         if (t[s])
             return t[s].exports;
-        var n = t[s] = { exports: {}, id: s, loaded: !1 };
+        let n = t[s] = { exports: {}, id: s, loaded: !1 };
         //return e[s].call(n.exports, n, n.exports, o), n.loaded = !0, n.exports
         // 解决es报错
-        e[s].call(n.exports, n, n.exports, o)
-        n.loaded = !0
+        e[s].call(n.exports, n, n.exports, o);
+        n.loaded = !0;
         return n.exports
     }
-    var t = {};
+    let t = {};
     //return o.m = e, o.c = t, o.p = "", o(0)
     // 解决es报错
-    o.m = e
-    o.c = t
-    o.p = ""
+    o.m = e;
+    o.c = t;
+    o.p = "";
     return o(0)
 })
 ([function (e, o, t)
@@ -24,7 +24,7 @@
     function (e, o) {
         // eslint-disable-next-line
         (function () {
-            var e;
+            let e;
             if (window.console && "undefined" != typeof console.log)
             {
                 try
@@ -34,7 +34,7 @@
                 catch (o) { e = !0 }
                 if (window.__has_console_security_message || e)
                     return;
-                var t = "\u6e29\u99a8\u63d0\u793a\uff1a\u8bf7\u4e0d\u8981\u8c03\u76ae\u5730\u5728\u6b64\u7c98\u8d34\u6267\u884c\u4efb\u4f55\u5185\u5bb9\uff0c\u8fd9\u53ef\u80fd\u4f1a\u5bfc\u81f4\u60a8\u7684\u8d26\u6237\u53d7\u5230\u653b\u51fb\uff0c\u7ed9\u60a8\u5e26\u6765\u635f\u5931 \uff01^_^",
+                let t = "\u6e29\u99a8\u63d0\u793a\uff1a\u8bf7\u4e0d\u8981\u8c03\u76ae\u5730\u5728\u6b64\u7c98\u8d34\u6267\u884c\u4efb\u4f55\u5185\u5bb9\uff0c\u8fd9\u53ef\u80fd\u4f1a\u5bfc\u81f4\u60a8\u7684\u8d26\u6237\u53d7\u5230\u653b\u51fb\uff0c\u7ed9\u60a8\u5e26\u6765\u635f\u5931 \uff01^_^",
                     s = "\u81f4\u529b\u4e8e\u5f00\u53d1\u4f18\u8d28\u7684\u4e92\u8054\u7f51\u5e94\u7528",
                     n = "https://saya.ac.cn ",
                     i = [s, " ", n].join("");
