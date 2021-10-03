@@ -12,85 +12,24 @@ import storageUtils from '../../utils/storageUtils'
  * 描述：登录的路由组件
  */
 
-const activeLabel = {
-  lineHeight: "18px",
-  fontSize: "18px",
-  fontWeight: 100,
-  top: "0px"
-};
-
-const activeSpin = {
-  width: "100%"
-};
-
-const unactiveLabel = {
-  lineHeight: "60px",
-  fontSize: "24px",
-  fontWeight: 300,
-  top: "10px"
-};
-
-const unactiveSpin = {
-  width: "0px"
-};
-
 // 定义组件（ES6）
 class Login extends Component {
 
   state = {
-    // 用户文本框状态
-    userState: false,
-    // 密码框状态
-    pwdState: false,
-    // 给用户输入的文本框和密码框
-    userName: '',
-    passWord: '',
+    active:'login',
+    login:{
+      // 给用户输入的文本框和密码框
+      userName: '',
+      passWord: '',
+    },
+    register:{
+      email:'',
+      // 给用户输入的文本框和密码框
+      userName: '',
+      passWord: '',
+      repeat:''
+    },
     loading: false
-  };
-
-
-  /**
-   * 用户名文本框失去焦点事件
-   */
-  userOnBlur = () => {
-    let _this = this;
-    let {userName} = _this.state;
-    // 当用户文本框失去焦点，需要判断文本框是否有值，如果有值，此时不能把文本框还原缩小
-    if (null === userName || "" === userName) {
-      _this.setState({userState: false});
-    } else {
-      _this.setState({userState: true});
-    }
-  };
-
-  /**
-   * 用户名文本框获得焦点事件
-   */
-  userOnFocus = () => {
-    let _this = this;
-    _this.setState({userState: true});
-  };
-
-  /**
-   * 用户名密码失去焦点事件
-   */
-  pwdOnBlur = () => {
-    let _this = this;
-    let {passWord} = _this.state;
-    // 当密码框失去焦点，需要判断密码框是否有值，如果有值，此时不能把密码框还原缩小
-    if (null === passWord || "" === passWord) {
-      _this.setState({pwdState: false});
-    } else {
-      _this.setState({pwdState: true});
-    }
-  };
-
-  /**
-   * 用户名密码框获得焦点事件
-   */
-  pwdOnFocus = () => {
-    let _this = this;
-    _this.setState({pwdState: true});
   };
 
   /**
@@ -106,14 +45,37 @@ class Login extends Component {
   };
 
   /**
-   * 双向绑定密码框
+   * 双向绑定登录文本框
    * @param event
    */
-  pwdInputChange = (event) => {
+  loginInputChange = (event,field) => {
     let _this = this;
     const value = event.target.value;
+    let { login } = this.state;
+    login[field] = value.trim();
+    _this.setState({login});
+  };
+
+  /**
+   * 双向绑定注册文本框
+   * @param event
+   */
+  registerInputChange = (event,field) => {
+    let _this = this;
+    const value = event.target.value;
+    let { register } = this.state;
+    register[field] = value.trim();
+    _this.setState({register});
+  };
+
+  /**
+   * 登录&注册切换
+   * @param type
+   */
+  go = (type) => {
+    let _this = this;
     _this.setState({
-      passWord: value.trim()
+      active: type
     })
   };
 
@@ -122,7 +84,7 @@ class Login extends Component {
    */
   loginHandle = async () => {
     let _this = this;
-    let {userName,passWord} = _this.state;
+    let {userName,passWord} = _this.state.login;
     if (null === userName || null === passWord || '' === userName || '' === passWord){
       message.error('请输入用户名和密码');
       return
@@ -146,33 +108,70 @@ class Login extends Component {
 
   render() {
     // 读取状态数据
-    const {userState, pwdState, userName, passWord,loading} = this.state;
+    const {active,login, register,loading} = this.state;
     return (
       <DocumentTitle title='亲亲里·统一身份认证入口'>
-        <div className="login-register-container"
-             style={{backgroundImage: `url('${process.env.PUBLIC_URL}/picture/login/login_background1.png')`}}>
-          <div className="login-register-box">
-            <div className="login-box">
-              <div className="title">登录</div>
-              <div className="input">
-                <label style={userState ? activeLabel : unactiveLabel}>用户名</label>
-                <Input type="text" value={userName} onChange={this.userInputChange} onBlur={this.userOnBlur}
-                       onFocus={this.userOnFocus}/>
-                <span className="spin" style={userState ? activeSpin : unactiveSpin}></span>
-              </div>
-              <div className="input">
-                <label style={pwdState ? activeLabel : unactiveLabel}>密码</label>
-                <Input type="password" value={passWord} onChange={this.pwdInputChange} onBlur={this.pwdOnBlur}
-                       onFocus={this.pwdOnFocus}/>
-                <span className="spin" style={pwdState ? activeSpin : unactiveSpin}></span>
-              </div>
-              <div className="button login">
-                <Button type="text" onClick={this.loginHandle} loading={loading}>登录</Button>
-              </div>
-              <Button type="link" className="pass-forgot">
-                忘记密码？
-              </Button>
+        <div className="login-register-container" style={{backgroundImage: `url('${process.env.PUBLIC_URL}/picture/login/sunflower.jpg')`}}>
+          <div className='logo-area'>
+            <div className='logo' style={{backgroundImage: `url('${process.env.PUBLIC_URL}/picture/login/project.svg')`}}>
             </div>
+            <span>亲亲里·统一身份认证入口</span>
+          </div>
+          <div className="panel">
+              <div className="content">
+                <div className="switch">
+                  {'register'===active ?
+                      <article>
+                        <div className='hello-title'>欢迎注册</div>
+                        <span className='extra-title'>已有账号？</span><span className='active' onClick={event => this.go('login')}>登录</span>
+                      </article>
+                      :
+                      <article>
+                        <div className='hello-title'>欢迎登录</div>
+                        <span className='extra-title'>没有账号？</span><span className='active' onClick={event => this.go('register')}>注册</span>
+                      </article>
+                  }
+                </div>
+                <div className='form' id="fromLogin">
+                  {'register'===active?
+                      <div className='section'>
+                        <div className="input">
+                          <input className={`${!register.email?'':'hasValue'}`} value={register.email} onChange={(e)=>this.registerInputChange(e,'email')} type="text"/>
+                          <label>邮箱</label>
+                        </div>
+                        <div className="input">
+                          <input className={`${!register.userName?'':'hasValue'}`} value={register.userName} onChange={(e)=>this.registerInputChange(e,'userName')} type="text"/>
+                          <label>用户名</label>
+                        </div>
+                        <div className="input">
+                          <input className={`${!register.passWord?'':'hasValue'}`} value={register.passWord} onChange={(e)=>this.registerInputChange(e,'passWord')} type="password"/>
+                          <label>密码</label>
+                        </div>
+                        <div className="input">
+                          <input className={`${!register.repeat?'':'hasValue'}`} value={register.repeat} onChange={(e)=>this.registerInputChange(e,'repeat')} type="password"/>
+                          <label>重复密码</label>
+                        </div>
+                        <div className="input auto-height">
+                          <button type="button">注册</button>
+                        </div>
+                      </div>
+                      :
+                      <div className='section'>
+                        <div className="input">
+                          <input className={`${!login.userName?'':'hasValue'}`} value={login.userName} type="text" onChange={(e)=>this.loginInputChange(e,'userName')} />
+                          <label>用户名</label>
+                        </div>
+                        <div className="input">
+                          <input className={`${!login.passWord?'':'hasValue'}`} value={login.passWord} type="password" onChange={(e)=>this.loginInputChange(e,'passWord')} />
+                          <label>密码</label>
+                        </div>
+                        <div className="input auto-height">
+                          <button type="button" onClick={this.loginHandle}>登录</button>
+                        </div>
+                      </div>
+                  }
+              </div>
+          </div>
           </div>
         </div>
       </DocumentTitle>
