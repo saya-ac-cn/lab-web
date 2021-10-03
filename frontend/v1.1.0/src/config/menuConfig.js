@@ -38,9 +38,9 @@ const frontendMenuListV1 = [
     },
     {
         title: '访问新版',
-        key: 'http://www.ccb.com',
+        key: 'https://saya.ac.cn',
         hidden: false,
         requireAuth: true
     },
-]
+];
 export default frontendMenuListV1;

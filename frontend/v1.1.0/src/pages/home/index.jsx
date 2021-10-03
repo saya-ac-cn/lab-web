@@ -145,7 +145,7 @@ class Home extends Component {
                     <footer className="this-copright">
                         <Row gutter={20} style={{width: '100%'}}>
                             <Col span={20} offset={2}>
-                                Copyright &copy; 2016-{copyrightDate} &nbsp; Saya.ac.cn-亲亲里 版权所有<br/>国家工信部域名备案信息：蜀ICP备19027394号
+                                Copyright &copy; 2016-{copyrightDate} &nbsp; Saya.ac.cn-极客印记 版权所有<br/>国家工信部域名备案信息：<a href="https://beian.miit.gov.cn/" rel="noopener noreferrer" target='_blank'>蜀ICP备2021013893号</a>
                             </Col>
                         </Row>
                     </footer>

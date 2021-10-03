@@ -3,7 +3,7 @@ import {totalTransactionForYear, outTransactionForYearExcel} from "../../../api"
 import {openNotificationWithIcon} from "../../../utils/window";
 import axios from 'axios'
 import DocumentTitle from 'react-document-title'
-import {Button, Col, Icon, Table, Form} from "antd";
+import {Button, Col, Table, Form} from "antd";
 import {formatMoney} from "../../../utils/var";
 import {FileExcelOutlined} from "@ant-design/icons";
 /*

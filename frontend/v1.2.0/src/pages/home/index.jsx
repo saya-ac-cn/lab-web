@@ -33,7 +33,7 @@ class Home extends Component {
    */
   getGreetText = () => {
     let hour = moment().format("HH");
-    var greetText = "好久不见，甚是想念，记得爱护自己！";
+    let greetText = "好久不见，甚是想念，记得爱护自己！";
     if(hour >= 0 && hour < 7){
       greetText = "天还没亮，夜猫子，要注意身体哦！";
     }else if(hour>=7 && hour<12){
@@ -48,7 +48,7 @@ class Home extends Component {
       greetText = "很晚了哦，注意休息呀！";
     }
     this.setState({greetText});
-  }
+  };
 
   componentDidMount() {
     this.getGreetText()
@@ -70,7 +70,7 @@ class Home extends Component {
 
   adapterWidth = _width => {
     let _this = this
-    let {sectionWidth,scalar} = _this.state
+    let {sectionWidth,scalar} = _this.state;
     // 总份数 宽 350份，最小正方形8x8，
     if (_width >= 1920){
       sectionWidth = _width * 0.8
@@ -86,7 +86,12 @@ class Home extends Component {
   href = url => {
     // 跳转到管理界面 (不需要再回退回到登陆),push是需要回退,replace不需要
     this.props.history.push(url)
-  }
+  };
+
+  // 跳转到上一个版本
+  hrefOldVersion = ()=>{
+    window.open("http://v1.saya.ac.cn")
+  };
 
 
   render() {
@@ -119,7 +124,7 @@ class Home extends Component {
                 </div>
                 {/*第二列*/}
                 <div className="column-2" style={{marginRight:scalar}}>
-                  <div style={{width:scalar*35,height:scalar*17,marginBottom:scalar,backgroundColor:'#FF9999',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/viewlist.svg')`}} className="inithover hover1">共享资源</div>
+                  <div onClick={() => this.href("/pandora/files")} style={{width:scalar*35,height:scalar*17,marginBottom:scalar,backgroundColor:'#FF9999',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/viewlist.svg')`}} className="inithover hover1">共享资源</div>
                   <div style={{width:scalar*35,marginBottom:scalar,height:scalar*17,backgroundColor:'#66CCCC'}} className="inithover hover1"></div>
                   <div onClick={() => this.href("/pandora/growing")} style={{width:scalar*35,marginBottom:scalar,height:scalar*17,backgroundColor:'#6699CC',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/history.svg')`}} className="inithover hover1">成长历程</div>
                   <div style={{width:scalar*35,height:scalar*17,backgroundColor:'#FFCCCC'}} className="inithover hover1"></div>
@@ -127,10 +132,10 @@ class Home extends Component {
                 {/*第三列*/}
                 <div className="column-3">
                   <div className="row-1" style={{width:scalar*35,height:scalar*17,marginBottom:scalar}}>
-                    <div style={{width:scalar*17,marginRight:scalar,height:scalar*17,backgroundColor:'#8080C0',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/integral.svg')`}} className="inithover hover1">技术彩蛋</div>
+                    <div onClick={() => this.href("/pandora/egg")} style={{width:scalar*17,marginRight:scalar,height:scalar*17,backgroundColor:'#8080C0',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/integral.svg')`}} className="inithover hover1">技术彩蛋</div>
                     <div className="field-grid" style={{width:scalar*17,height:scalar*17}}>
                       <div style={{width:scalar*8,height:scalar*8,marginBottom:scalar,backgroundColor:'#CCCC99'}} className="inithover hover1"></div>
-                      <div onClick={() => this.href("/v1")} style={{width:scalar*8,height:scalar*8,marginBottom:scalar, paddingLeft: '0.5em',paddingBottom: '0.5em',backgroundColor:'#99CC99',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/return.svg')`,fontSize: '0.5em'}} className="inithover hover1">返回旧版</div>
+                      <div onClick={this.hrefOldVersion} style={{width:scalar*8,height:scalar*8,marginBottom:scalar, paddingLeft: '0.5em',paddingBottom: '0.5em',backgroundColor:'#99CC99',backgroundImage:`url('${process.env.PUBLIC_URL}/picture/home/return.svg')`,fontSize: '0.5em'}} className="inithover hover1">返回旧版</div>
                       <div style={{width:scalar*8,height:scalar*8,backgroundColor:'#FFCC99'}} className="inithover hover1"></div>
                       <div style={{width:scalar*8,height:scalar*8,backgroundColor:'#FF9966'}} className="inithover hover1"></div>
                     </div>
@@ -157,7 +162,7 @@ class Home extends Component {
               <Row>
                 <Col span={18}>
                   <p>
-                    Copyright &copy; 2016-{(new Date()).getFullYear() } Saya.ac.cn-亲亲里 All rights reserved 国家工信部域名备案信息：[saya.ac.cn/蜀ICP备19027394号]
+                    Copyright &copy; 2016-{(new Date()).getFullYear() } Saya.ac.cn-极客印记 All rights reserved 国家工信部域名备案信息：[<a href="https://beian.miit.gov.cn/" rel="noopener noreferrer" target='_blank'>saya.ac.cn/蜀ICP备2021013893号</a>]
                   </p>
                   <p>
                     通讯地址：四川省宜宾市五粮液大道东段酒圣路8号(宜宾学院本部) 邮编：644000 Email：saya@saya.ac.cn

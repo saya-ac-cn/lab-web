@@ -92,16 +92,15 @@ class Frontend extends Component {
                             </Col>
                             <Col xs={12} sm={12} md={8} xl={8}>
                                 <p>
-                                    Copyright &copy; 2016-{(new Date()).getFullYear() } Saya.ac.cn-亲亲里 All rights reserved<br/>
-                                    国家工信部域名备案信息：[Saya.ac.cn/蜀ICP备19027394号]<br/>
+                                    Copyright &copy; 2016-{(new Date()).getFullYear() } Saya.ac.cn-极客印记 All rights reserved<br/>
+                                    国家工信部域名备案信息：[<a href="https://beian.miit.gov.cn/" rel="noopener noreferrer" target='_blank'>Saya.ac.cn/蜀ICP备2021013893号</a>]<br/>
                                     saya@Saya.ac.cn
                                 </p>
                             </Col>
                             <Col xs={12} sm={12} md={8} xl={8}>
                                 <p>
-                                    地址：四川省成都市金牛区兴平路100号<br/>
-                                    邮编：610036<br/>
-                                    {/*<a href="/pandora/board">网站建议</a>*/}
+                                    地址：四川省宜宾市五粮液大道东段酒圣路8号(宜宾学院本部)<br/>
+                                    邮编：644000<br/>
                                 </p>
                             </Col>
                         </Row>

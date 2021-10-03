@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import DocumentTitle from "react-document-title";
 import "./index.less"
 import moment from 'moment';
-import {Button, Spin,Row,Col,Tooltip} from 'antd'
-import {CloudDownloadOutlined, EyeOutlined} from '@ant-design/icons';
+import {Spin,Row,Col,Tooltip} from 'antd'
 import {downloadFiles, queryFile} from "../../api";
 import {openNotificationWithIcon_} from "../../utils/window";
 import {isEmptyObject} from "../../utils/var"
@@ -67,7 +66,7 @@ class File extends Component {
      * @param row
      */
     downloadFile = (row) => {
-        let _this = this;
+        //let _this = this;
         // 在发请求前, 显示loading
         //_this.setState({listLoading: true});
         axios({
