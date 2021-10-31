@@ -248,7 +248,7 @@
           letter-spacing: .25px;
           -webkit-align-items: center;
           align-items: center;
-          background-color: #fff;
+          background-color: rgba(255,255,255,0.3);
           background-image: none;
           -webkit-border-radius: 24px;
           border-radius: 24px;
@@ -260,26 +260,8 @@
           min-width: 56px;
           padding: 0 24px 0 0;
           text-transform: none;
-          box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 1px 3px 1px rgba(60, 64, 67, 0.149);
-          -webkit-font-smoothing: antialiased;
-          font-family: 'Google Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-          font-size: .875rem;
-          letter-spacing: .25px;
-          -webkit-align-items: center;
-          align-items: center;
-          background-color: #fff;
-          background-image: none;
-          -webkit-border-radius: 24px;
-          border-radius: 24px;
-          color: #3c4043;
-          display: -webkit-inline-box;
           display: -webkit-inline-flex;
           display: inline-flex;
-          font-weight: 500;
-          height: 48px;
-          min-width: 56px;
-          padding: 0 24px 0 0;
-          text-transform: none;
           cursor: pointer;
         }
 
@@ -338,7 +320,7 @@
 
       .menu-copyright {
         width: 100%;
-        height: 33px;
+        height: @copyright-height;
         border-top: 1px solid rgba(255, 255, 255, .3);
         display: -webkit-box;
         display: -webkit-flex;
@@ -391,8 +373,8 @@
         height: @pagename-height;
         -webkit-justify-content: space-between;
         justify-content: space-between;
-        margin: 0 16px 0 0 !important;
-        padding: 0 16px 0 16px;
+        //margin: 0 16px 0 0 !important;
+        //padding: 0 16px 0 16px;
         -webkit-transition: box-shadow .15s cubic-bezier(0.4, 0.0, 0.2, 1);
         transition: box-shadow .15s cubic-bezier(0.4, 0.0, 0.2, 1);
         background-color: transparent;
@@ -423,7 +405,8 @@
         overflow-y: scroll;
 
         .container-div {
-          min-height: 110px;
+          //min-height: 110px;
+          height: -webkit-fill-available;
           background-color: @container-background-color;
           // 定义子模块可能用到的样式
           .mytips {
@@ -464,14 +447,15 @@
             background-color: @container-background-color;
           }
         }
+      }
 
-        .operation-info {
-          vertical-align: bottom;
-          background: none !important;
-          margin: 16px 0;
-          padding: 0 16px;
-          color: rgba(255, 255, 255, 0.70);
-        }
+      .operation-info {
+        vertical-align: bottom;
+        background: none !important;
+        color: rgba(255, 255, 255, 0.7);
+        height: @copyright-height;
+        align-items: center;
+        display: flex;
       }
 
       //滚动条整体样式
