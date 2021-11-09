@@ -129,3 +129,5 @@ module.exports = override(
 > ## 2020-12-28 修改记录-项目初始化
 * 完成项目初始架构，及标准化模板构建
 * 标准化模板版本号1.0.0.0816(20200816)
+https://detail.vip.com/detail-1710614587-6918962173439374363.html
+https://detail.vip.com/detail-1710613857-6919159356746165185.html

@@ -52,7 +52,7 @@ const frontendMenuListV2 = [
   },
   {
     title: '返回旧版',
-    key: 'https://www.ccb.com',
+    key: 'http://v1.saya.ac.cn',
     hidden: false,
     requireAuth: true
   },

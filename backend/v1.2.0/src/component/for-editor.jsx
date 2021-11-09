@@ -65,7 +65,7 @@ class ForEditor extends Component {
                         fileurl: img.src
                     };
                     axios.post(uploadNewsPicture, para).then(response => {
-                        const data = response.data // 得到响应数据
+                        const data = response.data; // 得到响应数据
                         if (data.code === 0) {
                             resolve({data: {link: data.data}})
                         } else {

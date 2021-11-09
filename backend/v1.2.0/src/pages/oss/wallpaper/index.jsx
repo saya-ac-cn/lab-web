@@ -313,10 +313,6 @@ class Wallpaper extends Component {
         this.setState({ fileList });
     };
 
-    // handleChange = ({ fileList }) => {
-    //     this.setState({ fileList });
-    // };
-
     /**
      * 删除图片
      * @param file

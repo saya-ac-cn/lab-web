@@ -21,7 +21,9 @@ class Egg extends Component {
                             技术彩蛋
                         </div>
                         <div className="egg-web">
-
+                            <article>
+                                哈喽，欢迎来到技术彩蛋单元。本页面主要是分享一些互联网开发中相关的工具，不限于工作和开发、不限于前后端，相信总有一个惊艳到你！
+                            </article>
                         </div>
                     </div>
                 </div>
