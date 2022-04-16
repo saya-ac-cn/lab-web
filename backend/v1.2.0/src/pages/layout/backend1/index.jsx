@@ -433,13 +433,13 @@ class LayoutBackend extends Component {
                                     <Redirect to='/backstage/me/info'/>
                                 </Switch>
                             </div>
-                            <div className='operation-info'>
-                                {
-                                    !(isEmptyObject(user.log)) ?
-                                        <span>{`您上次操作时间:${user.log.date},操作地点:${user.log.city}(${user.log.ip}),操作明细:${user.log.logType.describe}`}</span> :
-                                        <span>Hi，这是您第一次使用吧？如有需要帮助的请及时联系运营团队。</span>
-                                }
-                            </div>
+                        </div>
+                        <div className='operation-info'>
+                            {
+                                !(isEmptyObject(user.log)) ?
+                                    <span>{`您上次操作时间:${user.log.date},操作地点:${user.log.city}(${user.log.ip}),操作明细:${user.log.logType.describe}`}</span> :
+                                    <span>Hi，这是您第一次使用吧？如有需要帮助的请及时联系运营团队。</span>
+                            }
                         </div>
                     </div>
                     <div className='quick-div'>
