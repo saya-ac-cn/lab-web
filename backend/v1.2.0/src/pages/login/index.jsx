@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './index.less'
-import {Button,message, Input} from 'antd';
+import {message} from 'antd';
 import DocumentTitle from 'react-document-title'
 import {requestLogin} from '../../api'
 import memoryUtils from '../../utils/memoryUtils'
@@ -108,7 +108,7 @@ class Login extends Component {
 
   render() {
     // 读取状态数据
-    const {active,login, register,loading} = this.state;
+    const {active,login, register} = this.state;
     return (
       <DocumentTitle title='亲亲里·统一身份认证入口'>
         <div className="login-register-container" style={{backgroundImage: `url('${process.env.PUBLIC_URL}/picture/login/sunflower.jpg')`}}>
