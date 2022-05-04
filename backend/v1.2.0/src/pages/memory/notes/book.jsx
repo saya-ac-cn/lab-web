@@ -5,7 +5,7 @@ import {QuestionCircleOutlined} from "@ant-design/icons";
 import {openNotificationWithIcon} from "../../../utils/window";
 import {createNoteBook, updateNoteBook} from "../../../api";
 /*
- * 文件名：edit.jsx
+ * 文件名：book.jsx
  * 作者：liunengkai
  * 创建日期：2019-08-25 - 21:50
  * 描述：笔记簿表单

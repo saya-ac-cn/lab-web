@@ -8,7 +8,7 @@ import "./index.less"
 import {clearTrimValueEvent} from "../../../utils/string";
 import {PlusOutlined} from "@ant-design/icons";
 /*
- * 文件名：edit.jsx
+ * 文件名：book.jsx
  * 作者：liunengkai
  * 创建日期：2019-07-27 - 21:44
  * 描述：编辑动态

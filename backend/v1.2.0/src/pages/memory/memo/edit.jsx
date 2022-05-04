@@ -4,7 +4,7 @@ import {clearTrimValueEvent} from "../../../utils/string";
 import {createMemo, updateMemo} from "../../../api";
 import {openNotificationWithIcon} from "../../../utils/window";
 /*
- * 文件名：edit.jsx
+ * 文件名：book.jsx
  * 作者：shmily
  * 创建日期：2019-08-25 - 21:50
  * 描述：便利贴表单

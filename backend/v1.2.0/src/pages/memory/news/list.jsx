@@ -232,7 +232,7 @@ class List extends Component {
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
                             <Form.Item label="主题:">
-                                <Input type='text' value={topic} onChange={this.topicInputChange}
+                                <Input type='text' value={topic} allowClear={true} onChange={this.topicInputChange}
                                        placeholder='按主题检索'/>
                             </Form.Item>
                             <Form.Item label="发布时间:">

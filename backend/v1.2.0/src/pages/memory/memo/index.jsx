@@ -266,7 +266,7 @@ class Memo extends Component {
                     <Col span={24} className="toolbar">
                         <Form layout="inline">
                             <Form.Item label="标题:">
-                                <Input type='text' value={title} onChange={this.titleInputChange}
+                                <Input type='text' value={title} allowClear={true} onChange={this.titleInputChange}
                                        placeholder='按标题检索'/>
                             </Form.Item>
                             <Form.Item label="填写时间:">
