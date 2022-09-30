@@ -93,7 +93,7 @@ class Frontend extends Component {
                             <Col xs={12} sm={12} md={8} xl={8}>
                                 <p>
                                     Copyright &copy; 2016-{(new Date()).getFullYear() } Saya.ac.cn-极客印记 All rights reserved<br/>
-                                    国家工信部域名备案信息：[<a href="https://beian.miit.gov.cn/" rel="noopener noreferrer" target='_blank'>Saya.ac.cn/蜀ICP备2021013893号</a>]<br/>
+                                    国家工信部域名备案信息：[<a href="https://beian.miit.gov.cn/" rel="noopener noreferrer" target='_blank'>Saya.ac.cn/蜀ICP备2021013893号-1</a>]<br/>
                                     saya@Saya.ac.cn
                                 </p>
                             </Col>
