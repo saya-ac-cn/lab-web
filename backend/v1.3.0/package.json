@@ -1,0 +1,33 @@
+{
+  "name": "lab-backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --mode dev",
+    "build": "vite build --mode prod",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "antd": "^4.23.3",
+    "axios": "^0.27.2",
+    "for-editor": "^0.3.5",
+    "jwt-decode": "^3.1.2",
+    "less": "^4.1.3",
+    "less-loader": "^11.0.0",
+    "react": "^18.2.0",
+    "react-cropper": "^2.1.8",
+    "react-document-title": "^2.0.3",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.1.0",
+    "react-router": "^6.4.1",
+    "react-router-dom": "^6.4.1",
+    "store": "^2.0.12",
+    "vite": "^3.1.0",
+    "vite-plugin-imp": "^2.3.0"
+  }
+}
