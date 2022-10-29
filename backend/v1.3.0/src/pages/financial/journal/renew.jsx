@@ -350,9 +350,9 @@ class Renew extends Component {
      */
     onSelectChange = (value, field) => {
         let _this = this;
-        let {journal} = this.state;
-        journal[field] = value;
-        _this.setState({journal});
+        const newJournal = _this.state.newJournal;
+        newJournal[field] = value;
+        _this.setState({newJournal});
     };
 
     /**
@@ -362,9 +362,9 @@ class Renew extends Component {
     remarksInputChange = (event) => {
         let _this = this;
         const value = event.target.value.replace(/\s+/g, '');
-        let journal = _this.state.journal;
-        journal.remarks = value;
-        _this.setState({journal})
+        let newJournal = _this.state.newJournal;
+        newJournal.remarks = value;
+        _this.setState({newJournal})
     };
 
     /**
@@ -503,7 +503,7 @@ class Renew extends Component {
         const format = 'YYYY-MM-DD';
         const oldDate = moment(journal.archive_date, format);
         const newDate = moment(newJournal.archive_date, format);
-        if ((!oldDate.isSame(newDate)) || (journal.means_id !== newJournal.means_id) || (journal.abstract_id !== newJournal.abstract_id) || (journal.monetary_id !== newJournal.monetary_id)) {
+        if ((!oldDate.isSame(newDate)) || (journal.means_id !== newJournal.means_id) || (journal.abstract_id !== newJournal.abstract_id) || (journal.monetary_id !== newJournal.monetary_id)|| (journal.remarks !== newJournal.remarks)) {
             // 发生了变更
             const param = {
                 id: journal.id,
@@ -511,6 +511,7 @@ class Renew extends Component {
                 archive_date: newDate.format('YYYY-MM-DD'),
                 abstract_id: newJournal.abstract_id,
                 monetary_id:newJournal.monetary_id,
+                remarks:newJournal.remarks
             };
             const {msg, code} = await updateJournalApi(param);
             if (code === 0) {

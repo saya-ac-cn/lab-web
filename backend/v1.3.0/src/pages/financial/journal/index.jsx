@@ -24,7 +24,7 @@ import JournalDeclare from './declare'
 import JournalDetail from './detail'
 import JournalRenew from './renew'
 import axios from "axios";
-import {disabledDate, eraseDateTimeT, extractUserName, formatMoney} from '@/utils/var'
+import {disabledDate, extractUserName, formatMoney} from '@/utils/var'
 import storageUtils from "@/utils/storageUtils";
 /*
  * 文件名：transaction.jsx
@@ -124,14 +124,12 @@ class Journal extends Component {
             {
                 title: '创建时间',
                 dataIndex: 'create_time', // 显示数据对应的属性名
-                align:'center',
-                render:(value,row) => (eraseDateTimeT(row.create_time))
+                align:'center'
             },
             {
                 title: '修改时间',
                 dataIndex: 'update_time', // 显示数据对应的属性名
-                align:'center',
-                render:(value,row) => (eraseDateTimeT(row.update_time))
+                align:'center'
             },
             {
                 title: '管理',
@@ -162,8 +160,8 @@ class Journal extends Component {
             means_id: this.state.filters.means_id,
             page_no: this.state.page_no,
             page_size: this.state.page_size,
-            begin_time: this.state.filters.begin_time?this.state.filters.begin_time+'T00:00:00':null,
-            end_time: this.state.filters.end_time?this.state.filters.end_time+'T23:59:59':null,
+            begin_time: this.state.filters.begin_time,
+            end_time: this.state.filters.end_time,
         };
         // 在发请求前, 显示loading
         this.setState({listLoading: showLoading()});
