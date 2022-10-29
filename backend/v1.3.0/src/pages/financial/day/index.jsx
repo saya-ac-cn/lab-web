@@ -74,8 +74,8 @@ class FinancialForDay extends Component {
     getDatas = async () => {
         let _this = this;
         let para = {
-            begin_time: this.state.filters.begin_time?this.state.filters.begin_time+'T00:00:00':null,
-            end_time: this.state.filters.end_time?this.state.filters.end_time+'T23:59:59':null,
+            begin_time: this.state.filters.begin_time,
+            end_time: this.state.filters.end_time,
             now_page: this.state.now_page,
             page_size: this.state.page_size,
         };
