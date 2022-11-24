@@ -1,5 +1,7 @@
-import {BrowserRouter, Route, Routes,Redirect} from 'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import React from "react";
+import Home from "@/pages/home";
+import Frontend from "@/pages/layout/frontend1";
 
 /**
  * 应用根组件
@@ -19,8 +21,8 @@ function App() {
             */}
             <Routes>
                 {/*要嵌套的路由这里一定要写/*  为了告诉这个路由后续会跟着其它路径*/}
-                <Route path='/' exact={true} element={Home}/>
-                {/*<Route path='/pandora' element={Frontend}/>*/}
+                <Route path='/' exact={true} element={<Home/>}/>
+                <Route path='/public/*' element={<Frontend/>}/>
                 {/*<Route path='/404' exact={true} element={NotFound}/>*/}
                 {/*/!*默认、及匹配不到时的页面*!/*/}
                 {/*<Redirect to='/404'/>*/}
