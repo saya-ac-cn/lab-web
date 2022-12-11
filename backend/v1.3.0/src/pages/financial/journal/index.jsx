@@ -73,7 +73,7 @@ class Journal extends Component {
             {
                 title: '流水号',
                 dataIndex: 'id', // 显示数据对应的属性名
-                align:'center',
+                align:'left',
             },
             {
                 title: '收入金额',
@@ -96,7 +96,7 @@ class Journal extends Component {
             {
                 title: '交易方式',
                 dataIndex: 'payment_means_name',// 显示数据对应的属性名
-                align:'center',
+                align:'left',
             },
             {
                 title: '交易币种',
@@ -112,9 +112,9 @@ class Journal extends Component {
                 render:(value,row) => (extractUserName(this.state.organize, row.source))
             },
             {
-                title: '交易时间',
+                title: '交易日期',
                 dataIndex: 'archive_date', // 显示数据对应的属性名
-                align:'center',
+                align:'left',
             },
             {
                 title: '交易附言',
@@ -124,12 +124,12 @@ class Journal extends Component {
             {
                 title: '创建时间',
                 dataIndex: 'create_time', // 显示数据对应的属性名
-                align:'center'
+                align:'left'
             },
             {
                 title: '修改时间',
                 dataIndex: 'update_time', // 显示数据对应的属性名
-                align:'center'
+                align:'left'
             },
             {
                 title: '管理',
@@ -552,14 +552,14 @@ class Journal extends Component {
                         <Col span={24} className="toolbar">
                             <Form layout="inline">
                                 <Form.Item label="交易方式:">
-                                    <Select style={{width: '200px'}} value={means_id} showSearch
-                                            onChange={this.onPaymentMeansChangeType} placeholder="请选择交易方式">
+                                    <Select style={{width: '130px'}} value={means_id} showSearch
+                                            onChange={this.onPaymentMeansChangeType} placeholder="请选择">
                                         {paymentMeans}
                                     </Select>
                                 </Form.Item>
                                 <Form.Item label="交易币种:">
-                                    <Select style={{width: '200px'}} value={monetary_id} showSearch
-                                            onChange={this.onMonetaryChangeType} placeholder="请选择交易币种">
+                                    <Select style={{width: '130px'}} value={monetary_id} showSearch
+                                            onChange={this.onMonetaryChangeType} placeholder="请选择">
                                         {monetary}
                                     </Select>
                                 </Form.Item>

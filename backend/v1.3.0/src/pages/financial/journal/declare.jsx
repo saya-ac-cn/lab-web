@@ -81,7 +81,7 @@ class Declare extends Component {
         }
       },
       {
-        title: '交易金额（元）',
+        title: '交易金额',
         dataIndex: 'amount', // 显示数据对应的属性名
         align:'right',
         render: (text, record, index) => {
@@ -303,12 +303,11 @@ class Declare extends Component {
   /**
    * 申报时间改变事件
    * @param date
-   * @param dateString
    */
-  archiveDateChange = (date, dateString) => {
+  archiveDateChange = (date) => {
     const _this = this;
     let { journal } = _this.state;
-    journal.archive_date = date;//!dateString?null:moment(dateString);
+    journal.archive_date = date;
     _this.setState({journal});
   };
 
@@ -400,13 +399,13 @@ class Declare extends Component {
       abstract_id:null,
       archive_date: null,
       remarks:null,
-      amount:0.0,
+      total:0.0,
       income:0.0,
       outlay:0.0
     };
     const infoList =[{
       index:1,
-      flag: 1,
+      flag: '1',
       amount: 0,
       remarks: ''
     }];
