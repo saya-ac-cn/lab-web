@@ -263,7 +263,7 @@ class FinancialForDay extends Component {
                             </Form>
                         </Col>
                         <Col span={24} className="dataTable">
-                            <Table size="middle" bordered rowKey='tradeDate' loading={listLoading} columns={this.columns} dataSource={datas}
+                            <Table size="middle" bordered rowKey='archive_date' loading={listLoading} columns={this.columns} dataSource={datas}
                                    pagination={{
                                        current:now_page,
                                        showTotal: () => `当前第${now_page}页 共${dataTotal}条`,

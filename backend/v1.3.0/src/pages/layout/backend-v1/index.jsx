@@ -6,9 +6,6 @@ import storageUtils from '@/utils/storageUtils'
 import {isEmptyObject} from "@/utils/var"
 import { Button, Input, Menu, Popover, Avatar, Breadcrumb, Badge, Modal} from 'antd';
 import {FlagOutlined,RightOutlined,LeftOutlined,MenuOutlined, HomeOutlined,NotificationOutlined,MessageOutlined, DatabaseOutlined,StockOutlined,FieldTimeOutlined,SearchOutlined,UserOutlined,AccountBookOutlined,ScheduleOutlined,PushpinOutlined,CarryOutOutlined,MoneyCollectOutlined,SwitcherOutlined} from '@ant-design/icons';
-import {noteBookListApi, ownOrganizeUserApi} from '@/api/index'
-import DashBoard from '../../dashboard'
-import Financial from '../../financial'
 import DB from '../../oss/db'
 import withRouter from '@/utils/withRouter'
 import Files from "@/pages/oss/file";
@@ -22,6 +19,9 @@ import News from "@/pages/memory/news";
 import {openNotificationWithIcon} from "@/utils/window";
 import FinancialForDay from "@/pages/financial/day";
 import Journal from "@/pages/financial/journal";
+import ActivityPlan from "@/pages/plan/activity";
+import ArchivePlan from "@/pages/plan/archive";
+import Chart from "@/pages/me/chart";
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -44,7 +44,7 @@ class LayoutBackend extends Component {
             // 左侧菜单
             menuNodes:[],
             // 当前已经登录的用户信息
-            user: {account:"Shmily",user:{logo:'/src/static/user/2020062697574.png',backgroundUrl:'/src/static/img/background_2.jpg'}},
+            user: {account:"Shmily",user:{logo:'/user/2020062697574.png',backgroundUrl:'/img/background_2.jpg'}},
             searchValue: null,
             plan:[],
             log:{}
@@ -102,14 +102,14 @@ class LayoutBackend extends Component {
     initHeaderMenu = (user) => (
         <div className="backend-layout-header-info-hover">
             <div className='user-img-div'>
-                <Avatar size={64} icon={<UserOutlined/>} src={user.logo ? user.logo : '/src/static/user/2020062697574.png'}/>
+                <Avatar size={64} icon={<UserOutlined/>} src={user.logo ? user.logo : '/user/2020062697574.png'}/>
                 <div className='operator-img'>
                     <span>{user.name || '用户'}</span>
-                    <Button type="link" to='/backstage/set/info'>更换头像</Button>
+                    <Button type="link" href='/backstage/me/info'>更换头像</Button>
                 </div>
             </div>
             <div className='system-operator'>
-                <Button type="link" href='/backstage/set/info'>设置</Button>
+                <Button type="link" href='/backstage/me/info'>设置</Button>
                 <Button type="link" onClick={this.logout}>退出</Button>
             </div>
         </div>
@@ -203,7 +203,8 @@ class LayoutBackend extends Component {
                 // 删除保存的user数据
                 storageUtils.removeAll();
                 // 跳转到login
-                this.props.history.replace('/')
+                //this.props.history.replace('/')
+                window.location.href = '/'
             }
         })
     };
@@ -230,7 +231,7 @@ class LayoutBackend extends Component {
         if (!!searchValue) {
             // 有效内容可以搜索
             // 跳转到笔记列表界面 (需要再回退到当前页面),replace是不需要回退
-            this.props.history.push(`/backstage/grow/notes?search=${searchValue}`)
+            window.location.href = `/backstage/memory/note?search=${searchValue}`
         }
     }
 
@@ -239,26 +240,8 @@ class LayoutBackend extends Component {
      */
     addNotes = () => {
         // 跳转到笔记列表界面 (需要再回退到当前页面),replace是不需要回退
-        this.props.history.push('/backstage/memory/notes/create')
-    }
-
-    /**
-     * 获取自己所在组织下的用户
-     */
-    getOwnOrganizeUser= async () => {
-        let _this = this;
-        // 发异步ajax请求, 获取数据
-        const {msg, code, data} = await ownOrganizeUserApi()
-        if (code === 0) {
-            let organize = {};
-            for (let index in data) {
-                const item = data[index]
-                organize[item.account] = item.name
-            }
-            storageUtils.add(storageUtils.ORGANIZE_KEY,organize)
-        } else {
-            openNotificationWithIcon("error", "错误提示", msg);
-        }
+        // this.props.history.push('/backstage/memory/notes/create')
+        window.location.href = '/backstage/memory/note/create'
     }
 
 
@@ -275,8 +258,6 @@ class LayoutBackend extends Component {
         this.setState({ user,menuNodes,plan,log });
         // 顶部用户头像下拉
         this.headerUserInfo = this.initHeaderMenu(user)
-        // 获取组织用户列表信息
-        this.getOwnOrganizeUser()
     }
 
     render() {
@@ -292,13 +273,13 @@ class LayoutBackend extends Component {
         let showSearch = true
         if (path.indexOf('/backstage/memory/note') === 0){
             // 当前请求的是news及其下面的路由
-            path = '/backstage/grow/notes'
+            //path = '/backstage/grow/notes'
             // 如果进入笔记模块，则不显示
             showSearch = false
         }
         return (
             <div className="backend-container">
-                <div className='background-div' style={{backgroundImage:`url('${user.background_url ? user.background_url:'/src/static/img/background_2.jpg'}')`}}>
+                <div className='background-div' style={{backgroundImage:`url('${user.background_url ? user.background_url:'/img/background_2.jpg'}')`}}>
                 </div>
                 <header className="this-header">
                     <div className='header-logo'>
@@ -307,10 +288,10 @@ class LayoutBackend extends Component {
                                 <MenuOutlined/>
                             </Button>
                         </div>
-                        <div className='project-div' style={{backgroundImage:`url('/src/static/svg/project.svg')`}}>
+                        <div className='project-div' style={{backgroundImage:`url('/svg/project.svg')`}}>
                         </div>
                         <div className='project-name'>
-                            极客印记
+                            亲亲里
                         </div>
                     </div>
                     <div className='header-search'>
@@ -346,7 +327,7 @@ class LayoutBackend extends Component {
                     <div className='header-info'>
                         <Popover trigger="hover" mouseEnterDelay={0.2} mouseLeaveDelay={0.4} content={this.headerUserInfo}  placement="bottomRight">
                             <span className="el-dropdown-link">
-                                <img src={user.logo ? user.logo : '/src/static/user/2020062697574.png'} alt={user.name || '用户'}/>
+                                <img src={user.logo ? user.logo : '/user/2020062697574.png'} alt={user.name || '用户'}/>
                             </span>
                         </Popover>
                     </div>
@@ -365,7 +346,7 @@ class LayoutBackend extends Component {
                         </div>
                         <div className={`menu-copyright ${leftCollapsed?"menu-copyright-close":""}`}>
                             <Button type="link" title='切换壁纸' href="/backstage/oss/wallpaper"><SwitcherOutlined/></Button>
-                            <Button type="link" title='数据统计' href="/backstage/chart"><StockOutlined/></Button>
+                            <Button type="link" title='数据统计' href="/backstage/me/chart"><StockOutlined/></Button>
                             <Button type="link" title='操作日志' href="/backstage/me/logs"><FieldTimeOutlined/></Button>
                         </div>
                     </div>
@@ -373,12 +354,11 @@ class LayoutBackend extends Component {
                         <div className='content-div'>
                             <div className='container-div'>
                                 <Routes>
-                                    <Route path='/chart' element={<DashBoard/>}/>
-                                    <Route path='/financial' element={<Financial/>}/>
                                     <Route path='/oss/db' element={<DB/>}/>
                                     <Route path='/oss/files' element={<Files/>}/>
                                     <Route path='/oss/wallpaper' element={<Wallpaper/>}/>
                                     <Route path='/oss/illustration' element={<Illustration/>}/>
+                                    <Route path='/me/chart' element={<Chart/>}/>
                                     <Route path='/me/logs' element={<Logs/>}/>
                                     <Route path='/me/info' element={<Info/>}/>
                                     <Route path='/memory/memo' element={<Memo/>}/>
@@ -386,24 +366,24 @@ class LayoutBackend extends Component {
                                     <Route path='/memory/news/*' element={<News/>}/>
                                     <Route path='/financial/journal' element={<Journal/>}/>
                                     <Route path='/financial/day' element={<FinancialForDay/>}/>
-
-
+                                    <Route path='/plan/activity' element={<ActivityPlan/>}/>
+                                    <Route path='/plan/archive' element={<ArchivePlan/>}/>
                                 </Routes>
                             </div>
                         </div>
                         <div className='operation-info'>
                             {
                                 !(isEmptyObject(log)) ?
-                                    <span>{`您上次操作时间:${log.date},操作地点:${log.city}(${log.ip}),操作明细:${log.detail}`}</span> :
+                                    <span>{`您上次操作时间:${log.date}，操作地点:${log.city}(${log.ip})，操作明细:${log.detail}`}</span> :
                                     <span>Hi，这是您第一次使用吧？如有需要帮助的请及时联系运营团队。</span>
                             }
                         </div>
                     </div>
                     <div className={rightCollapsed?'show-quick-div':'hide-quick-div'}>
                         <div className="quick-div-menu">
-                            <Button type="link" title='记账' href="/backstage/financial/transaction"><MoneyCollectOutlined/></Button>
-                            <Button type="link" title='发布动态' href="/backstage/memory/news/publish"><NotificationOutlined/></Button>
-                            <Button type="link" title='日程安排' href="/backstage/memory/plan"><CarryOutOutlined/></Button>
+                            <Button type="link" title='记账' href="/backstage/financial/journal"><MoneyCollectOutlined/></Button>
+                            <Button type="link" title='发布动态' href="/backstage/memory/news/create"><NotificationOutlined/></Button>
+                            <Button type="link" title='提醒事项' href="/backstage/plan/activity"><CarryOutOutlined/></Button>
                             <Button type="link" title='便利贴' href="/backstage/memory/memo"><PushpinOutlined/></Button>
                         </div>
                         <div className="quick-div-button">

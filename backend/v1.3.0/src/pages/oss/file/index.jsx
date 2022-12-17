@@ -6,7 +6,7 @@ import moment from 'moment';
 import axios from "axios";
 import DocumentTitle from 'react-document-title'
 import {InboxOutlined,DeleteOutlined, CloudDownloadOutlined, EditOutlined, ReloadOutlined, SearchOutlined,CloudUploadOutlined} from "@ant-design/icons";
-import {disabledDate, eraseDateTimeT, extractUserName} from "@/utils/var";
+import {disabledDate, extractUserName} from "@/utils/var";
 import storageUtils from "@/utils/storageUtils";
 /*
  * 文件名：index.jsx
@@ -111,12 +111,10 @@ class Files extends Component {
             {
                 title: '上传时间',
                 dataIndex: 'create_time', // 显示数据对应的属性名
-                render:(value,row) => (eraseDateTimeT(row.create_time))
             },
             {
                 title: '修改时间',
                 dataIndex: 'update_time', // 显示数据对应的属性名
-                render:(value,row) => (eraseDateTimeT(row.update_time))
             },
             {
                 title: '下载',
@@ -141,8 +139,8 @@ class Files extends Component {
         let para = {
             page_no: this.state.page_no,
             page_size: this.state.page_size,
-            begin_time: this.state.filters.begin_time?this.state.filters.begin_time+'T00:00:00':null,
-            end_time: this.state.filters.end_time?this.state.filters.end_time+'T23:59:59':null,
+            begin_time: this.state.filters.begin_time,
+            end_time: this.state.filters.end_time,
             file_name: this.state.filters.file_name,
         };
         // 在发请求前, 显示loading

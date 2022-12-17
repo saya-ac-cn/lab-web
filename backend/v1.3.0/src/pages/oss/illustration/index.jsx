@@ -51,8 +51,8 @@ class Illustration extends Component {
             category: 2,
             nowPage: null === this.state.nextpage ? 1 : this.state.nextpage,
             pageSize: this.state.pageSize,
-            begin_time: this.state.filters.begin_time?this.state.filters.begin_time+'T00:00:00':null,
-            end_time: this.state.filters.end_time?this.state.filters.end_time+'T23:59:59':null,
+            begin_time: this.state.filters.begin_time,
+            end_time: this.state.filters.end_time,
             file_name: this.state.filters.file_name,
         };
         // 在发请求前, 显示loading

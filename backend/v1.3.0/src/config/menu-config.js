@@ -10,7 +10,7 @@
 const MenuList = [
     {
         title: '主页',// 菜单标题名称
-        key: '/backstage/chart',// 对应的path
+        key: '/backstage/me/chart',// 对应的path
         icon: 'HomeOutlined',// 图标名称
         hidden: false, //是否隐藏
         requireAuth: true, // 是否需要登录后访问

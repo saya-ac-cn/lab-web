@@ -6,7 +6,7 @@ import {SearchOutlined,ReloadOutlined,FileExcelOutlined} from '@ant-design/icons
 import moment from 'moment';
 import axios from 'axios'
 import DocumentTitle from 'react-document-title'
-import {disabledDate, extractUserName, eraseDateTimeT} from "@/utils/var"
+import {disabledDate, extractUserName} from "@/utils/var"
 import storageUtils from "@/utils/storageUtils";
 /*
  * 文件名：index.jsx
@@ -74,8 +74,7 @@ class Logs extends Component {
             {
                 title: '日期',
                 dataIndex: 'date', // 显示数据对应的属性名
-                align:'center',
-                render:(value,row) => (eraseDateTimeT(row.date))
+                align:'center'
             }
         ]
     };
@@ -113,8 +112,8 @@ class Logs extends Component {
             page_no: _this.state.page_no,
             page_size: _this.state.page_size,
             category: _this.state.filters.category,
-            begin_time: this.state.filters.begin_time?this.state.filters.begin_time+'T00:00:00':null,
-            end_time: this.state.filters.end_time?this.state.filters.end_time+'T23:59:59':null,
+            begin_time: this.state.filters.begin_time,
+            end_time: this.state.filters.end_time,
         };
         // 在发请求前, 显示loading
         _this.setState({listLoading: true});
@@ -230,8 +229,8 @@ class Logs extends Component {
         let access_token = storageUtils.get(storageUtils.ACCESS_KEY)
         let para = {
             type: this.state.filters.category,
-            begin_time: this.state.filters.begin_time?this.state.filters.begin_time+'T00:00:00':null,
-            end_time: this.state.filters.end_time?this.state.filters.end_time+'T23:59:59':null,
+            begin_time: this.state.filters.begin_time,
+            end_time: this.state.filters.end_time,
         };
         axios({
             method: "GET",

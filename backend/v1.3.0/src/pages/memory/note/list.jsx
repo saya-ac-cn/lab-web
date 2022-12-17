@@ -18,7 +18,7 @@ import {
     EyeInvisibleOutlined
 } from "@ant-design/icons";
 import './list.less'
-import {disabledDate, eraseDateTimeT, extractUserName} from "@/utils/var"
+import {disabledDate, extractUserName} from "@/utils/var"
 import {getUrlParameter} from "@/utils/url"
 import EditNoteBook from "./book";
 import withRouter from '@/utils/withRouter'
@@ -107,12 +107,10 @@ class NotesList extends Component {
             {
                 title: '创建时间',
                 dataIndex: 'create_time', // 显示数据对应的属性名
-                render:(value,row) => (eraseDateTimeT(row.create_time))
             },
             {
                 title: '修改时间',
                 dataIndex: 'update_time', // 显示数据对应的属性名
-                render:(value,row) => (eraseDateTimeT(row.update_time))
             },
             {
                 title: '管理',
@@ -154,8 +152,8 @@ class NotesList extends Component {
             page_no: this.state.page_no,
             topic: this.state.filters.topic,
             notebook_id: this.state.filters.notebook_id,
-            begin_time: this.state.filters.begin_time?this.state.filters.begin_time+'T00:00:00':null,
-            end_time: this.state.filters.end_time?this.state.filters.end_time+'T23:59:59':null,
+            begin_time: this.state.filters.begin_time,
+            end_time: this.state.filters.end_time,
             page_size: this.state.page_size,
         };
         // 在发请求前, 显示loading

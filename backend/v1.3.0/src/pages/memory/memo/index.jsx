@@ -6,7 +6,7 @@ import moment from 'moment';
 import DocumentTitle from 'react-document-title'
 import MemoFrom from "./edit";
 import {DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined} from "@ant-design/icons";
-import {disabledDate, eraseDateTimeT, extractUserName} from "@/utils/var"
+import {disabledDate, extractUserName} from "@/utils/var"
 import storageUtils from "@/utils/storageUtils";
 /*
  * 文件名：index.jsx
@@ -57,12 +57,10 @@ class Memo extends Component {
             {
                 title: '创建时间',
                 dataIndex: 'create_time', // 显示数据对应的属性名
-                render:(value,row) => (eraseDateTimeT(row.create_time))
             },
             {
                 title: '修改时间',
                 dataIndex: 'update_time', // 显示数据对应的属性名
-                render:(value,row) => (eraseDateTimeT(row.update_time))
             },
             {
                 title: '操作',
@@ -87,9 +85,8 @@ class Memo extends Component {
             title: this.state.filters.title,
             page_no: this.state.page_no,
             page_size: this.state.page_size,
-            status: this.state.filters.status,
-            begin_time: this.state.filters.begin_time?this.state.filters.begin_time+'T00:00:00':null,
-            end_time: this.state.filters.end_time?this.state.filters.end_time+'T23:59:59':null,
+            begin_time: this.state.filters.begin_time,
+            end_time: this.state.filters.end_time,
         };
         // 在发请求前, 显示loading
         this.setState({listLoading: true});

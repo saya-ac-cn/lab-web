@@ -83,15 +83,6 @@ export const disabledMonth = (current) => {
     return current && current > moment().endOf('month');
 };
 
-// 去掉日期时间T
-export const eraseDateTimeT = (value) => {
-    if (null === value || '' === value){
-        return null;
-    }else {
-        return value.replace('T',' ')
-    }
-}
-
 // 通过组织提取用户
 export const extractUserName = (organize,account) => {
     if (null === account || '' === account){

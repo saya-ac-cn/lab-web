@@ -75,7 +75,7 @@ export const deleteFileApi = params => ajax(`${backendAPI}/oss/files`, params, '
 // 修改文件
 export const editFileApi = params => ajax(`${backendAPI}/oss/files/file`, params, 'PUT');
 // 下载文件
-export const downloadFileApi = `${backendAPI}/oss/files/download/ `;
+export const downloadFileApi = `${backendAPI}/oss/files/download/`;
 
 
 
@@ -142,22 +142,20 @@ export const totalJournalForDayApi = params => ajax(`${backendAPI}/financial/jou
 export const journalForDayExcelApi = `${backendAPI}/financial/journal/collect/excel`;
 
 
-
-
 // 获取数据总量及词云数据
-export const getCountAndWordCloud = () => ajax(`${backendAPI}/api/set/countAndWordCloud`, {}, 'GET');
-// 查询活跃度
-export const getActivityRate= params => ajax(`${backendAPI}/api/set/activityRate/${params}`, {}, 'GET');
-// 统计动态发布
-export const getNewsRate = params => ajax(`${backendAPI}/api/message/newsRate/${params}`, {}, 'GET');
-// 收支增长率
-export const getAccountGrowthRate = params => ajax(`${backendAPI}/api/financial/accountGrowthRate/${params}`, {}, 'GET');
-// 收入比重
-export const getIncomePercentage = params => ajax(`${backendAPI}/api/financial/incomePercentage/${params}`, {}, 'GET');
-// 统计指定月份中各摘要的排名
-export const getOrderByAmount = params => ajax(`${backendAPI}/api/financial/orderByAmount/${params}`, {}, 'GET');
-// 统计指定指定日期月份前6个月的账单
-export const getPreSixMonthBill = params => ajax(`${backendAPI}/api/financial/preSixMonthBill/${params}`, {}, 'GET');
+export const getCountAndWordCloud = () => ajax(`${backendAPI}/system/total/object/rows`, {}, 'GET');
+// 近6个月的活跃情况
+export const getActivityRate= params => ajax(`${backendAPI}/system/log/total/pre6`, params, 'GET');
+// 近6个月的动态发布情况
+export const getNewsRate = params => ajax(`${backendAPI}/content/news/total/pre6`, params, 'GET');
+// 统计收支增长率
+export const getAccountGrowthRate = params => ajax(`${backendAPI}/financial/journal/total/balance`, params, 'GET');
+// 计算收入比重
+export const getIncomePercentage = params => ajax(`${backendAPI}/financial/journal/total/income`, params, 'GET');
+// 统计摘要排名
+export const getOrderByAmount = params => ajax(`${backendAPI}/financial/journal/total/order`, params, 'GET');
+// 近6个月的财务流水
+export const getPreSixMonthBill = params => ajax(`${backendAPI}/financial/journal/total/pre6`, params, 'GET');
 
 // 查询单条便笺
 export const memoInfoApi = params => ajax(`${backendAPI}/content/memo/${params}`, {}, 'GET');
@@ -169,3 +167,20 @@ export const createMemoApi = params => ajax(`${backendAPI}/content/memo`, params
 export const updateMemoApi = params => ajax(`${backendAPI}/content/memo`, params, 'PUT');
 // 删除便笺
 export const deleteMemoApi = params => ajax(`${backendAPI}/content/memo/${params}`, {}, 'DELETE');
+
+// 分页获取当前活跃的计划提醒
+export const activityPlanPageApi = params => ajax(`${backendAPI}/system/plan/page`, params, 'GET');
+// 添加计划提醒
+export const createPlanApi = params => ajax(`${backendAPI}/system/plan`, params, 'POST');
+// 修改计划提醒
+export const updatePlanApi = params => ajax(`${backendAPI}/system/plan`, params, 'PUT');
+// 删除计划提醒
+export const deletePlanApi = params => ajax(`${backendAPI}/system/plan/${params}`, {}, 'DELETE');
+// 提前完成提醒事项
+export const advanceFinishPlanApi = params => ajax(`${backendAPI}/system/plan/finish/${params}`, {}, 'PUT');
+// 分页查询已提醒过的计划
+export const archivePlanPageApi = params => ajax(`${backendAPI}/system/archive/plan/page`, params, 'GET');
+// 修改归档的提醒事项
+export const updateArchivePlanApi = params => ajax(`${backendAPI}/system/archive/plan`, params, 'PUT');
+// 删除归档的提醒事项
+export const deleteArchivePlanApi = params => ajax(`${backendAPI}/system/archive/plan/${params}`, {}, 'DELETE');

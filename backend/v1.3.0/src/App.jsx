@@ -2,6 +2,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import BackendV1 from './pages/layout/backend-v1'
 import React from "react";
 import Login from "@/pages/login";
+import 'antd/dist/antd.less'
 
 /**
  * 应用根组件

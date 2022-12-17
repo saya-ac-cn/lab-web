@@ -1,4 +1,4 @@
-### backend-v1 后台管理模板（按照Google mail风格进行改良重写）
+### backend-v2 后台管理模板（按照Google mail风格进行改良重写）
 
 #### 项目创建步骤：
 
@@ -158,6 +158,11 @@ npm install react-router-dom -D
 #### 13、安装for-editor（MarkDown）
 ```shell
     npm install for-editor
+```
+
+## 14、安装antd图表
+```shell script
+  npm install @ant-design/charts
 ```
 
 #### ant-design日期组件DatePicker国际化失效

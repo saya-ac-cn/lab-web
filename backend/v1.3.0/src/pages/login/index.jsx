@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import './index.less'
-import {message} from 'antd';
 import DocumentTitle from 'react-document-title'
-import {loginApi} from '@/api'
+import {loginApi, ownOrganizeUserApi} from '@/api'
 import storageUtils from '../../utils/storageUtils'
 import {openNotificationWithIcon} from "@/utils/window";
-import withRouter from "@/utils/withRouter";
+import {LoadingOutlined} from '@ant-design/icons';
 import jwt_decode from "jwt-decode";
 /*
  * 文件名：index.jsx
@@ -25,8 +24,8 @@ class Login extends Component {
       active:'login',
       login:{
         // 给用户输入的文本框和密码框
-        userName: 'shmily',
-        passWord: '123456',
+        userName: '',
+        passWord: '',
       },
       register:{
         email:'',
@@ -109,14 +108,39 @@ class Login extends Component {
       storageUtils.add(storageUtils.USER_KEY,user)
       storageUtils.add(storageUtils.PLAN_KEY,plan)
       storageUtils.add(storageUtils.LOG_KEY,log)
+      // 获取组织用户列表信息
+      await _this.getOwnOrganizeUser()
       // 跳转到管理界面 (不需要再回退回到登陆),push是需要回退
-      window.location.href = '/backstage/chart'
+      window.location.href = '/backstage/me/chart'
     } else if (code === 5) {
       openNotificationWithIcon("error", "错误提示", '请输入用户名和密码');
     } else {
       openNotificationWithIcon("error", "错误提示", '用户名或密码错误');
     }
   };
+
+  /**
+   * 获取自己所在组织下的用户
+   */
+  getOwnOrganizeUser= async () => {
+    let _this = this;
+    // 发异步ajax请求, 获取数据
+    const {msg, code, data} = await ownOrganizeUserApi()
+    if (code === 0) {
+      let organize = {};
+      for (let index in data) {
+        const item = data[index]
+        organize[item.account] = item.name
+      }
+      storageUtils.add(storageUtils.ORGANIZE_KEY,organize)
+    } else {
+      openNotificationWithIcon("error", "错误提示", msg);
+    }
+  }
+
+  /**
+   * 为第一次render()准备数据  因为要异步加载数据，所以方法改为async执行
+   */
   componentDidMount() {
     // 当前缓存中的token
     let access_token = storageUtils.get(storageUtils.ACCESS_KEY)
@@ -140,9 +164,9 @@ class Login extends Component {
     const {active,login, register,loading} = this.state;
     return (
       <DocumentTitle title='亲亲里·统一身份认证入口'>
-        <div className="login-register-container" style={{backgroundImage: `url(/src/static/img/sunflower.jpg`}}>
+        <div className="login-register-container" style={{backgroundImage: `url(/img/sunflower.jpg`}}>
           <div className='logo-area'>
-            <div className='logo' style={{backgroundImage: `url('/src/static/svg/project.svg')`}}>
+            <div className='logo' style={{backgroundImage: `url('/svg/project.svg')`}}>
             </div>
             <span>亲亲里·统一身份认证入口</span>
           </div>
@@ -195,7 +219,11 @@ class Login extends Component {
                           <label>密码</label>
                         </div>
                         <div className="input auto-height">
-                          <button type="button" onClick={this.loginHandle}>登录</button>
+                          {loading?
+                              <button type="button"><LoadingOutlined className='loading'/></button>
+                              :
+                              <button type="button" onClick={this.loginHandle}>登录</button>
+                          }
                         </div>
                       </div>
                   }

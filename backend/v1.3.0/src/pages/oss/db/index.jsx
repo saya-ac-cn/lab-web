@@ -4,7 +4,7 @@ import {openNotificationWithIcon} from "@/utils/window";
 import {Button, Col, Form, DatePicker, Table} from "antd";
 import DocumentTitle from 'react-document-title'
 import {ReloadOutlined, SearchOutlined} from "@ant-design/icons";
-import {disabledDate,eraseDateTimeT} from "@/utils/var";
+import {disabledDate} from "@/utils/var";
 import moment from 'moment';
 
 /*
@@ -55,7 +55,6 @@ class DB extends Component {
             {
                 title: '备份时间',
                 dataIndex: 'execute_data', // 显示数据对应的属性名
-                render:(value,row) => (eraseDateTimeT(row.execute_data))
             }
         ]
     };
@@ -68,8 +67,8 @@ class DB extends Component {
         let para = {
             page_no: this.state.page_no,
             page_size: this.state.page_size,
-            begin_time: this.state.filters.begin_time?this.state.filters.begin_time+'T00:00:00':null,
-            end_time: this.state.filters.end_time?this.state.filters.end_time+'T23:59:59':null,
+            begin_time: this.state.filters.begin_time,
+            end_time: this.state.filters.end_time,
         };
         // 在发请求前, 显示loading
         this.setState({listLoading: true});
