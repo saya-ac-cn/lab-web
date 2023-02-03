@@ -281,11 +281,11 @@ class Chart extends Component {
       for (let i = 0; i < data.length; i++) {
         let item = data[i];
         // 总收支
-        currencyNumber.push({time:item.archive_date,count:item.outlay?item.outlay:0})
+        currencyNumber.push({time:item.archive_date,count:item.total?item.total:0})
         // 总收入
         incomeAndPay.push({time:item.archive_date,value:item.income?item.income:0,type:'收入'})
         // 总支出
-        incomeAndPay.push({time:item.archive_date,value:item.total?item.total:0,type:'支出'})
+        incomeAndPay.push({time:item.archive_date,value:item.outlay?item.outlay:0,type:'支出'})
       }
       financial6.serverData = {currencyNumber:currencyNumber,incomeAndPay:incomeAndPay};
       _this.setState({financial6});
