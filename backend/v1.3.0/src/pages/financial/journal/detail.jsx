@@ -45,7 +45,7 @@ const inputLabel = {
 };
 
 const tableFooter = {
-    'fontSize': '0.4em'
+    //'fontSize': '0.4em'
 };
 
 const detailGrid = {
