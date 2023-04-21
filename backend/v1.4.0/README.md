@@ -1,12 +1,12 @@
-### backend-v2 后台管理模板（按照Google mail风格进行改良重写）
+### backend-v4 后台管理模板（按照Google mail风格进行改良重写）
 
 #### 项目创建步骤：
 
 ##### 1、创建项目
 
 ```shell
-mkdir backend-v3
-cd backend-v3
+mkdir backend-v4
+cd backend-v4
 # 根据提示选择配置即可 
 npm init vite@latest
 ```
@@ -77,8 +77,8 @@ export const getTabList = (params) => {
 package.json
 ```js
   "scripts": {
-    "dev": "vite --mode dev",
-    "build": "vite build --mode prod",
+    "dev": "vite --mode development", 
+    "build": "tsc && vite build --mode production",
     "preview": "vite preview"
   }
 ```
@@ -91,17 +91,18 @@ npm install react-router-dom -D
 
 #### 7、安装less
 ```shell script
-  npm install less less-loader
+  npm install less -D
 ```
 
 #### 8、安装react-document-title用于设置页面标题
 ```shell script
-   npm install react-document-title
+   npm install react-document-title -D
 ```
 
 #### 9、安装 axios
 ```shell script
-    npm install axios
+    npm install axios nprogress qs -D
+    npm install @types/nprogress @types/qs -D
 ```
 
 
@@ -112,7 +113,7 @@ npm install react-router-dom -D
 
 #### 12、安装图片裁剪
 ```shell
-    npm install react-cropper
+    npm install react-cropper -D
 ```
 
 #### 13、安装for-editor（MarkDown）
@@ -120,16 +121,23 @@ npm install react-router-dom -D
     npm install for-editor
 ```
 
-## 14、安装antd图表
-```shell script
-  npm install @ant-design/charts
-```
+https://knif.gitee.io/daodao-knowledge/pages/31fc53/
 
-#### ant-design日期组件DatePicker国际化失效
-参考 https://blog.csdn.net/u012889686/article/details/126611268
-```javascript
-import 'moment/dist/locale/zh-cn';
-```
+```js
+// 连接地址
+wss://bignature.site:666/api/websocket
 
-https://zhuanlan.zhihu.com/p/456407867
-https://blog.csdn.net/weixin_42164539/article/details/123388542
+// 1、开始认证参数
+{
+    "type": "auth",
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjNzUzMmJiYWNmMmM0ODJjYjZjZWJlNTViZGYwNjI0MyIsImlhdCI6MTY4MTAxMTY0MSwiZXhwIjoxOTk2MzcxNjQxfQ.t5RiXXnP-eGbYr7OXF-4oln-yJzy4BVGk1G58N72L2k"
+}
+
+// 2、订阅状态变化消息
+{
+    "id": 18,
+    "type": "subscribe_events",
+    "event_type": "state_changed"
+}
+
+```

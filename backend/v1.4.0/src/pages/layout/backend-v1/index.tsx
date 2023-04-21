@@ -3,11 +3,11 @@ import {Suspense,useState,useEffect} from "react";
 import './index.less'
 import {Routes,Route,useNavigate,useLocation,NavLink} from "react-router-dom";
 import Storage from '@/utils/storage'
-import routes from "@/config/routes";
+import routes from "@/menu/routes";
 import {isEmptyObject} from "@/utils/var"
 import { Button, Input, Menu, Popover, Avatar, Spin, Badge, Modal} from 'antd';
-import {FlagOutlined,RightOutlined,LeftOutlined,MenuOutlined, HomeOutlined,NotificationOutlined,MessageOutlined, DatabaseOutlined,StockOutlined,FieldTimeOutlined,SearchOutlined,UserOutlined,AccountBookOutlined,ScheduleOutlined,PushpinOutlined,CarryOutOutlined,MoneyCollectOutlined,SwitcherOutlined} from '@ant-design/icons';
-
+import {FlagOutlined,RightOutlined,LeftOutlined,MenuOutlined, HomeOutlined,NotificationOutlined,MessageOutlined, DatabaseOutlined,HistoryOutlined,SearchOutlined,UserOutlined,AccountBookOutlined,ScheduleOutlined,PushpinOutlined,CarryOutOutlined,PayCircleOutlined,SkinOutlined} from '@ant-design/icons';
+import {logoutApi} from "@/http/api"
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -61,6 +61,8 @@ const Layout = () => {
     const [searchValue,setSearchValue] = useState<string>()
 
     const location = useLocation()
+    const navigate = useNavigate();
+
 
     useEffect(()=>{
         const user = Storage.get(Storage.USER_KEY) || {};
@@ -124,7 +126,7 @@ const Layout = () => {
                     }
                     pre.push(({ label: <NavLink to={_path} onClick={()=>pageHandle(_path)} style={{color: `${currentPath===_path?'#7bc0fe':''}`}}>{item.name}</NavLink>, key: _path,icon: <item.icon/>}))
                 }else{
-                    pre.push(({ label: <NavLink to={_path} onClick={()=>pageHandle(_path)} style={{color: `${currentPath===_path?'#7bc0fe':''}`}}>{item.name}</NavLink>, key: _path}))
+                    pre.push(({ label: <NavLink to={_path} onClick={()=>pageHandle(_path)} style={{color: `${currentPath===_path?'#7bc0fe':''}`}}>{item.name}</NavLink>, key: _path,icon: <item.icon/>}))
                 }
 
             } else if (item.children && item.display === true) {
@@ -188,11 +190,11 @@ const Layout = () => {
             content:'确定退出吗?',
             onOk: async () => {
                 // 请求注销接口
-                // await requestLogout();
+                await logoutApi();
                 // 删除保存的user数据
                 Storage.removeAll();
                 // 跳转到login
-                //openLoginWindow()
+                navigate('/')
             }
         })
     };
@@ -223,18 +225,11 @@ const Layout = () => {
      * 写笔记
      */
     const addNotes = () => {
-        // 跳转到笔记列表界面 (需要再回退到当前页面),replace是不需要回退
-        // props.history.push('/backstage/memory/notes/create')
-        window.location.href = '/backstage/memory/note/create'
+        navigate('/backstage/memory/note')
     }
 
     return (
         <div className="backend-container">
-            <div className='window-title'>
-                <a className='light red'/>
-                <a className='light yellow'/>
-                <a className='light green'/>
-            </div>
             <div className='background-div' style={{backgroundImage:`url('${user.background_url ? user.background_url:'/picture/layout/background_2.jpg'}')`}}>
             </div>
             <header className="this-header">
@@ -301,9 +296,9 @@ const Layout = () => {
                         </Menu>
                     </div>
                     <div className={`menu-copyright ${leftCollapsed?"menu-copyright-close":""}`}>
-                        <Button type="link" title='切换壁纸' href="/backstage/oss/wallpaper"><SwitcherOutlined/></Button>
-                        <Button type="link" title='数据统计' href="/backstage/me/chart"><StockOutlined/></Button>
-                        <Button type="link" title='操作日志' href="/backstage/me"><FieldTimeOutlined/></Button>
+                        <Button type="link" title='切换壁纸' href="/backstage/oss/wallpaper"><SkinOutlined/></Button>
+                        <Button type="link" title='数据统计' href="/backstage/home"><HomeOutlined/></Button>
+                        <Button type="link" title='操作日志' href="/backstage/me/logs"><HistoryOutlined/></Button>
                     </div>
                 </div>
                 <div className='content-container'>
@@ -312,10 +307,6 @@ const Layout = () => {
                             <Suspense>
                                 <Routes>
                                     {pages()}
-                                    {/*<Route path={'/me'} element={<Home/>}/>*/}
-                                    {/*<Route path={'/financial/journal'} element={<Home/>}/>*/}
-                                    {/*<Route path={'/financial/day'} element={<Home/>}/>*/}
-                                    {/*<Route path={'/financial/note'} element={<Note/>}/>*/}
                                 </Routes>
                             </Suspense>
                         </div>
@@ -330,8 +321,8 @@ const Layout = () => {
                 </div>
                 <div className={rightCollapsed?'show-quick-div':'hide-quick-div'}>
                     <div className="quick-div-menu">
-                        <Button type="link" title='记账' href="/backstage/financial/journal"><MoneyCollectOutlined/></Button>
-                        <Button type="link" title='发布动态' href="/backstage/memory/news/create"><NotificationOutlined/></Button>
+                        <Button type="link" title='记账' href="/backstage/financial/journal"><PayCircleOutlined/></Button>
+                        <Button type="link" title='发布动态' href="/backstage/memory/news"><NotificationOutlined/></Button>
                         <Button type="link" title='提醒事项' href="/backstage/plan/activity"><CarryOutOutlined/></Button>
                         <Button type="link" title='便利贴' href="/backstage/memory/memo"><PushpinOutlined/></Button>
                     </div>

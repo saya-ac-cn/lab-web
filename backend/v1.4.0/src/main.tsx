@@ -5,10 +5,11 @@ import {ConfigProvider} from 'antd';
 import zhCN from 'antd/locale/zh_CN'
 import 'dayjs/locale/zh-cn'
 import './index.css'
-
 /**
  * 入口
  */
+
+
 type ThemeData = {
     borderRadius: number;
     colorPrimary: string;
@@ -19,7 +20,7 @@ const defaultData: ThemeData = {
 };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <ConfigProvider locale={zhCN.default ?? zhCN}
+    <ConfigProvider locale={zhCN}
                     theme={{ token: { colorPrimary: defaultData.colorPrimary, borderRadius: defaultData.borderRadius } }}>
         <App />
     </ConfigProvider>

@@ -158,7 +158,7 @@ const Editor = (props,ref) => {
             return
         }
         // 上传文件
-        handleUploadPicture(tempFile).then(e => console.error('图片上传失败：',e))
+        handleUploadPicture(tempFile)
     }
 
     return (

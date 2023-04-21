@@ -5,18 +5,45 @@ import Storage from '@/utils/storage'
 import {openNotificationWithIcon} from "@/utils/window";
 import {loginApi,ownOrganizeUserApi} from "@/http/api"
 import {LoadingOutlined} from "@ant-design/icons";
-
+import {isEmptyObject} from "@/utils/var";
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
+    const navigate = useNavigate();
     const [active,setActive] = useState<String>('login')
     const [login, setLogin] = useState({userName:'',passWord:''});
     const [register, setRegister] = useState({email:'', userName:'',passWord:'',repeat:''});
     const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
-
+        checkLogin()
     },[])
+
+    const checkLogin = () => {
+        // 缓存数据缺一不可
+        const access_token = Storage.get(Storage.ACCESS_KEY)
+        if (isEmptyObject(access_token)){
+            return
+        }
+        const user = Storage.get(Storage.USER_KEY)
+        if (isEmptyObject(user)){
+            return
+        }
+        const plan = Storage.get(Storage.PLAN_KEY)
+        if (isEmptyObject(plan)){
+            return
+        }
+        const log = Storage.get(Storage.LOG_KEY)
+        if (isEmptyObject(log)){
+            return
+        }
+        const organize = Storage.get(Storage.ORGANIZE_KEY)
+        if (isEmptyObject(organize)){
+            return
+        }
+        navigate('/backstage/financial/note')
+    }
 
 
     /**
@@ -49,6 +76,7 @@ const Login = () => {
         setActive(type)
     };
 
+
     /**
      * 响应登录事件
      */
@@ -58,31 +86,32 @@ const Login = () => {
             openNotificationWithIcon("error", "错误提示", '请输入用户名和密码');
             return
         }
-        let loginParams = {account: userName, password: passWord};
+        let loginParams = {account: userName, password: passWord,platform:'browser'};
         setLoading(true);
-        const result = await loginApi(loginParams);
+        const {err,result} = await loginApi(loginParams);
+        if (err){
+            console.error('登录失败:',err)
+            setLoading(false);
+            return
+        }
         let {code, data} = result;
         setLoading(false);
-        // if (code === 0) {
-        //     let {access_token,log,plan,user} = data
-        //     // 保存到local中
-        //     Storage.add(Storage.ACCESS_KEY,access_token)
-        //     Storage.add(Storage.USER_KEY,user)
-        //     Storage.add(Storage.PLAN_KEY,plan)
-        //     Storage.add(Storage.LOG_KEY,log)
-        //     // 获取组织用户列表信息
-        //     await getOwnOrganizeUser()
-        //     if (values.remember){
-        //         const cache = { account: values.account}
-        //         Storage.add(Storage.LOGIN_KEY,cache)
-        //     }
-        //     // 跳转到管理界面 (不需要再回退回到登陆),push是需要回退
-        //     window.location.href = '/backstage/financial/note'
-        // } else if (code === 5) {
-        //     openNotificationWithIcon("error", "错误提示", '请输入用户名和密码');
-        // } else {
-        //     openNotificationWithIcon("error", "错误提示", '用户名或密码错误');
-        // }
+        if (code === 0) {
+            let {access_token,log,plan,user} = data
+            // 保存到local中
+            Storage.add(Storage.ACCESS_KEY,access_token)
+            Storage.add(Storage.USER_KEY,user)
+            Storage.add(Storage.PLAN_KEY,plan)
+            Storage.add(Storage.LOG_KEY,log)
+            // 获取组织用户列表信息
+            await getOwnOrganizeUser()
+            // 跳转到管理界面 (不需要再回退回到登陆),push是需要回退
+            navigate('/backstage/home')
+        } else if (code === 5) {
+            openNotificationWithIcon("error", "错误提示", '请输入用户名和密码');
+        } else {
+            openNotificationWithIcon("error", "错误提示", '用户名或密码错误');
+        }
     };
 
     /**
@@ -90,7 +119,12 @@ const Login = () => {
      */
     const getOwnOrganizeUser = async () => {
         // 发异步ajax请求, 获取数据
-        const {msg, code, data} = await ownOrganizeUserApi()
+        const {err,result} = await ownOrganizeUserApi()
+        if (err){
+            console.error('获取自己所在组织数据异常:',err)
+            return
+        }
+        const {msg, code, data} = result
         if (code === 0) {
             let organize = {};
             for (let index in data) {
@@ -105,9 +139,9 @@ const Login = () => {
 
     return (
         <DocumentTitle title='亲亲里·统一身份认证入口'>
-            <div className="login-register-container" style={{backgroundImage: `url(/img/sunflower.jpg`}}>
+            <div className="login-register-container" style={{backgroundImage: `url(/picture/img/sunflower.jpg`}}>
                 <div className='logo-area'>
-                    <div className='logo' style={{backgroundImage: `url('/svg/project.svg')`}}>
+                    <div className='logo' style={{backgroundImage: `url('/picture/project.svg')`}}>
                     </div>
                     <span>亲亲里·统一身份认证入口</span>
                 </div>

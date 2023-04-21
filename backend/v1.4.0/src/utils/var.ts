@@ -1,8 +1,7 @@
 /**
  * 变量操作js工具类
  */
-
-
+import dayjs from 'dayjs';
 /**
  * 判断对象是否为空
  * 入参 data
@@ -72,16 +71,17 @@ export const deepClone = (target) => {
     return result;
 };
 
-// // 只能选择今天以前的日期
-// export const disabledDate = (current) => {
-//     // Can not select days before today and today
-//     return current && current > moment().endOf('day');
-// };
-//
-// // 只能选择本月及其以前的月份
-// export const disabledMonth = (current) => {
-//     return current && current > moment().endOf('month');
-// };
+// 只能选择今天以前的日期
+// eslint-disable-next-line arrow-body-style
+export const disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current >= dayjs().endOf('day');
+};
+
+// 只能选择本月及其以前的月份
+export const disabledMonth = (current) => {
+    return current && current > dayjs().endOf('month');
+};
 
 // 通过组织提取用户
 export const extractUserName = (organize,account) => {

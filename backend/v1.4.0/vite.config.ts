@@ -7,7 +7,6 @@ import * as path from "path";
 
 export default ({mode}) => {
   const env = loadEnv(mode,process.cwd());
-  console.error('env',env)
   return defineConfig({
     plugins: [
       react()
@@ -22,11 +21,12 @@ export default ({mode}) => {
       port: 3000, //指定开发服务器端口。注意：如果端口已经被使用，Vite 会自动尝试下一个可用的端口
       proxy: {
         '/backend': {
+          // 'http://127.0.0.1:8000',//
           target: env.VITE_APP_PROXY_URL,
           changeOrigin: true,
           //rewrite: path => path.replace(/^\/api/, "") //因为实际的地址不带api，所以要去掉api
         },
-        '/warehouse/picture':{
+        '/warehouse':{
           target: env.VITE_APP_PROXY_URL,
           changeOrigin: true,
         }

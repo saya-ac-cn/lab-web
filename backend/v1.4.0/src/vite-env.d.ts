@@ -1,5 +1,5 @@
 interface ImportMetaEnv {
-    readonly VITE_API: string;
+    readonly VITE_APP_PROXY_URL: string;
     readonly VITE_APP_VERSION: string;
 }
 
