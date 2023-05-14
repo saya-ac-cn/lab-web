@@ -3,7 +3,6 @@ import {Button, Row, Col, Input, Form, DatePicker, Modal, Spin, Upload} from "an
 import './index.less'
 import {picturePageApi, deletePictureApi, uploadWallpaperApi, editUserInfoApi, getToken} from "@/http/api";
 import {openNotificationWithIcon} from "@/utils/window";
-import DocumentTitle from 'react-document-title'
 import axios from 'axios'
 import Storage from "@/utils/storage";
 import {ReloadOutlined, SearchOutlined,CloudUploadOutlined,DeleteOutlined,HeartOutlined,MinusOutlined,MoreOutlined,CheckOutlined} from "@ant-design/icons";
@@ -52,7 +51,7 @@ const Wallpaper = () => {
     const getData = async (_filters = filters,_pagination= pagination) => {
         let para = {
             category: 1,
-            now_page: null === _pagination.next_page ? 1 : _pagination.next_page,
+            now_page: null == _pagination.next_page ? 1 : _pagination.next_page,
             page_size: _pagination.page_size,
             begin_time: _filters.begin_time,
             end_time: _filters.end_time,
@@ -70,7 +69,7 @@ const Wallpaper = () => {
         const {msg, code,data} = result
         // 在请求完成后, 隐藏loading
         setLoading(false)
-        if (code === 0) {
+        if (code == 0) {
             // 表格数据
             rendering(data);
         } else {
@@ -98,9 +97,9 @@ const Wallpaper = () => {
             }
         }
         setGrid(_grid)
-        let next_page = pagination.next_page;
+        let next_page;
         //显示是否加载下一页(当前页是最后一页)
-        if (data.page_no === data.total_page) {
+        if (data.page_no == data.total_page) {
             next_page = null;
         } else {
             next_page = data.page_no + 1;
@@ -185,7 +184,7 @@ const Wallpaper = () => {
             .catch((err) => {
                 flag = false
             });
-        if (true === flag) {
+        if (flag) {
             let para = {
                 account: currentUser.account,
                 background: parseInt(id),
@@ -204,7 +203,7 @@ const Wallpaper = () => {
             setLoading(false);
             // 为下一次的提交申请一个token
             setToken(await getToken());
-            if (code === 0) {
+            if (code == 0) {
                 currentUser.background = parseInt(id);
                 currentUser.background_url = src;
                 Storage.add(Storage.USER_KEY,currentUser); // 保存到local中
@@ -236,7 +235,7 @@ const Wallpaper = () => {
         const {msg, code} = result
         // 在请求完成后, 隐藏loading
         setLoading(false);
-        if (code === 0) {
+        if (code == 0) {
             openNotificationWithIcon("success", "操作结果", "删除成功");
             getData();
         } else {
@@ -295,7 +294,7 @@ const Wallpaper = () => {
 
     /**
      * 上传前添加到list，
-     * @param fileList
+     * @param info
      */
     const handleChange = (info) => {
         let fileList = info.fileList;
@@ -414,7 +413,7 @@ const Wallpaper = () => {
                                             <Button type="primary" shape="circle" icon={<MinusOutlined/>} size="small" title="好像并没有照片诶"/>
                                         </li>
                                     }
-                                    {pagination.next_page !== null ?
+                                    {pagination.next_page != null ?
                                         <li span={6} className="album-div-imgdiv">
                                             <Button type="primary" onClick={getData} shape="circle" icon={<MoreOutlined/>} size="small" title="加载更多"/>
                                         </li>

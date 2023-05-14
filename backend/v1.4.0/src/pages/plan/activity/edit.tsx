@@ -88,7 +88,7 @@ const EditActivityPlan = (props,ref) => {
                 }
                 const {msg, code} = result
                 setConfirmLoading(false);
-                if (code === 0) {
+                if (code == 0) {
                     openNotificationWithIcon("success", "操作结果", "添加成功");
                     // 调用父页面的刷新数据方法
                     props.refreshPage();
@@ -125,7 +125,7 @@ const EditActivityPlan = (props,ref) => {
                 }
                 const {msg, code} = result
                 setConfirmLoading(false);
-                if (code === 0) {
+                if (code == 0) {
                     openNotificationWithIcon("success", "操作结果", "修改成功");
                     // 调用父页面的刷新数据方法
                     props.refreshPage();
@@ -176,7 +176,7 @@ const EditActivityPlan = (props,ref) => {
                 </Form.Item>
 
                 <Form.Item label="周期单位：" {...formItemLayout} initialValue={plan.unit} name='unit' rules={[{required: true, message: '请输入周期单位'}]}>
-                    <InputNumber min={0} max={365} disabled={plan.cycle===1}/>
+                    <InputNumber min={0} max={365} disabled={plan.cycle==1}/>
                 </Form.Item>
 
                 <Form.Item label="是否展示：" {...formItemLayout} initialValue={plan.display} name='display' rules={[{required: true, message: '请选择是否展示'}]}>

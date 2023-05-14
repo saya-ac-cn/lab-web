@@ -120,7 +120,7 @@ const ArchivePlan = () => {
         const {msg, code, data} = result
         // 在请求完成后, 隐藏loading
         setLoading(false)
-        if (code === 0) {
+        if (code == 0) {
             setGrid(data.records);
             setPagination({..._pagination,data_total: data.total_row})
         } else {

@@ -1,7 +1,4 @@
 import {notification} from 'antd';
-import React from 'react';
-
-
 
 
 // Notification通知提醒框
@@ -16,6 +13,3 @@ export const openNotificationWithIcon_ = (type, message, description) => notific
     message: message,
     description: description,
 });
-
-// 重写loading样式
-export const showLoading = () => true;

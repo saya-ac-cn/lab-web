@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import './index.less'
 import {picturePageApi, deletePictureApi} from "@/http/api";
 import {openNotificationWithIcon} from "@/utils/window";
-import DocumentTitle from 'react-document-title'
 import {disabledDate,isEmptyObject,deepClone} from "@/utils/var";
 import {
   CheckOutlined,
@@ -175,7 +174,7 @@ const Illustration = () => {
         const {msg, code} = result
         // 在请求完成后, 隐藏loading
         setLoading(false);
-        if (code === 0) {
+        if (code == 0) {
             openNotificationWithIcon("success", "操作结果", "删除成功");
             getData();
         } else {
@@ -184,69 +183,67 @@ const Illustration = () => {
     };
 
     return (
-        <DocumentTitle title='插图管理'>
-            <div className='child-container'>
-                <div className='header-tools'>
-                    插图管理
-                </div>
-                <div className='child-content'>
-                    <Row>
-                        <Col span={24} className="toolbar">
-                            <Form layout="inline">
-                                <Form.Item label="文件名:">
-                                    <Input type='text' value={filters.file_name} onChange={fileInputInputChange}
-                                           placeholder='请输入文件名'/>
-                                </Form.Item>
-                                <Form.Item label="上传时间:">
-                                    <RangePicker value={(filters.begin_time !== null && filters.end_time !== null)?[dayjs(filters.begin_time),dayjs(filters.end_time)]:[null,null]} disabledDate={disabledDate} onChange={onChangeDate}/>
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button type="primary" htmlType="button" onClick={getData}>
-                                        <SearchOutlined/>查询
-                                    </Button>
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button type="primary" htmlType="button" onClick={reloadPage}>
-                                        <ReloadOutlined/>重置
-                                    </Button>
-                                </Form.Item>
-                            </Form>
-                        </Col>
-                    </Row>
-                    <Row style={{height: '100%',alignItems: 'center',justifyContent: 'center'}}>
-                        {
-                            loading ? <Spin size="large"/> :
-                                <ul className="illustration-ul">
-                                    {grid !==null ? grid.map((item) => (
-                                            <li span={6} className="album-div-imgdiv" key={item.id}>
-                                                <div className="tools">
-                                                    <Button type="primary" shape="circle" icon={<DeleteOutlined/>} data-id={item.id} onClick={handleDeleteFile} size="small" title="删除"/>
-                                                </div>
-                                                <a href="#toolbar" rel="noopener noreferrer" className="a-img">
-                                                    <img src={item.web_url} alt={item.file_name}
-                                                         className="img-responsive"/>
-                                                </a>
-                                            </li>
-                                        )):
-                                        <li span={6} className="album-div-imgdiv">
-                                            <Button type="primary" shape="circle" icon={<MinusOutlined/>} size="small" title="好像并没有照片诶"/>
-                                        </li>
-                                    }
-                                    {pagination.next_page !== null ?
-                                        <li span={6} className="album-div-imgdiv">
-                                            <Button type="primary" onClick={getData} shape="circle" icon={<MoreOutlined/>} size="small" title="加载更多"/>
-                                        </li>
-                                        :
-                                        <li span={6} className="album-div-imgdiv">
-                                            <Button type="primary" shape="circle" icon={<CheckOutlined/>} size="small" title="已经加载完插图了"/>
-                                        </li>
-                                    }
-                                </ul>
-                        }
-                    </Row>
-                </div>
+        <div className='child-container'>
+            <div className='header-tools'>
+                插图管理
             </div>
-        </DocumentTitle>
+            <div className='child-content'>
+                <Row>
+                    <Col span={24} className="toolbar">
+                        <Form layout="inline">
+                            <Form.Item label="文件名:">
+                                <Input type='text' value={filters.file_name} onChange={fileInputInputChange}
+                                       placeholder='请输入文件名'/>
+                            </Form.Item>
+                            <Form.Item label="上传时间:">
+                                <RangePicker value={(filters.begin_time !== null && filters.end_time !== null)?[dayjs(filters.begin_time),dayjs(filters.end_time)]:[null,null]} disabledDate={disabledDate} onChange={onChangeDate}/>
+                            </Form.Item>
+                            <Form.Item>
+                                <Button type="primary" htmlType="button" onClick={getData}>
+                                    <SearchOutlined/>查询
+                                </Button>
+                            </Form.Item>
+                            <Form.Item>
+                                <Button type="primary" htmlType="button" onClick={reloadPage}>
+                                    <ReloadOutlined/>重置
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </Col>
+                </Row>
+                <Row style={{height: '100%',alignItems: 'center',justifyContent: 'center'}}>
+                    {
+                        loading ? <Spin size="large"/> :
+                            <ul className="illustration-ul">
+                                {grid !==null ? grid.map((item) => (
+                                        <li span={6} className="album-div-imgdiv" key={item.id}>
+                                            <div className="tools">
+                                                <Button type="primary" shape="circle" icon={<DeleteOutlined/>} data-id={item.id} onClick={handleDeleteFile} size="small" title="删除"/>
+                                            </div>
+                                            <a href="#toolbar" rel="noopener noreferrer" className="a-img">
+                                                <img src={item.web_url} alt={item.file_name}
+                                                     className="img-responsive"/>
+                                            </a>
+                                        </li>
+                                    )):
+                                    <li span={6} className="album-div-imgdiv">
+                                        <Button type="primary" shape="circle" icon={<MinusOutlined/>} size="small" title="好像并没有照片诶"/>
+                                    </li>
+                                }
+                                {pagination.next_page !== null ?
+                                    <li span={6} className="album-div-imgdiv">
+                                        <Button type="primary" onClick={getData} shape="circle" icon={<MoreOutlined/>} size="small" title="加载更多"/>
+                                    </li>
+                                    :
+                                    <li span={6} className="album-div-imgdiv">
+                                        <Button type="primary" shape="circle" icon={<CheckOutlined/>} size="small" title="已经加载完插图了"/>
+                                    </li>
+                                }
+                            </ul>
+                    }
+                </Row>
+            </div>
+        </div>
     );
 
 

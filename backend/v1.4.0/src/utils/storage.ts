@@ -3,7 +3,6 @@
  */
 import store from "store"
 
-const LOGIN_KEY:string = 'login'
 const USER_KEY:string = 'user'
 const ACCESS_KEY:string = 'access_token'
 const PLAN_KEY:string = 'plan'

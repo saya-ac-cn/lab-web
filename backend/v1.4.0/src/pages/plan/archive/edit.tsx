@@ -85,7 +85,7 @@ const EditArchivePlan = (props,ref) => {
                 }
                 const {msg, code} = result
                 setConfirmLoading(false);
-                if (code === 0) {
+                if (code == 0) {
                     openNotificationWithIcon("success", "操作结果", "修改成功");
                     // 调用父页面的刷新数据方法
                     props.refreshPage();
