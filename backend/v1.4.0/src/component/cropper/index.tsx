@@ -97,7 +97,7 @@ const CropperComponent = () => {
             return
         }
         setConfirm(false)
-        let {msg, code,data} = result;
+        let {msg, code, data} = result;
         if (code === 0) {
             openNotificationWithIcon("success", "上传结果", "上传成功");
             // 覆写到本地缓存
