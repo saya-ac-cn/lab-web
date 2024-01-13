@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {Button, Row, Col, Input, Form, DatePicker, Modal, Spin, Upload} from "antd";
+import DocumentTitle from 'react-document-title'
 import './index.less'
 import {picturePageApi, deletePictureApi, uploadWallpaperApi, editUserInfoApi, getToken} from "@/http/api";
 import {openNotificationWithIcon} from "@/utils/window";

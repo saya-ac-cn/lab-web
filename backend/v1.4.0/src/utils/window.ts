@@ -8,8 +8,4 @@ export const openNotificationWithIcon = (type, message, description) => notifica
     description: description,
 });
 
-export const openNotificationWithIcon_ = (type, message, description) => notification[type]({
-    placement: 'bottomRight',
-    message: message,
-    description: description,
-});
+export const openNotificationWithIcon_ = (type, message, description) => notification[type](en);

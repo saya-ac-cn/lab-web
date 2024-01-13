@@ -121,23 +121,15 @@ npm install react-router-dom -D
     npm install for-editor
 ```
 
-https://knif.gitee.io/daodao-knowledge/pages/31fc53/
+### 14、命令
+```shell
+# 运行
+npm run dev
 
-```js
-// 连接地址
-wss://bignature.site:666/api/websocket
-
-// 1、开始认证参数
-{
-    "type": "auth",
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjNzUzMmJiYWNmMmM0ODJjYjZjZWJlNTViZGYwNjI0MyIsImlhdCI6MTY4MTAxMTY0MSwiZXhwIjoxOTk2MzcxNjQxfQ.t5RiXXnP-eGbYr7OXF-4oln-yJzy4BVGk1G58N72L2k"
-}
-
-// 2、订阅状态变化消息
-{
-    "id": 18,
-    "type": "subscribe_events",
-    "event_type": "state_changed"
-}
+# 打包（忽略ts代码检查修改 package.json 文件"build": "vite build --mode pro"）
+npm run build
 
 ```
+
+### 参考知识
+https://knif.gitee.io/daodao-knowledge/pages/31fc53/

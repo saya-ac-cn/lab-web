@@ -139,11 +139,9 @@ const Login = () => {
 
     return (
         <DocumentTitle title='亲亲里·统一身份认证入口'>
-            <div className="login-register-container" style={{backgroundImage: `url(/picture/img/sunflower.jpg`}}>
+            <div className="login-register-container" style={{backgroundImage: `url(/picture/img/background.jpg`}}>
                 <div className='logo-area'>
-                    <div className='logo' style={{backgroundImage: `url('/picture/project.svg')`}}>
-                    </div>
-                    <span>亲亲里·统一身份认证入口</span>
+                    <span>一站通·亲亲里数字实验室</span>
                 </div>
                 <div className="panel">
                     <div className="content">
