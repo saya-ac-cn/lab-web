@@ -21,7 +21,7 @@ class About extends Component {
               了解更多
             </div>
             <div className="about-web">
-              <div className="web-picture" style={{backgroundImage:`url('/src/static/img/about/about1.jpg')`}}></div>
+              <div className="web-picture" style={{backgroundImage:`url('/img/about/about1.jpg')`}}></div>
               <div className="web-desc">
                 <h3>关于网站</h3>
                 <article>
@@ -38,7 +38,7 @@ class About extends Component {
                 </article>
                 <h3>关于个人</h3>
                 <article>
-                  Shmily，科班出身，软件开发工程师一枚。主要喜欢Java、大数据和物联网等技术开发，前端web略懂一二。喜欢写技术分享的博客，喜欢把工作学习中遇到的问题及时写下来，同样的错误不犯第二次。
+                  Shmily，科班出身，软件开发工程师一枚。主要喜欢Rust、Java、大数据和物联网等技术开发，前端web略懂一二。喜欢写技术分享的博客，喜欢把工作学习中遇到的问题及时写下来，同样的错误不犯第二次。
                 </article>
                 <article>
                   平时爱好不多，乐观幽默，就喜欢捣鼓玩弄一些It作品，不乏一些作品通过版权保护注册。自己动手，丰衣足食。能自己开发出来的应用软件，绝不用第三方的，能用自己的，尽量不用别人的。

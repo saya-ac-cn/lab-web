@@ -1,0 +1,59 @@
+.frontend-plan {
+  .child-container {
+    .switch-date {
+      display: -webkit-flex; /* Safari */
+      display: flex;
+      width: 100%;
+      font-size: 1.2em;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-top: 1em;
+      padding-bottom: 1em;
+      color: #9cb17e;
+    }
+
+    .plantanle {
+      display: -webkit-flex; /* Safari */
+      display: flex;
+      justify-content:center;
+      table {
+        width: 100%;
+        border: 1px;
+        border-collapse: collapse;
+
+        thead {
+          display: table-header-group;
+          vertical-align: middle;
+          border-color: #b1e0dd;
+
+          tr {
+            td {
+              text-align: center;
+              color: #9cb17e;
+              /*距离顶部底部和字体大小已在媒体查询中定义*/
+            }
+          }
+        }
+
+        td {
+          border: 1px solid #9cb17e;
+          text-align: center;
+          height: 6em;
+          //padding-top: 2em;
+          //padding-bottom: 2em;
+        }
+
+        .today { /*今天*/
+          background-color: #e0efd3;
+        }
+
+        .with_plan { /*今天有安排*/
+          background-color: #dbedd1;
+          cursor: pointer;
+        }
+
+      }
+    }
+  }
+}
+

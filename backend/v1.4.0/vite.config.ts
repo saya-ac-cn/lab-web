@@ -22,7 +22,7 @@ export default ({mode}) => {
       proxy: {
         '/backend': {
           // 'http://127.0.0.1:8000',//
-          target: env.VITE_APP_PROXY_URL,
+          target: 'http://127.0.0.1:8000',//env.VITE_APP_PROXY_URL,
           changeOrigin: true,
           //rewrite: path => path.replace(/^\/api/, "") //因为实际的地址不带api，所以要去掉api
         },
