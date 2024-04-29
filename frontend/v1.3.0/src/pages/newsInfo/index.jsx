@@ -95,7 +95,7 @@ class NewsInfo extends Component {
             }
         }
         return (
-            <DocumentTitle title={`saya.ac.cn-${title}`}>
+            <DocumentTitle title={`动态-${title}`}>
                 <div className="frontend-newsInfo">
                     <div className="child-container">
                       <div className="column-title">

@@ -14,7 +14,7 @@ class Growing extends Component {
 
   render() {
     return (
-      <DocumentTitle title="saya.ac.cn-建设历程">
+      <DocumentTitle title="建设历程">
         <div className="frontend-growing">
           <div className="child-container">
             <div className="column-title">

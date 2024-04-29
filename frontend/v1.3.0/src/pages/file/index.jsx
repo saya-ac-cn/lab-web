@@ -141,7 +141,7 @@ class File extends Component {
     render() {
         const {datas, next_page, listLoading} = this.state;
         return (
-            <DocumentTitle title="saya.ac.cn-共享资源">
+            <DocumentTitle title="共享资源">
                 <div className="frontend-file">
                     <div className="child-container">
                         <div className="column-title">

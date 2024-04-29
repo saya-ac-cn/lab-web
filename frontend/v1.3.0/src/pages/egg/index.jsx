@@ -14,7 +14,7 @@ class Egg extends Component {
 
     render() {
         return (
-            <DocumentTitle title="saya.ac.cn-技术彩蛋">
+            <DocumentTitle title="技术彩蛋">
                 <div className="frontend-egg">
                     <div className="child-container">
                         <div className="column-title">

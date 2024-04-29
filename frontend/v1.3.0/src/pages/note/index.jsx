@@ -168,7 +168,7 @@ class Note extends Component {
     // 读取状态数据
     const {datas, listLoading, notes, dataTotal,next_page, bulletColor} = this.state;
     return (
-      <DocumentTitle title="saya.ac.cn-技术专题">
+      <DocumentTitle title="技术专题">
         <div className="frontend-note">
           <div className="child-container">
             <div className="column-title">

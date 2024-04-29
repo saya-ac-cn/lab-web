@@ -104,13 +104,13 @@ class Frontend extends Component {
                             <Row>
                                 <Col span={18}>
                                     <p>
-                                        Copyright &copy; 2016-{(new Date()).getFullYear()} Saya.ac.cn-极客印记 All rights
+                                        Copyright &copy; 2016-{(new Date()).getFullYear()} Saya.ac.cn-亲亲里 All rights
                                         reserved 国家工信部域名备案信息：[<a href="https://beian.miit.gov.cn/"
                                                                  rel="noopener noreferrer"
                                                                  target='_blank'>saya.ac.cn/蜀ICP备2021013893号-1</a>]
                                     </p>
                                     <p>
-                                        通讯地址：四川省宜宾市五粮液大道东段酒圣路8号(宜宾学院本部) 邮编：644000 Email：saya@saya.ac.cn
+                                        通讯地址：四川省宜宾市五粮液大道东段酒圣路8号 邮编：644000 Email：saya@saya.ac.cn
                                     </p>
                                     <p>
                                         建议您使用Google Chrome，分辨率1920*1080及以上浏览，获得更好用户体验

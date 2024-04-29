@@ -124,7 +124,7 @@ class News extends Component {
     // 读取状态数据
     const {datas, bulletColor, next_page, listLoading} = this.state;
     return (
-      <DocumentTitle title="saya.ac.cn-消息动态">
+      <DocumentTitle title="消息动态">
         <div className="frontend-news">
           <div className="child-container">
             <div className="column-title">

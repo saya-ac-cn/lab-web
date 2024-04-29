@@ -234,7 +234,7 @@ class Plan extends Component {
   render() {
     const {visibleModal,planDetail,outhtml, listLoading, filters} = this.state;
     return (
-      <DocumentTitle title="saya.ac.cn-计划安排">
+      <DocumentTitle title="计划安排">
         <div className="frontend-plan">
           <Modal title="计划内容" footer={[<Button key="close" type="primary" onClick={this.handleCancel}>关闭</Button>]} open={visibleModal} onCancel={this.handleCancel}>
             {planDetail}

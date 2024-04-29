@@ -95,7 +95,7 @@ class NoteInfo extends Component {
             }
         }
         return (
-            <DocumentTitle title={`saya.ac.cn-${title}`}>
+            <DocumentTitle title={`文章-${title}`}>
                 <div className="frontend-note">
                     <div className="child-container">
                         <div className="column-title">
