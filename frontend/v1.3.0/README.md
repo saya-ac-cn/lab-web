@@ -144,3 +144,8 @@ npm install react-router-dom -D
 ```shell script
     npm install axios
 ```
+
+#### 10、安装for-editor（MarkDown）
+```shell
+    npm install for-editor
+```

@@ -14,3 +14,12 @@ export const isEmptyObject = (data) => {
         return false;
     return true;
 };
+
+/**
+ * 判断是否是整数
+ * @param val
+ * @returns {boolean}
+ */
+export const isInteger = (val) => {
+  return /^\d+$/.test(val);
+};

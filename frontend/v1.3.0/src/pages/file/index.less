@@ -1,0 +1,51 @@
+.frontend-file {
+  .child-container {
+    .file-web{
+      width: 100%;
+      #datagrid{
+        width: 90%;
+        margin: 30px auto;
+        position: relative;
+        transition: all 0.4s ease;
+        .file-block{
+          margin-top: 1em;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          .file-icon{
+            height: 5em;
+            width: 5em;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 60% 60%;
+            cursor:pointer;
+          }
+          .file-name{
+            height: fit-content;
+            margin-bottom: .3em;
+            width: 100%;
+            font-size: 0.96em;
+            text-align: center;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            cursor:pointer;
+          }
+          .file-date{
+            width: 100%;
+            text-align: center;
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: rgba(37, 38, 43, 0.36);;
+            max-width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+  }
+}
