@@ -20,6 +20,7 @@ import Storage from "@/utils/storage";
 import EditNoteBook from './book';
 import EditNote from './note'
 import './index.less'
+import {formatDateTime_zh_CN} from "@/utils/date";
 
 const {RangePicker} = DatePicker;
 
@@ -70,10 +71,14 @@ const Note = () => {
         {
             title: '创建时间',
             dataIndex: 'create_time', // 显示数据对应的属性名
+            render:(value)=> (formatDateTime_zh_CN(value,2))
+
         },
         {
             title: '修改时间',
             dataIndex: 'update_time', // 显示数据对应的属性名
+            render:(value)=> (formatDateTime_zh_CN(value,2))
+
         },
         {
             title: '管理',

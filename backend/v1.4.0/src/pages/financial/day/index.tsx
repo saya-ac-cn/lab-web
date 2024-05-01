@@ -7,6 +7,7 @@ import {SearchOutlined, ReloadOutlined, FileExcelOutlined} from '@ant-design/ico
 import {Button, Col, DatePicker, Table, Form} from "antd";
 import {disabledDate, formatMoney} from "@/utils/var";
 import Storage from "@/utils/storage";
+import {formatDate_zh_CN} from "@/utils/date";
 
 
 const {RangePicker} = DatePicker;
@@ -29,6 +30,7 @@ const FinancialForDay = () => {
             title: '统计日期',
             dataIndex: 'archive_date', // 显示数据对应的属性名
             align:'center',
+            render: (value) => (formatDate_zh_CN(value))
         },
         {
             title: '收入',

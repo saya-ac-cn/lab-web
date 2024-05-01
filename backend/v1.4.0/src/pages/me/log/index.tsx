@@ -7,7 +7,7 @@ import {SearchOutlined,ReloadOutlined,FileExcelOutlined} from '@ant-design/icons
 import dayjs from 'dayjs';
 import axios from 'axios'
 import {disabledDate, extractUserName} from "@/utils/var"
-
+import {formatDateTime_zh_CN} from "@/utils/date";
 const {RangePicker} = DatePicker;
 const {Option} = Select;
 
@@ -42,7 +42,7 @@ const Log = () => {
             dataIndex: 'detail', // 显示数据对应的属性名
         },
         {
-            title: 'ip',
+            title: 'IP',
             dataIndex: 'ip', // 显示数据对应的属性名
             align:'left',
         },
@@ -53,7 +53,8 @@ const Log = () => {
         {
             title: '日期',
             dataIndex: 'date', // 显示数据对应的属性名
-            align:'left'
+            align:'left',
+            render:(value)=> (formatDateTime_zh_CN(value,1))
         }
     ]
 

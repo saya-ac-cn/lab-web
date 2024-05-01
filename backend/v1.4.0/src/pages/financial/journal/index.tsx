@@ -25,6 +25,7 @@ import Storage from "@/utils/storage";
 import JournalDetail from './detail'
 import JournalDeclare from './declare'
 import JournalRenew from './renew'
+import {formatDate_zh_CN, formatDateTime_zh_CN} from "@/utils/date";
 const {RangePicker} = DatePicker;
 const {Option} = Select;
 
@@ -99,6 +100,7 @@ const Journal = () => {
             title: '交易日期',
             dataIndex: 'archive_date', // 显示数据对应的属性名
             align:'left',
+            render: (value) => (formatDate_zh_CN(value))
         },
         {
             title: '交易附言',
@@ -108,12 +110,14 @@ const Journal = () => {
         {
             title: '创建时间',
             dataIndex: 'create_time', // 显示数据对应的属性名
-            align:'left'
+            align:'left',
+            render:(value)=> (formatDateTime_zh_CN(value,2))
         },
         {
             title: '修改时间',
             dataIndex: 'update_time', // 显示数据对应的属性名
-            align:'left'
+            align:'left',
+            render:(value)=> (formatDateTime_zh_CN(value,2))
         },
         {
             title: '管理',

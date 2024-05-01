@@ -69,7 +69,7 @@ const JournalDeclare = (props,ref) => {
       dataIndex: 'remarks', // 显示数据对应的属性名
       editable: true,
       render: (text, record, index) => {
-        return <Input type="text" value={text} maxLength={15} bordered={false} onChange={(e) => inputChange(e, record, index, 'remarks')}/>
+        return <Input type="text" value={text} maxLength={128} bordered={false} onChange={(e) => inputChange(e, record, index, 'remarks')}/>
       }
     },
     {

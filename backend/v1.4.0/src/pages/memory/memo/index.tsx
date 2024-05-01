@@ -7,6 +7,7 @@ import {openNotificationWithIcon} from "@/utils/window";
 import {deleteMemoApi, memoInfoApi, memoPageApi} from "@/http/api"
 import Storage from "@/utils/storage";
 import EditMemo from "./edit";
+import {formatDateTime_zh_CN} from "@/utils/date";
 
 const {RangePicker} = DatePicker;
 const Memo = () => {
@@ -39,10 +40,12 @@ const Memo = () => {
         {
             title: '创建时间',
             dataIndex: 'create_time', // 显示数据对应的属性名
+            render:(value)=> (formatDateTime_zh_CN(value,2))
         },
         {
             title: '修改时间',
             dataIndex: 'update_time', // 显示数据对应的属性名
+            render:(value)=> (formatDateTime_zh_CN(value,2))
         },
         {
             title: '操作',

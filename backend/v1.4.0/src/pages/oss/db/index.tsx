@@ -5,6 +5,7 @@ import {ReloadOutlined, SearchOutlined} from "@ant-design/icons";
 import {useEffect, useState} from "react";
 import {openNotificationWithIcon} from "@/utils/window";
 import {dbDumpPageApi} from "@/http/api"
+import {formatDate_zh_CN, formatDateTime_zh_CN} from "@/utils/date";
 
 
 const {RangePicker} = DatePicker;
@@ -30,6 +31,7 @@ const DB = () => {
         {
             title: '归档日期',
             dataIndex: 'archive_date', // 显示数据对应的属性名
+            render: (value) => (formatDate_zh_CN(value))
         },
         {
             title: '归档目录',
@@ -38,6 +40,7 @@ const DB = () => {
         {
             title: '备份时间',
             dataIndex: 'execute_data', // 显示数据对应的属性名
+            render:(value)=> (formatDateTime_zh_CN(value,2))
         }
     ]
 

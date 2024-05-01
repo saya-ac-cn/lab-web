@@ -8,6 +8,7 @@ import {isEmptyObject} from "@/utils/var"
 import { Button, Input, Menu, Popover, Avatar, Spin, Badge, Modal} from 'antd';
 import {FlagOutlined,RightOutlined,LeftOutlined,MenuOutlined, HomeOutlined,NotificationOutlined,MessageOutlined, DatabaseOutlined,HistoryOutlined,SearchOutlined,UserOutlined,AccountBookOutlined,ScheduleOutlined,PushpinOutlined,CarryOutOutlined,PayCircleOutlined,SkinOutlined} from '@ant-design/icons';
 import {logoutApi} from "@/http/api"
+import {formatDateTime_zh_CN} from "@/utils/date";
 /*
  * 文件名：index.jsx
  * 作者：saya
@@ -314,7 +315,7 @@ const Layout = () => {
                     <div className='operation-info'>
                         {
                             !(isEmptyObject(log)) ?
-                                <span>{`您上次操作时间:${log.date}，操作地点:${log.city}(${log.ip})，操作明细:${log.detail}`}</span> :
+                                <span>{`您上次操作时间:${formatDateTime_zh_CN(log.date,1)}，操作地点:${log.city}(${log.ip})，操作明细:${log.detail}`}</span> :
                                 <span>Hi，这是您第一次使用吧？如有需要帮助的请及时联系运营团队。</span>
                         }
                     </div>

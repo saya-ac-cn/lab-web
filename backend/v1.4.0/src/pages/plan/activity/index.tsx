@@ -15,6 +15,7 @@ import {
 } from "@ant-design/icons";
 import {extractUserName} from "@/utils/var";
 import Storage from "@/utils/storage";
+import {formatDateTime_zh_CN} from "@/utils/date";
 
 const {RangePicker} = DatePicker;
 const ActivityPlan = () => {
@@ -51,30 +52,40 @@ const ActivityPlan = () => {
             dataIndex: 'id', // 显示数据对应的属性名
         },
         {
-            title: '执行时间',
-            dataIndex: 'standard_time', // 显示数据对应的属性名
+            title: '标题',
+            dataIndex: 'title', // 显示数据对应的属性名
         },
         {
-            title: '频率',
+            title: '内容',
+            dataIndex: 'content', // 显示数据对应的属性名
+        },
+        {
+            title: '提醒给',
+            dataIndex: 'notice_user', // 显示数据对应的属性名
+            render: (value, row) => (extractUserName(organize, row.notice_user))
+        },
+        {
+            title: '提醒时间',
+            dataIndex: 'standard_time', // 显示数据对应的属性名
+            render:(value)=> (formatDateTime_zh_CN(value,1))
+        },
+        {
+            title: '周期',
             dataIndex: 'unit', // 显示数据对应的属性名
             render: (text, record) => {
                 return formatHowOftenExecute(record)
             }
         },
         {
-            title: '下次执行时间',
+            title: '下次提醒时间',
             dataIndex: 'next_exec_time', // 显示数据对应的属性名
             render: (text, record) => {
                 if (1 === record.cycle) {
                     return '/'
                 } else {
-                    return record.next_exec_time
+                    return formatDateTime_zh_CN(record.next_exec_time,1)
                 }
             }
-        },
-        {
-            title: '标题',
-            dataIndex: 'title', // 显示数据对应的属性名
         },
         {
             title: '公开状态',
@@ -97,6 +108,7 @@ const ActivityPlan = () => {
         {
             title: '创建时间',
             dataIndex: 'create_time', // 显示数据对应的属性名
+            render:(value)=> (formatDateTime_zh_CN(value,2))
         },
         {
             title: '操作',
@@ -116,7 +128,7 @@ const ActivityPlan = () => {
     ]
 
     /**
-     * 格式化多久执行一次
+     * 格式化多久提醒一次
      * @param row 所在行数据
      */
     const formatHowOftenExecute = (row) => {
@@ -128,7 +140,7 @@ const ActivityPlan = () => {
     }
 
     /**
-     * 获取当前活跃的计划提醒列表数据
+     * 获取当前活跃的待办项列表数据
      * @returns {Promise<void>}
      */
     const getData = async (_filters = filters, _pagination = pagination) => {
@@ -145,7 +157,7 @@ const ActivityPlan = () => {
         // 发异步ajax请求, 获取数据
         const {err,result} = await activityPlanPageApi(para);
         if (err){
-            console.error('获取当前活跃的计划提醒列表数据异常:',err)
+            console.error('获取当前活跃的待办项列表数据异常:',err)
             setLoading(false)
             return
         }
@@ -243,13 +255,13 @@ const ActivityPlan = () => {
 
 
     /**
-     * 删除指定计划提醒
+     * 删除指定待办项
      * @param item
      */
     const handleDell = (item) => {
         Modal.confirm({
             title: '删除确认',
-            content: `确认删除标题为:'${item.title}'的计划提醒吗?`,
+            content: `确认删除标题为:'${item.title}'的待办项吗?`,
             cancelText: '再想想',
             okText: '不要啦',
             onOk: async () => {
@@ -257,7 +269,7 @@ const ActivityPlan = () => {
                 setLoading(true)
                 const {err, result} = await deletePlanApi(item.id);
                 if (err){
-                    console.error('删除计划提醒异常:',err)
+                    console.error('删除待办项异常:',err)
                     setLoading(false)
                     return
                 }
@@ -275,13 +287,13 @@ const ActivityPlan = () => {
     };
 
     /**
-     * 提前完成计划
+     * 提前完成待办项
      * @param item
      */
     const handleFinishPlan = (item) => {
         Modal.confirm({
             title: '已完成确认',
-            content: `确认标题为:'${item.title}'的计划提醒已完成了吗?`,
+            content: `确认标题为:'${item.title}'的待办项已完成了吗?`,
             cancelText: '再看看',
             okText: '已完成',
             onOk: async () => {
@@ -312,7 +324,7 @@ const ActivityPlan = () => {
         <div>
             <div className='child-container'>
                 <div className='header-tools'>
-                    进行中的计划提醒
+                    进行中的待办项
                 </div>
                 <div className='child-content'>
                     <Col span={24} className="toolbar">
@@ -327,7 +339,7 @@ const ActivityPlan = () => {
                                        onChange={(e) => textInputChange(e, 'content')}
                                        placeholder='按内容检索'/>
                             </Form.Item>
-                            <Form.Item label="执行时间:">
+                            <Form.Item label="提醒时间:">
                                 <RangePicker value={(filters.begin_time !== null && filters.end_time !== null)?[dayjs(filters.begin_time),dayjs(filters.end_time)]:[null,null]} onChange={onChangeDate}/>
                             </Form.Item>
                             <Form.Item>

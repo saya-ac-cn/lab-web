@@ -4,7 +4,7 @@ import {generalJournalListApi} from "@/http/api";
 import {openNotificationWithIcon} from "@/utils/window";
 import {formatMoney} from '@/utils/var'
 import dayjs from 'dayjs';
-
+import {formatDateTime_zh_CN,formatDate_zh_CN} from "@/utils/date";
 /**
  * 由于在调用浏览器的打印功能时，会丢失外部的css样式，针对这个问题，统一写成内联样式
  */
@@ -163,7 +163,7 @@ const JournalDetail = (props,ref) => {
             <section className='journal-details' id='journal-details'>
                 <Row style={detailHeader}>
                     <Col span={12} offset={6}>
-                        {!journal || !journal.archive_date ? '-' : dayjs(journal.archive_date).format('YYYY年MM月DD日')}收支明细
+                        {!journal || !journal.archive_date ? '-' : formatDate_zh_CN(journal.archive_date)}收支明细
                     </Col>
                 </Row>
                 <Row style={detailTradeNumber}>
@@ -174,7 +174,7 @@ const JournalDetail = (props,ref) => {
                 <Row style={detailTradeDate}>
                     <Col span={5} offset={19}>
                             <span
-                                style={inputLabel}>交易日期：</span>{!journal ? '-' : dayjs(journal.archive_date).format('YYYY年MM月DD日')}
+                                style={inputLabel}>交易日期：</span>{!journal ? '-' : formatDate_zh_CN(journal.archive_date)}
                     </Col>
                 </Row>
                 <Row gutter={[12, 12]}>
@@ -223,16 +223,16 @@ const JournalDetail = (props,ref) => {
                     </Col>
                     <Col style={tableFooter} span={6}>
                         <div><span
-                            style={inputLabel}>填报时间：</span>{!journal || !journal.create_time ? '-' : dayjs(journal.create_time).format('YYYY年MM月DD日 HH:mm:ss')}
+                            style={inputLabel}>填报时间：</span>{!journal || !journal.create_time ? '-' : formatDateTime_zh_CN(journal.create_time,1)}
                         </div>
                     </Col>
                     <Col style={tableFooter} span={6}>
                         <div><span
-                            style={inputLabel}>最后修改时间：</span>{!journal || !journal.update_time ? '-' : dayjs(journal.update_time).format('YYYY年MM月DD日 HH:mm:ss')}
+                            style={inputLabel}>最后修改时间：</span>{!journal || !journal.update_time ? '-' : formatDateTime_zh_CN(journal.update_time,1)}
                         </div>
                     </Col>
                     <Col style={tableFooter} span={6}>
-                        <div><span style={inputLabel}>打印时间：</span>{dayjs().format('YYYY年MM月DD日 HH:mm:ss')}</div>
+                        <div><span style={inputLabel}>打印时间：</span>{formatDateTime_zh_CN(dayjs().toString(),1)}</div>
                     </Col>
                 </Row>
             </section>

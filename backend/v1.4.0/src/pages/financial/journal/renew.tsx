@@ -25,6 +25,7 @@ import dayjs from 'dayjs';
 import {CloseOutlined, ExclamationCircleOutlined, PlusOutlined, CheckOutlined} from "@ant-design/icons";
 import Storage from "@/utils/storage";
 import './detail.less'
+import {formatDateTime_zh_CN,formatDate_zh_CN} from "@/utils/date";
 const {Option} = Select;
 
 const JournalRenew = (props,ref) => {
@@ -96,7 +97,7 @@ const JournalRenew = (props,ref) => {
             dataIndex: 'remarks', // 显示数据对应的属性名
             editable: true,
             render: (text, record, index) => {
-                return <Input type="text" value={text} maxLength={15} bordered={false} onChange={(e) => inputChange(e, record, index, 'remarks')}/>
+                return <Input type="text" value={text} maxLength={128} bordered={false} onChange={(e) => inputChange(e, record, index, 'remarks')}/>
             }
         },
         {
@@ -571,7 +572,7 @@ const JournalRenew = (props,ref) => {
                 </Row>
                 <Row className="detail-header">
                     <Col span={12} offset={6}>
-                        {!journal || !journal.archive_date ? '-' : dayjs(journal.archive_date).format('YYYY年MM月DD日')}收支明细
+                        {!journal || !journal.archive_date ? '-' : formatDate_zh_CN(journal.archive_date)}收支明细
                     </Col>
                 </Row>
                 <Row className='detail-tradeNumber'>
@@ -658,16 +659,16 @@ const JournalRenew = (props,ref) => {
                     </Col>
                     <Col className="gutter-row" span={6}>
                         <div><span
-                            className='input-label'>填报时间：</span>{!journal || !journal.create_time ? '-' : dayjs(journal.create_time).format('YYYY年MM月DD日 HH:mm:ss')}
+                            className='input-label'>填报时间：</span>{!journal || !journal.create_time ? '-' : formatDateTime_zh_CN(journal.create_time,1)}
                         </div>
                     </Col>
                     <Col className="gutter-row" span={6}>
                         <div><span
-                            className='input-label'>最后修改日期：</span>{!journal || !journal.update_time ? '-' : dayjs(journal.update_time).format('YYYY年MM月DD日 HH:mm:ss')}
+                            className='input-label'>最后修改日期：</span>{!journal || !journal.update_time ? '-' : formatDateTime_zh_CN(journal.update_time,1)}
                         </div>
                     </Col>
                     <Col className="gutter-row" span={6}>
-                        <div><span className='input-label'>打印时间：</span>{dayjs().format('YYYY年MM月DD日 HH:mm:ss')}
+                        <div><span className='input-label'>打印时间：</span>{formatDateTime_zh_CN(dayjs().toString(),1)}
                         </div>
                     </Col>
                 </Row>

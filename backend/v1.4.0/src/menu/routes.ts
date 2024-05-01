@@ -135,7 +135,7 @@ const routes: Array<Router> = [
         icon: ScheduleOutlined,
     },
     {
-        name: '提醒事项',
+        name: '待办项',
         path: '/plan',
         root: true,
         children: [

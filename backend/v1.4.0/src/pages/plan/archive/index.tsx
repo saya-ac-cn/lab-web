@@ -10,6 +10,7 @@ import {DeleteOutlined, EditOutlined, ReloadOutlined, SearchOutlined} from "@ant
 import {extractUserName} from "@/utils/var";
 import EditArchivePlan from "./edit";
 import Storage from "@/utils/storage";
+import {formatDateTime_zh_CN} from "@/utils/date";
 
 
 const {RangePicker} = DatePicker;
@@ -38,12 +39,22 @@ const ArchivePlan = () => {
             dataIndex: 'id', // 显示数据对应的属性名
         },
         {
-            title: '执行时间',
-            dataIndex: 'archive_time', // 显示数据对应的属性名
-        },
-        {
             title: '标题',
             dataIndex: 'title', // 显示数据对应的属性名
+        },
+        {
+            title: '内容',
+            dataIndex: 'content', // 显示数据对应的属性名
+        },
+        {
+            title: '提醒给',
+            dataIndex: 'notice_user', // 显示数据对应的属性名
+            render: (value, row) => (extractUserName(organize, row.notice_user))
+        },
+        {
+            title: '提醒时间',
+            dataIndex: 'archive_time', // 显示数据对应的属性名
+            render:(value)=> (formatDateTime_zh_CN(value,1))
         },
         {
             title: '完成状态',
@@ -81,6 +92,7 @@ const ArchivePlan = () => {
         {
             title: '创建时间',
             dataIndex: 'create_time', // 显示数据对应的属性名
+            render:(value)=> (formatDateTime_zh_CN(value,2))
         },
         {
             title: '操作',
@@ -96,7 +108,7 @@ const ArchivePlan = () => {
     ]
 
     /**
-     * 获取归档的计划提醒列表数据
+     * 获取归档的待办项列表数据
      * @returns {Promise<void>}
      */
     const getData = async (_filters = filters,_pagination= pagination) => {
@@ -113,7 +125,7 @@ const ArchivePlan = () => {
         // 发异步ajax请求, 获取数据
         const {err, result} = await archivePlanPageApi(para);
         if (err){
-            console.error('获取归档的计划提醒列表数据异常:',err)
+            console.error('获取归档的待办项列表数据异常:',err)
             setLoading(false)
             return
         }
@@ -242,7 +254,7 @@ const ArchivePlan = () => {
         <div>
             <div className='child-container'>
                 <div className='header-tools'>
-                    已归档的计划提醒
+                    已归档的待办项
                 </div>
                 <div className='child-content'>
                     <Col span={24} className="toolbar">
@@ -255,7 +267,7 @@ const ArchivePlan = () => {
                                 <Input type='text' value={filters.content} allowClear={true} onChange={(e)=>textInputChange(e,'content')}
                                        placeholder='按内容检索'/>
                             </Form.Item>
-                            <Form.Item label="执行时间:">
+                            <Form.Item label="提醒时间:">
                                 <RangePicker value={(filters.begin_time !== null && filters.end_time !== null)?[dayjs(filters.begin_time),dayjs(filters.end_time)]:[null,null]} onChange={onChangeDate}/>
                             </Form.Item>
                             <Form.Item>

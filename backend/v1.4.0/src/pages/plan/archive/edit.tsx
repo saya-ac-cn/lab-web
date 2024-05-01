@@ -61,11 +61,11 @@ const EditArchivePlan = (props,ref) => {
             // 执行修改
             values.id = plan.id;
             handleRenewPlan(values);
-        }).catch(e => console.log("修改或预览计划提醒错误",e));
+        }).catch(e => console.log("修改或预览待办项错误",e));
     };
 
     /**
-     * 修改计划提醒
+     * 修改待办项
      * @param value
      * @returns {boolean}
      */
@@ -79,7 +79,7 @@ const EditArchivePlan = (props,ref) => {
                 setConfirmLoading(true);
                 const {err, result} = await updateArchivePlanApi(param)
                 if (err){
-                    console.error('修改计划提醒异常:',err)
+                    console.error('修改待办项异常:',err)
                     setConfirmLoading(false)
                     return
                 }
@@ -104,13 +104,13 @@ const EditArchivePlan = (props,ref) => {
 
 
     return (
-        <Modal title='计划提醒详情' open={open} confirmLoading={confirmLoading} maskClosable={false} width="45%" okText='保存' onOk={handleSubmit} onCancel={handleCancel}>
+        <Modal title='待办项详情' open={open} confirmLoading={confirmLoading} maskClosable={false} width="45%" okText='保存' onOk={handleSubmit} onCancel={handleCancel}>
             <Form {...formItemLayout} form={planForm}>
                 <Form.Item label="标题：" {...formItemLayout}>
                     {plan.title}
                 </Form.Item>
 
-                <Form.Item label="执行时间：" {...formItemLayout}>
+                <Form.Item label="提醒时间：" {...formItemLayout}>
                     {plan.archive_time}
                 </Form.Item>
 
@@ -122,7 +122,7 @@ const EditArchivePlan = (props,ref) => {
                     </Radio.Group>
                 </Form.Item>
 
-                <Form.Item label={<span>是否公开&nbsp;<Tooltip title="是否公开。如果选择是，该计划提醒将会展示在公众页面，对于敏感内容，请谨慎操作!"><QuestionCircleOutlined /></Tooltip></span>} {...formItemLayout} initialValue={plan.display} name='display' rules={[{required: true, message: '请选择是否公开'}]}>
+                <Form.Item label={<span>是否公开&nbsp;<Tooltip title="是否公开。如果选择是，该待办项将会展示在公众页面，对于敏感内容，请谨慎操作!"><QuestionCircleOutlined /></Tooltip></span>} {...formItemLayout} initialValue={plan.display} name='display' rules={[{required: true, message: '请选择是否公开'}]}>
                     <Radio.Group>
                         <Radio value={1}>否</Radio>
                         <Radio value={2}>是</Radio>
