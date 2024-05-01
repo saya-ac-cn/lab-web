@@ -93,8 +93,6 @@ export const getFinancialAmount = params => ajax(`${backendAPI}/api/financial/tr
 export const getTransactionList = params => ajax(`${backendAPI}/api/financial/transaction`, params, 'GET');
 // 查看收支明细（明细记录折叠存）
 export const getTransactionDetail = params => ajax(`${backendAPI}/api/financial/transactionDetail`, params, 'GET');
-// 分页查看收支明细（明细记录折叠存）
-export const getTransactionDetailPage = params => ajax(`${backendAPI}/api/financial/transactionDetailPage`, params, 'GET');
 // 财政申报
 export const applyTransaction = params => ajax(`${backendAPI}/api/financial/insertTransaction`, params, 'POST');
 // 修改流水
@@ -105,8 +103,6 @@ export const deleteTransaction = params => ajax(`${backendAPI}/api/financial/del
 export const downTransaction = `${backendAPI}/api/financial/outTransactionListExcel`;
 // 导出流水明细
 export const outTransactionInfoExcel = `${backendAPI}/api/financial/outTransactionInfoExcel`;
-// 获取流水明细
-export const getTransactionInfo = params => ajax(`${backendAPI}/api/financial/transactionInfo`, params, 'GET');
 // 添加流水明细
 export const insertTransactioninfo = params => ajax(`${backendAPI}/api/financial/insertTransactioninfo`, params, 'POST');
 // 修改流水明细

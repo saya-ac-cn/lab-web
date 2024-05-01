@@ -100,12 +100,6 @@ const backstageMenuList = [
                 requireAuth: true
             },
             {
-                title: '笔记簿',
-                key: '/backstage/memory/notebook',
-                hidden: false,
-                requireAuth: true
-            },
-            {
                 title: '便笺笔记',
                 key: '/backstage/memory/notes',
                 hidden: false,

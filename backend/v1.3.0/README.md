@@ -5,8 +5,8 @@
 ##### 1、创建项目
 
 ```shell
-mkdir backend-v1
-cd backend-v1
+mkdir backend-v2
+cd backend-v2
 # 根据提示选择配置即可 
 npm init vite@latest
 ```

@@ -352,7 +352,7 @@ class NotesList extends Component {
   noteBookSelect = (e) =>{
     let _this = this;
     let filters = _this.state.filters;
-    if (!e || -1 === e.key){
+    if (!e || '-1' === e.key){
       // 看全部
       filters.notebookId = null;
     }else{

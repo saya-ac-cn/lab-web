@@ -13,7 +13,6 @@ import Info from '../../me/info'
 import Logs from '../../me/logs'
 import Transaction from '../../financial/transaction'
 import Memo from '../../memory/memo'
-import NoteBook from "../../memory/notebook";
 import Notes from "../../memory/notes";
 import News from "../../memory/news";
 import Plan from "../../memory/plan";
@@ -422,7 +421,6 @@ class LayoutBackend extends Component {
                                     <Route path='/backstage/financial/year' component={FinancialForYear}/>
                                     <Route path='/backstage/memory/news' component={News}/>
                                     <Route path='/backstage/memory/plan' component={Plan}/>
-                                    <Route path='/backstage/memory/notebook' component={NoteBook}/>
                                     <Route path='/backstage/memory/notes' component={Notes}/>
                                     <Route path='/backstage/memory/memo' component={Memo}/>
                                     <Route path='/backstage/oss/wallpaper' component={Wallpaper}/>

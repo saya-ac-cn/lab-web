@@ -1,7 +1,7 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');//1.0.0版本的引用方式
 const dev = "http://127.0.0.1:8080";
 const pro = "http://laboratory.saya.ac.cn";
-const url = pro;
+const url = dev;
 // 配置多个跨域设置
 //重要说明！！！
 //页面路由绝对禁止出现/backend1、/frontend、/warehouse（远景包括map）
